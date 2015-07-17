@@ -1,0 +1,33 @@
+﻿@model IEnumerable<ITAssessmentSystem.Models.USER_INFO>
+
+@{
+    ViewBag.Title = "AllInstructors";
+}
+
+<h2>AllInstructors</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PROF_NAME)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PROF_NAME)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.PROF_EMAILID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.PROF_EMAILID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.PROF_EMAILID })
+        </td>
+    </tr>
+}
+
+</table>

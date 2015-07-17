@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="assessmentModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="ASSESSMENT_DATA">
+    <Key>
+      <PropertyRef Name="DATA_ROWID" />
+    </Key>
+    <Property Name="DATA_ROWID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RUBRIC_ROWID" Type="Int32" />
+    <Property Name="OUTCOMES" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+    <Property Name="DEPARTMENT" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+    <Property Name="PROF_EMAILID" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+    <Property Name="SEMESTER" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="COURSE" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="PERFORMANCE_INDICATOR" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+    <Property Name="TOPIC" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+    <Property Name="POOR" Type="Int32" />
+    <Property Name="DEVELOPING" Type="Int32" />
+    <Property Name="DEVELOPED" Type="Int32" />
+    <Property Name="EXEMPLARY" Type="Int32" />
+    <NavigationProperty Name="USER_INFO" Relationship="Self.FK__ASSESSMEN__PROF___2DE6D218" FromRole="ASSESSMENT_DATA" ToRole="USER_INFO" />
+    <NavigationProperty Name="RUBRICS_DATA" Relationship="Self.FK__ASSESSMENT_DATA__2CF2ADDF" FromRole="ASSESSMENT_DATA" ToRole="RUBRICS_DATA" />
+  </EntityType>
+  <EntityType Name="RUBRICS_DATA">
+    <Key>
+      <PropertyRef Name="OUTCOMES" />
+      <PropertyRef Name="DEPARTMENT" />
+      <PropertyRef Name="TOPIC" />
+    </Key>
+    <Property Name="RUBRIC_ROWID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OUTCOMES" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DEPARTMENT" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PERFORMANCE_INDICATOR" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="TOPIC" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="POOR" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+    <Property Name="DEVELOPING" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+    <Property Name="DEVELOPED" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+    <Property Name="EXEMPLARY" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ASSESSMENT_DATA" Relationship="Self.FK__ASSESSMENT_DATA__2CF2ADDF" FromRole="RUBRICS_DATA" ToRole="ASSESSMENT_DATA" />
+  </EntityType>
+  <EntityType Name="USER_INFO">
+    <Key>
+      <PropertyRef Name="PROF_EMAILID" />
+    </Key>
+    <Property Name="PROF_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PROF_EMAILID" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="ASSESSMENT_DATA" Relationship="Self.FK__ASSESSMEN__PROF___2DE6D218" FromRole="USER_INFO" ToRole="ASSESSMENT_DATA" />
+  </EntityType>
+  <Association Name="FK__ASSESSMEN__PROF___2DE6D218">
+    <End Role="USER_INFO" Type="Self.USER_INFO" Multiplicity="0..1" />
+    <End Role="ASSESSMENT_DATA" Type="Self.ASSESSMENT_DATA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USER_INFO">
+        <PropertyRef Name="PROF_EMAILID" />
+      </Principal>
+      <Dependent Role="ASSESSMENT_DATA">
+        <PropertyRef Name="PROF_EMAILID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ASSESSMENT_DATA__2CF2ADDF">
+    <End Role="RUBRICS_DATA" Type="Self.RUBRICS_DATA" Multiplicity="0..1" />
+    <End Role="ASSESSMENT_DATA" Type="Self.ASSESSMENT_DATA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RUBRICS_DATA">
+        <PropertyRef Name="OUTCOMES" />
+        <PropertyRef Name="DEPARTMENT" />
+        <PropertyRef Name="TOPIC" />
+      </Principal>
+      <Dependent Role="ASSESSMENT_DATA">
+        <PropertyRef Name="OUTCOMES" />
+        <PropertyRef Name="DEPARTMENT" />
+        <PropertyRef Name="TOPIC" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="assessmentEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="ASSESSMENT_DATA" EntityType="Self.ASSESSMENT_DATA" />
+    <EntitySet Name="RUBRICS_DATA" EntityType="Self.RUBRICS_DATA" />
+    <EntitySet Name="USER_INFO" EntityType="Self.USER_INFO" />
+    <AssociationSet Name="FK__ASSESSMEN__PROF___2DE6D218" Association="Self.FK__ASSESSMEN__PROF___2DE6D218">
+      <End Role="USER_INFO" EntitySet="USER_INFO" />
+      <End Role="ASSESSMENT_DATA" EntitySet="ASSESSMENT_DATA" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ASSESSMENT_DATA__2CF2ADDF" Association="Self.FK__ASSESSMENT_DATA__2CF2ADDF">
+      <End Role="RUBRICS_DATA" EntitySet="RUBRICS_DATA" />
+      <End Role="ASSESSMENT_DATA" EntitySet="ASSESSMENT_DATA" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

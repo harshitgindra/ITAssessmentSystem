@@ -1,0 +1,97 @@
+﻿
+<form>
+
+    <p>Department</p>
+    <div class="col-md-10">
+
+        @Html.DropDownList("DEPARTMENT", new List<SelectListItem>
+            {
+                new SelectListItem{Text = "INFORMATION SYSTEMS", Value="IS"},
+                new SelectListItem{Text = "MSIS", Value="MSIS"},
+                new SelectListItem{Text = "COMPUTER SCIENCE", Value="CS"},
+                new SelectListItem{Text = "NETWORK AND TELECOMMUNICATION MANAGEMENT", Value="NTM"},
+            }
+            , new
+            {
+                onchange = @"
+                getDept(this.value)
+                "
+            })
+
+    </div>
+
+    <br />
+    <div id="PIndicator">
+
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="button" value="Search" class="btn btn-default" onclick="DoAjaxPostAndMore(this);" />
+        </div>
+    </div>
+</form>
+<div id="Rubric">
+
+</div>
+
+
+@Scripts.Render("~/bundles/jquery")
+
+<script>
+    function getDept(deptValue) {
+        var tbl = $('#PIndicator');
+        $.ajax({
+            url: '/Rubric/GetPerformanceIndicator/' + deptValue,
+            contentType: 'application/html ; charset:utf-8',
+            type: 'GET',
+            dataType: 'html'
+        }).success(function (result) {
+
+            tbl.empty().append(result);
+        }).error(function () {
+        });
+    }
+
+    function DoAjaxPostAndMore(btnClicked) {
+        var $form = $(btnClicked).parents('form');
+        var tbl = $('#Rubric');
+        $.ajax({
+            type: "POST",
+            url: '/Rubric/Search/',
+            data: $form.serialize(),
+            error: function (xhr, status, error) {
+                //do something about the error
+                alert("Something went wrong")
+            },
+            success: function (response) {
+                //do something with response
+                tbl.empty().append(response);
+            }
+        });
+    }
+
+        function DoAjaxPostAndMores(btnClicked) {
+            var $form = $(btnClicked).parents('form');
+            var tbl = $('#Rubric');
+            $.ajax({
+                type: "POST",
+                url: '/Rubric/Search/',
+                data: $form.serialize(),
+                error: function (xhr, status, error) {
+                    //do something about the error
+                },
+                success: function (response) {
+                    //do something with response
+                    tbl.empty().append(response);
+                }
+            });
+
+
+    }
+</script>
+
+
+
+
+

@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="assessmentModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ASSESSMENT_DATA">
+          <Key>
+            <PropertyRef Name="DATA_ROWID" />
+          </Key>
+          <Property Name="DATA_ROWID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RUBRIC_ROWID" Type="int" />
+          <Property Name="OUTCOMES" Type="nvarchar" MaxLength="4" />
+          <Property Name="DEPARTMENT" Type="nvarchar" MaxLength="40" />
+          <Property Name="PROF_EMAILID" Type="nvarchar" MaxLength="25" />
+          <Property Name="SEMESTER" Type="nvarchar" MaxLength="15" />
+          <Property Name="COURSE" Type="nvarchar" MaxLength="10" />
+          <Property Name="PERFORMANCE_INDICATOR" Type="nvarchar" MaxLength="2000" />
+          <Property Name="TOPIC" Type="nvarchar" MaxLength="2000" />
+          <Property Name="POOR" Type="int" />
+          <Property Name="DEVELOPING" Type="int" />
+          <Property Name="DEVELOPED" Type="int" />
+          <Property Name="EXEMPLARY" Type="int" />
+        </EntityType>
+        <EntityType Name="RUBRICS_DATA">
+          <Key>
+            <PropertyRef Name="OUTCOMES" />
+            <PropertyRef Name="DEPARTMENT" />
+            <PropertyRef Name="TOPIC" />
+          </Key>
+          <Property Name="RUBRIC_ROWID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OUTCOMES" Type="nvarchar" MaxLength="4" Nullable="false" />
+          <Property Name="DEPARTMENT" Type="nvarchar" MaxLength="40" Nullable="false" />
+          <Property Name="PERFORMANCE_INDICATOR" Type="nvarchar" MaxLength="2000" Nullable="false" />
+          <Property Name="TOPIC" Type="nvarchar" MaxLength="2000" Nullable="false" />
+          <Property Name="POOR" Type="nvarchar" MaxLength="2000" />
+          <Property Name="DEVELOPING" Type="nvarchar" MaxLength="2000" />
+          <Property Name="DEVELOPED" Type="nvarchar" MaxLength="2000" />
+          <Property Name="EXEMPLARY" Type="nvarchar" MaxLength="2000" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'assessment.dbo.SampleCalculation' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="SampleCalculation">
+          <Property Name="ID" Type="nvarchar" MaxLength="100" />
+          <Property Name="poor" Type="int" />
+          <Property Name="developing" Type="int" />
+          <Property Name="developed" Type="int" />
+          <Property Name="exemplary" Type="int" />
+        </EntityType>-->
+        <EntityType Name="USER_INFO">
+          <Key>
+            <PropertyRef Name="PROF_EMAILID" />
+          </Key>
+          <Property Name="PROF_NAME" Type="nvarchar" MaxLength="50" />
+          <Property Name="PROF_EMAILID" Type="nvarchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__ASSESSMEN__PROF___2DE6D218">
+          <End Role="USER_INFO" Type="Self.USER_INFO" Multiplicity="0..1" />
+          <End Role="ASSESSMENT_DATA" Type="Self.ASSESSMENT_DATA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USER_INFO">
+              <PropertyRef Name="PROF_EMAILID" />
+            </Principal>
+            <Dependent Role="ASSESSMENT_DATA">
+              <PropertyRef Name="PROF_EMAILID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ASSESSMENT_DATA__2CF2ADDF">
+          <End Role="RUBRICS_DATA" Type="Self.RUBRICS_DATA" Multiplicity="0..1" />
+          <End Role="ASSESSMENT_DATA" Type="Self.ASSESSMENT_DATA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RUBRICS_DATA">
+              <PropertyRef Name="OUTCOMES" />
+              <PropertyRef Name="DEPARTMENT" />
+              <PropertyRef Name="TOPIC" />
+            </Principal>
+            <Dependent Role="ASSESSMENT_DATA">
+              <PropertyRef Name="OUTCOMES" />
+              <PropertyRef Name="DEPARTMENT" />
+              <PropertyRef Name="TOPIC" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="assessmentModelStoreContainer">
+          <EntitySet Name="ASSESSMENT_DATA" EntityType="Self.ASSESSMENT_DATA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RUBRICS_DATA" EntityType="Self.RUBRICS_DATA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USER_INFO" EntityType="Self.USER_INFO" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__ASSESSMEN__PROF___2DE6D218" Association="Self.FK__ASSESSMEN__PROF___2DE6D218">
+            <End Role="USER_INFO" EntitySet="USER_INFO" />
+            <End Role="ASSESSMENT_DATA" EntitySet="ASSESSMENT_DATA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ASSESSMENT_DATA__2CF2ADDF" Association="Self.FK__ASSESSMENT_DATA__2CF2ADDF">
+            <End Role="RUBRICS_DATA" EntitySet="RUBRICS_DATA" />
+            <End Role="ASSESSMENT_DATA" EntitySet="ASSESSMENT_DATA" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="assessmentModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ASSESSMENT_DATA">
+          <Key>
+            <PropertyRef Name="DATA_ROWID" />
+          </Key>
+          <Property Name="DATA_ROWID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RUBRIC_ROWID" Type="Int32" />
+          <Property Name="OUTCOMES" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="DEPARTMENT" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="PROF_EMAILID" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="SEMESTER" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="COURSE" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="PERFORMANCE_INDICATOR" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="TOPIC" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="POOR" Type="Int32" />
+          <Property Name="DEVELOPING" Type="Int32" />
+          <Property Name="DEVELOPED" Type="Int32" />
+          <Property Name="EXEMPLARY" Type="Int32" />
+          <NavigationProperty Name="USER_INFO" Relationship="Self.FK__ASSESSMEN__PROF___2DE6D218" FromRole="ASSESSMENT_DATA" ToRole="USER_INFO" />
+          <NavigationProperty Name="RUBRICS_DATA" Relationship="Self.FK__ASSESSMENT_DATA__2CF2ADDF" FromRole="ASSESSMENT_DATA" ToRole="RUBRICS_DATA" />
+        </EntityType>
+        <EntityType Name="RUBRICS_DATA">
+          <Key>
+            <PropertyRef Name="OUTCOMES" />
+            <PropertyRef Name="DEPARTMENT" />
+            <PropertyRef Name="TOPIC" />
+          </Key>
+          <Property Name="RUBRIC_ROWID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OUTCOMES" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DEPARTMENT" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PERFORMANCE_INDICATOR" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TOPIC" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="POOR" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="DEVELOPING" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="DEVELOPED" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="EXEMPLARY" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ASSESSMENT_DATA" Relationship="Self.FK__ASSESSMENT_DATA__2CF2ADDF" FromRole="RUBRICS_DATA" ToRole="ASSESSMENT_DATA" />
+        </EntityType>
+        <EntityType Name="USER_INFO">
+          <Key>
+            <PropertyRef Name="PROF_EMAILID" />
+          </Key>
+          <Property Name="PROF_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PROF_EMAILID" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ASSESSMENT_DATA" Relationship="Self.FK__ASSESSMEN__PROF___2DE6D218" FromRole="USER_INFO" ToRole="ASSESSMENT_DATA" />
+        </EntityType>
+        <Association Name="FK__ASSESSMEN__PROF___2DE6D218">
+          <End Role="USER_INFO" Type="Self.USER_INFO" Multiplicity="0..1" />
+          <End Role="ASSESSMENT_DATA" Type="Self.ASSESSMENT_DATA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USER_INFO">
+              <PropertyRef Name="PROF_EMAILID" />
+            </Principal>
+            <Dependent Role="ASSESSMENT_DATA">
+              <PropertyRef Name="PROF_EMAILID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ASSESSMENT_DATA__2CF2ADDF">
+          <End Role="RUBRICS_DATA" Type="Self.RUBRICS_DATA" Multiplicity="0..1" />
+          <End Role="ASSESSMENT_DATA" Type="Self.ASSESSMENT_DATA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RUBRICS_DATA">
+              <PropertyRef Name="OUTCOMES" />
+              <PropertyRef Name="DEPARTMENT" />
+              <PropertyRef Name="TOPIC" />
+            </Principal>
+            <Dependent Role="ASSESSMENT_DATA">
+              <PropertyRef Name="OUTCOMES" />
+              <PropertyRef Name="DEPARTMENT" />
+              <PropertyRef Name="TOPIC" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="assessmentEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ASSESSMENT_DATA" EntityType="Self.ASSESSMENT_DATA" />
+          <EntitySet Name="RUBRICS_DATA" EntityType="Self.RUBRICS_DATA" />
+          <EntitySet Name="USER_INFO" EntityType="Self.USER_INFO" />
+          <AssociationSet Name="FK__ASSESSMEN__PROF___2DE6D218" Association="Self.FK__ASSESSMEN__PROF___2DE6D218">
+            <End Role="USER_INFO" EntitySet="USER_INFO" />
+            <End Role="ASSESSMENT_DATA" EntitySet="ASSESSMENT_DATA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ASSESSMENT_DATA__2CF2ADDF" Association="Self.FK__ASSESSMENT_DATA__2CF2ADDF">
+            <End Role="RUBRICS_DATA" EntitySet="RUBRICS_DATA" />
+            <End Role="ASSESSMENT_DATA" EntitySet="ASSESSMENT_DATA" />
+          </AssociationSet>
+          </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="assessmentModelStoreContainer" CdmEntityContainer="assessmentEntities">
+          <EntitySetMapping Name="ASSESSMENT_DATA">
+            <EntityTypeMapping TypeName="assessmentModel.ASSESSMENT_DATA">
+              <MappingFragment StoreEntitySet="ASSESSMENT_DATA">
+                <ScalarProperty Name="DATA_ROWID" ColumnName="DATA_ROWID" />
+                <ScalarProperty Name="RUBRIC_ROWID" ColumnName="RUBRIC_ROWID" />
+                <ScalarProperty Name="OUTCOMES" ColumnName="OUTCOMES" />
+                <ScalarProperty Name="DEPARTMENT" ColumnName="DEPARTMENT" />
+                <ScalarProperty Name="PROF_EMAILID" ColumnName="PROF_EMAILID" />
+                <ScalarProperty Name="SEMESTER" ColumnName="SEMESTER" />
+                <ScalarProperty Name="COURSE" ColumnName="COURSE" />
+                <ScalarProperty Name="PERFORMANCE_INDICATOR" ColumnName="PERFORMANCE_INDICATOR" />
+                <ScalarProperty Name="TOPIC" ColumnName="TOPIC" />
+                <ScalarProperty Name="POOR" ColumnName="POOR" />
+                <ScalarProperty Name="DEVELOPING" ColumnName="DEVELOPING" />
+                <ScalarProperty Name="DEVELOPED" ColumnName="DEVELOPED" />
+                <ScalarProperty Name="EXEMPLARY" ColumnName="EXEMPLARY" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RUBRICS_DATA">
+            <EntityTypeMapping TypeName="IsTypeOf(assessmentModel.RUBRICS_DATA)">
+              <MappingFragment StoreEntitySet="RUBRICS_DATA">
+                <ScalarProperty Name="TOPIC" ColumnName="TOPIC" />
+                <ScalarProperty Name="DEPARTMENT" ColumnName="DEPARTMENT" />
+                <ScalarProperty Name="OUTCOMES" ColumnName="OUTCOMES" />
+                <ScalarProperty Name="EXEMPLARY" ColumnName="EXEMPLARY" />
+                <ScalarProperty Name="DEVELOPED" ColumnName="DEVELOPED" />
+                <ScalarProperty Name="DEVELOPING" ColumnName="DEVELOPING" />
+                <ScalarProperty Name="POOR" ColumnName="POOR" />
+                <ScalarProperty Name="PERFORMANCE_INDICATOR" ColumnName="PERFORMANCE_INDICATOR" />
+                <ScalarProperty Name="RUBRIC_ROWID" ColumnName="RUBRIC_ROWID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USER_INFO">
+            <EntityTypeMapping TypeName="assessmentModel.USER_INFO">
+              <MappingFragment StoreEntitySet="USER_INFO">
+                <ScalarProperty Name="PROF_NAME" ColumnName="PROF_NAME" />
+                <ScalarProperty Name="PROF_EMAILID" ColumnName="PROF_EMAILID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

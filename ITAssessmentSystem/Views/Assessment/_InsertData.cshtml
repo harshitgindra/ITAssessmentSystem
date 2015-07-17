@@ -1,0 +1,104 @@
+﻿@model ITAssessmentSystem.Models.ASSESSMENT_DATA
+
+
+
+
+@using (Html.BeginForm("Submit", "Assessment", FormMethod.Post)) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>ASSESSMENT_DATA</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+
+        
+        
+            <table class="table-bordered">
+                <tr>
+                    <th>
+                        Topic
+                    </th>
+                    <th>
+                        Poor
+                    </th>
+                    <th>
+                        Developing
+                    </th>
+                    <th>
+                        Developed
+                    </th>
+                    <th>
+                        Exemplary
+                    </th>
+                </tr>
+
+
+                @foreach (var item in Session["Topics"]
+                as List<string>)
+                {
+                    <tr>
+                        <td>
+                            @item
+                        </td>
+                        <td>
+                            <input type="radio" name="@item" value="0" />
+                        </td>
+                        <td>
+                            <input type="radio" name="@item" value="1" />
+                        </td>
+                        <td>
+                            <input type="radio" name="@item" value="2" />
+                        </td>
+                        <td>
+                            <input type="radio" name="@item" value="3" />
+                        </td>
+
+
+                    </tr>
+                }
+            </table>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default"  />
+                </div>
+            </div>
+</div>
+   
+    
+}
+        
+<div id="results">
+
+</div>
+
+
+
+@Scripts.Render("~/bundles/jquery")
+
+<script>
+    function submitRecord(btnClicked) {
+        var $form = $(btnClicked).parents('form');
+        var tbl = $('#results');
+        $.ajax({
+            type: "POST",
+            url: '/Assessment/Submit/',
+            data: $form.serialize(),
+            error: function (xhr, status, error) {
+                //do something about the error
+            },
+            success: function (response) {
+                //do something with response
+                tbl.empty().append(response);
+            }
+        });
+
+
+    }
+    
+</script>
+
+
+
+
+

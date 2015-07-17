@@ -1,0 +1,72 @@
+﻿@model IEnumerable<ITAssessmentSystem.Models.RUBRICS_DATA>
+
+@{
+    ViewBag.Title = "Fill";
+}
+
+<h2>Fill</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PERFORMANCE_INDICATOR)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TOPIC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.POOR)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DEVELOPING)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DEVELOPED)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EXEMPLARY)
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PERFORMANCE_INDICATOR)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TOPIC)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.POOR)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DEVELOPING)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DEVELOPED)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EXEMPLARY)
+            </td>
+
+        </tr>
+    }
+
+</table>
+@Scripts.Render("~/bundles/jquery")
+
+@Ajax.ActionLink("Call An Action",
+                        actionName: "Insert",
+                        
+                    ajaxOptions: new AjaxOptions
+                    {
+                        UpdateTargetId = "ajaxtarget",
+                        InsertionMode = InsertionMode.Replace
+                    })
+
+<div id="ajaxtarget"></div>

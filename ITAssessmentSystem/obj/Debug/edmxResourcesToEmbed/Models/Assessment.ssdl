@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="assessmentModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="ASSESSMENT_DATA">
+    <Key>
+      <PropertyRef Name="DATA_ROWID" />
+    </Key>
+    <Property Name="DATA_ROWID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RUBRIC_ROWID" Type="int" />
+    <Property Name="OUTCOMES" Type="nvarchar" MaxLength="4" />
+    <Property Name="DEPARTMENT" Type="nvarchar" MaxLength="40" />
+    <Property Name="PROF_EMAILID" Type="nvarchar" MaxLength="25" />
+    <Property Name="SEMESTER" Type="nvarchar" MaxLength="15" />
+    <Property Name="COURSE" Type="nvarchar" MaxLength="10" />
+    <Property Name="PERFORMANCE_INDICATOR" Type="nvarchar" MaxLength="2000" />
+    <Property Name="TOPIC" Type="nvarchar" MaxLength="2000" />
+    <Property Name="POOR" Type="int" />
+    <Property Name="DEVELOPING" Type="int" />
+    <Property Name="DEVELOPED" Type="int" />
+    <Property Name="EXEMPLARY" Type="int" />
+  </EntityType>
+  <EntityType Name="RUBRICS_DATA">
+    <Key>
+      <PropertyRef Name="OUTCOMES" />
+      <PropertyRef Name="DEPARTMENT" />
+      <PropertyRef Name="TOPIC" />
+    </Key>
+    <Property Name="RUBRIC_ROWID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OUTCOMES" Type="nvarchar" MaxLength="4" Nullable="false" />
+    <Property Name="DEPARTMENT" Type="nvarchar" MaxLength="40" Nullable="false" />
+    <Property Name="PERFORMANCE_INDICATOR" Type="nvarchar" MaxLength="2000" Nullable="false" />
+    <Property Name="TOPIC" Type="nvarchar" MaxLength="2000" Nullable="false" />
+    <Property Name="POOR" Type="nvarchar" MaxLength="2000" />
+    <Property Name="DEVELOPING" Type="nvarchar" MaxLength="2000" />
+    <Property Name="DEVELOPED" Type="nvarchar" MaxLength="2000" />
+    <Property Name="EXEMPLARY" Type="nvarchar" MaxLength="2000" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'assessment.dbo.SampleCalculation' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="SampleCalculation">
+          <Property Name="ID" Type="nvarchar" MaxLength="100" />
+          <Property Name="poor" Type="int" />
+          <Property Name="developing" Type="int" />
+          <Property Name="developed" Type="int" />
+          <Property Name="exemplary" Type="int" />
+        </EntityType>-->
+  <EntityType Name="USER_INFO">
+    <Key>
+      <PropertyRef Name="PROF_EMAILID" />
+    </Key>
+    <Property Name="PROF_NAME" Type="nvarchar" MaxLength="50" />
+    <Property Name="PROF_EMAILID" Type="nvarchar" MaxLength="25" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__ASSESSMEN__PROF___2DE6D218">
+    <End Role="USER_INFO" Type="Self.USER_INFO" Multiplicity="0..1" />
+    <End Role="ASSESSMENT_DATA" Type="Self.ASSESSMENT_DATA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USER_INFO">
+        <PropertyRef Name="PROF_EMAILID" />
+      </Principal>
+      <Dependent Role="ASSESSMENT_DATA">
+        <PropertyRef Name="PROF_EMAILID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ASSESSMENT_DATA__2CF2ADDF">
+    <End Role="RUBRICS_DATA" Type="Self.RUBRICS_DATA" Multiplicity="0..1" />
+    <End Role="ASSESSMENT_DATA" Type="Self.ASSESSMENT_DATA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RUBRICS_DATA">
+        <PropertyRef Name="OUTCOMES" />
+        <PropertyRef Name="DEPARTMENT" />
+        <PropertyRef Name="TOPIC" />
+      </Principal>
+      <Dependent Role="ASSESSMENT_DATA">
+        <PropertyRef Name="OUTCOMES" />
+        <PropertyRef Name="DEPARTMENT" />
+        <PropertyRef Name="TOPIC" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="assessmentModelStoreContainer">
+    <EntitySet Name="ASSESSMENT_DATA" EntityType="Self.ASSESSMENT_DATA" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RUBRICS_DATA" EntityType="Self.RUBRICS_DATA" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="USER_INFO" EntityType="Self.USER_INFO" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__ASSESSMEN__PROF___2DE6D218" Association="Self.FK__ASSESSMEN__PROF___2DE6D218">
+      <End Role="USER_INFO" EntitySet="USER_INFO" />
+      <End Role="ASSESSMENT_DATA" EntitySet="ASSESSMENT_DATA" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ASSESSMENT_DATA__2CF2ADDF" Association="Self.FK__ASSESSMENT_DATA__2CF2ADDF">
+      <End Role="RUBRICS_DATA" EntitySet="RUBRICS_DATA" />
+      <End Role="ASSESSMENT_DATA" EntitySet="ASSESSMENT_DATA" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

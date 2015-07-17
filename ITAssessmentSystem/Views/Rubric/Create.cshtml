@@ -1,0 +1,103 @@
+﻿@model ITAssessmentSystem.Models.RUBRICS_DATA
+
+@{
+    ViewBag.Title = "Create";
+    
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>RUBRICS</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+
+        
+       
+        <div class="form-group">
+            @Html.LabelFor(model => model.OUTCOMES, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.OUTCOMES)
+                @Html.ValidationMessageFor(model => model.OUTCOMES)
+                
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DEPARTMENT, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("DEPARTMENT", new List<SelectListItem>
+            {
+                new SelectListItem{Text = "INFORMATION SYSTEMS", Value="IS"},
+                new SelectListItem{Text = "MSIS", Value="MSIS"},
+                new SelectListItem{Text = "COMPUTER SCIENCE", Value="CS"},
+                new SelectListItem{Text = "NETWORK AND TELECOMMUNICATION MANAGEMENT", Value="NTM"},
+            })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PERFORMANCE_INDICATOR, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.PERFORMANCE_INDICATOR, new { cols = 75, rows = 2 })
+                @Html.ValidationMessageFor(model => model.PERFORMANCE_INDICATOR)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TOPIC, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.TOPIC, new { cols = 75, rows = 2 })
+                @Html.ValidationMessageFor(model => model.TOPIC)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.POOR, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.POOR, new { cols = 75, rows = 3 })
+                @Html.ValidationMessageFor(model => model.POOR)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DEVELOPING, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.DEVELOPING, new { cols = 75, rows = 3 })
+                @Html.ValidationMessageFor(model => model.DEVELOPING)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DEVELOPED, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.DEVELOPED, new { cols = 75, rows = 3 })
+                @Html.ValidationMessageFor(model => model.DEVELOPED)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EXEMPLARY, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.EXEMPLARY, new { cols = 75, rows = 3 })
+                @Html.ValidationMessageFor(model => model.EXEMPLARY)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,20 @@
+﻿@model ITAssessmentSystem.Models.USER_INFO
+
+@{
+    ViewBag.Title = "Send";
+}
+
+<h2>Send</h2>
+
+@using (Html.BeginForm("Send","Rubric", FormMethod.Post))
+{
+    @Html.TextBox("Link", (string)ViewBag.link, new { @readonly = "readonly", size = "100" })
+
+<br/>
+
+@Html.DropDownList("InstructorList", new SelectList(ViewBag.professorList, "Value", "Text")
+)
+
+    <input type="submit" id="sendMail" class="btn btn-default" />
+           }
+
