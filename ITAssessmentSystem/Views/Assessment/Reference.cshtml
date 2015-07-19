@@ -58,15 +58,13 @@
     }
 
 </table>
+
+<h1>Your input</h1>
+
+@Html.Partial("_InsertData", Model)
+
+
 @Scripts.Render("~/bundles/jquery")
-
-@Ajax.ActionLink("Call An Action",
-                        actionName: "Insert",
-                        
-                    ajaxOptions: new AjaxOptions
-                    {
-                        UpdateTargetId = "ajaxtarget",
-                        InsertionMode = InsertionMode.Replace
-                    })
-
-<div id="ajaxtarget"></div>
+<script>
+   
+</script>

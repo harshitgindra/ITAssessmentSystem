@@ -1,85 +1,113 @@
-﻿@model ITAssessmentSystem.Models.ASSESSMENT_DATA
+﻿@model IEnumerable<ITAssessmentSystem.Models.RUBRICS_DATA>
 
-
-
-
-@using (Html.BeginForm("Submit", "Assessment", FormMethod.Post)) 
-{
-    @Html.AntiForgeryToken()
-    
+<form id="xxx" method="post">
     <div class="form-horizontal">
-        <h4>ASSESSMENT_DATA</h4>
-        <hr />
         @Html.ValidationSummary(true)
 
-        
-        
-            <table class="table-bordered">
-                <tr>
-                    <th>
-                        Topic
-                    </th>
-                    <th>
-                        Poor
-                    </th>
-                    <th>
-                        Developing
-                    </th>
-                    <th>
-                        Developed
-                    </th>
-                    <th>
-                        Exemplary
-                    </th>
-                </tr>
-
-
-                @foreach (var item in Session["Topics"]
-                as List<string>)
-                {
-                    <tr>
-                        <td>
-                            @item
-                        </td>
-                        <td>
-                            <input type="radio" name="@item" value="0" />
-                        </td>
-                        <td>
-                            <input type="radio" name="@item" value="1" />
-                        </td>
-                        <td>
-                            <input type="radio" name="@item" value="2" />
-                        </td>
-                        <td>
-                            <input type="radio" name="@item" value="3" />
-                        </td>
-
-
-                    </tr>
-                }
-            </table>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default"  />
-                </div>
+        <div class="form-group">
+            @Html.Label("Course", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("Course")
             </div>
-</div>
-   
-    
-}
+        </div>
+
+        <div class="form-group">
+           @Html.Label("Department", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("Department", Request.QueryString["Dept"].ToString(), new { @readonly = "readonly" })
+            </div>
+        </div>
         
-<div id="results">
+        <div class="form-group">
+            @Html.Label("Semester", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("Semester")
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Instructor Email ID", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("Instructor_Email")
+            </div>
+        </div>
+        <div class="form-group">
+             @Html.Label("Outcome", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("Outcome", Request.QueryString["Outcome"].ToString(), new { @readonly = "readonly" })
+            </div>
+        </div>
+     
+      
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th>
+                    Topic
+                </th>
+                <th>
+                    Poor
+                </th>
+                <th>
+                    Developing
+                </th>
+                <th>
+                    Developed
+                </th>
+                <th>
+                    Exemplary
+                </th>
+            </tr>
 
+            <div id="reset">
+                @foreach (var item in Model
+                as List<ITAssessmentSystem.Models.RUBRICS_DATA>)
+            {
+            <tr>
+                <td>
+                    @item.TOPIC
+                </td>
+                <td>
+                    <input type="radio" name="@item.RUBRIC_ROWID" value="0" class="rubs" />
+                </td>
+                <td>
+                    <input type="radio" name="@item.RUBRIC_ROWID" value="1" class="rubs" />
+                </td>
+                <td>
+                    <input type="radio" name="@item.RUBRIC_ROWID" value="2" class="rubs" />
+                </td>
+                <td>
+                    <input type="radio" name="@item.RUBRIC_ROWID" value="3" class="rubs" />
+                </td>
+
+
+            </tr>
+            }
+            </div>
+        </table>
+        <br />
+        <div class="form-group">
+            <div class="col-md-2">
+                <input type="button" value="Insert" class="btn btn-default" onclick="submitRecord(this);" />
+            </div>
+            <div class="col-md-2">
+                <input type="button" value="Reset" class="btn btn-default" onclick="ResetRecord();" />
+            </div>
+            <div class="col-md-2">
+                <input type="submit" value="Submit" class="btn btn-default" />
+            </div>
+        </div>
+       
+        </div>
+</form>
+
+<div id="res">
+    @Html.Partial("_InstructorInput")
 </div>
-
-
 
 @Scripts.Render("~/bundles/jquery")
-
 <script>
     function submitRecord(btnClicked) {
         var $form = $(btnClicked).parents('form');
-        var tbl = $('#results');
+        var tbl = $('#res');
         $.ajax({
             type: "POST",
             url: '/Assessment/Submit/',
@@ -89,16 +117,38 @@
             },
             success: function (response) {
                 //do something with response
+               // $('input[class="rubs"]').attr('checked', false);
                 tbl.empty().append(response);
             }
         });
-
-
     }
-    
+
+    function ResetRecord() {
+
+        var reply = confirm("Are you sure?");
+        if (reply) {
+            var tbl = $('#res');
+            $.ajax({
+                type: "GET",
+                url: '/Assessment/Reset/',               
+                error: function (xhr, status, error) {
+                    //do something about the error
+                },
+                success: function (response) {
+                    //do something with response
+                    tbl.empty().append(response);
+                }
+            });
+        }
+        
+        
+    }
+
+    function Confirm() {
+        var confirm = confirm("Are you sure ?");
+        if (confirm)
+            return true;
+        else
+            return false;
+    }
 </script>
-
-
-
-
-

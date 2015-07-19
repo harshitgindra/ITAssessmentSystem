@@ -282,6 +282,8 @@
     <Content Include="Views\Assessment\Reference.cshtml" />
     <Content Include="Views\Assessment\Temp.cshtml" />
     <Content Include="Views\Assessment\_PartialResults.cshtml" />
+    <Content Include="Views\Assessment\_InstructorInput.cshtml" />
+    <Content Include="Views\Assessment\Success.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
