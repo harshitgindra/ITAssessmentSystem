@@ -1,26 +1,29 @@
 ﻿<h1>Output</h1>
 <table class="table table-bordered table-hover">
-    <tr>
-        
-        <th>Poor</th>
-        <th>Developing</th>
-        <th>Developed</th>
-        <th>Exemplary</th>
-    </tr>
-    <span id="res">
+    <thead>
+        <tr>
+            <th>Poor</th>
+            <th>Developing</th>
+            <th>Developed</th>
+            <th>Exemplary</th>
+        </tr>
+    </thead>
+    <span id="currentRecord">
         @foreach (var item in Session["RubRowIDS"]
                 as List<string>)
         {
-        <tr>
-            
-            <div id="res">
-                <td>@Session[item].ToString().Split('-')[0]</td>
-                <td>@Session[item].ToString().Split('-')[1]</td>
-                <td>@Session[item].ToString().Split('-')[2]</td>
-                <td>@Session[item].ToString().Split('-')[3]</td>
-            </div>
+            <tr>
 
-        </tr>
+                <div id="res">
+                    <td>@Session[item].ToString().Split('-')[0]</td>
+                    <td>@Session[item].ToString().Split('-')[1]</td>
+                    <td>@Session[item].ToString().Split('-')[2]</td>
+                    <td>@Session[item].ToString().Split('-')[3]</td>
+                </div>
+
+            </tr>
         }
     </span>
 </table>
+
+<h3>Total Student Records: @ViewBag.total</h3>

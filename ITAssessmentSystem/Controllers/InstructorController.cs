@@ -50,6 +50,29 @@ namespace ITAssessmentSystem.Controllers
             return View(result);
         }
 
+
+        public ActionResult Edit(string id)
+        {
+            using (var context = new assessmentEntities())
+            {
+                USER_INFO instructor = context.USER_INFO.Where(inst => inst.PROF_EMAILID.Equals(id)).SingleOrDefault();
+                return View(instructor);
+            }
+            
+        }
+
+        [HttpPost]
+        public ActionResult Edit(USER_INFO userinfo)
+        {
+            using (var context = new assessmentEntities())
+            {
+                 context.USER_INFO.Where(c => c.PROF_EMAILID.Equals(userinfo.PROF_EMAILID))
+                    .ToList().ForEach(x => x.PROF_NAME = userinfo.PROF_NAME);
+                 var results = context.SaveChanges();
+            }
+            return View();
+        }
+
        
 
 	}

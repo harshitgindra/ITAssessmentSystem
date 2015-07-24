@@ -1,0 +1,22 @@
+﻿@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+
+@{
+    ViewBag.Title = "Assessment Data";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Assessment Data</h2>
+
+@Html.ActionLink("Export", "Export", new { param = Request.QueryString["param"], page = 1, colPram = Request.QueryString["colPram"], sortOrder = ViewBag.Order })
+
+@using (Html.BeginForm("AllData", "Results", FormMethod.Get))
+{
+    @Html.TextBox("param")
+    <input type="submit" value="Search" />
+}
+
+@RenderBody();
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")

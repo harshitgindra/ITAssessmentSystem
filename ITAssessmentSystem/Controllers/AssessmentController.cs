@@ -18,6 +18,7 @@ namespace ITAssessmentSystem.Controllers
 
         public ActionResult Reference()
         {
+            ViewBag.total = 0;
             string dept, outcome;
             try
             {
@@ -40,6 +41,7 @@ namespace ITAssessmentSystem.Controllers
             foreach (var item in rubRowID)
             {
                 Session[item] = "0-0-0-0";
+                
             }
             return View(result);
         }
@@ -88,7 +90,7 @@ namespace ITAssessmentSystem.Controllers
             {
                 return View("error");
             }
-            return View();
+           
         }
 
         
@@ -105,6 +107,7 @@ namespace ITAssessmentSystem.Controllers
                 data[userInput] = result.ToString();
                 sessionData = data[0] + "-" + data[1] + "-" + data[2] + "-" + data[3];
                 Session[item] = sessionData;
+                ViewBag.total = Int16.Parse(data[0]) + Int16.Parse(data[1]) + Int16.Parse(data[2]) + Int16.Parse(data[3]);
             }
             return PartialView("_InstructorInput");
         }

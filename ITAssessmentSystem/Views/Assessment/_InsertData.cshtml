@@ -12,12 +12,12 @@
         </div>
 
         <div class="form-group">
-           @Html.Label("Department", new { @class = "control-label col-md-2" })
+            @Html.Label("Department", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.TextBox("Department", Request.QueryString["Dept"].ToString(), new { @readonly = "readonly" })
             </div>
         </div>
-        
+
         <div class="form-group">
             @Html.Label("Semester", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -31,56 +31,58 @@
             </div>
         </div>
         <div class="form-group">
-             @Html.Label("Outcome", new { @class = "control-label col-md-2" })
+            @Html.Label("Outcome", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.TextBox("Outcome", Request.QueryString["Outcome"].ToString(), new { @readonly = "readonly" })
             </div>
         </div>
-     
-      
-        <table class="table table-bordered table-hover">
-            <tr>
-                <th>
-                    Topic
-                </th>
-                <th>
-                    Poor
-                </th>
-                <th>
-                    Developing
-                </th>
-                <th>
-                    Developed
-                </th>
-                <th>
-                    Exemplary
-                </th>
-            </tr>
 
+
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        Topic
+                    </th>
+                    <th>
+                        Poor
+                    </th>
+                    <th>
+                        Developing
+                    </th>
+                    <th>
+                        Developed
+                    </th>
+                    <th>
+                        Exemplary
+                    </th>
+                </tr>
+            </thead>
             <div id="reset">
                 @foreach (var item in Model
                 as List<ITAssessmentSystem.Models.RUBRICS_DATA>)
-            {
-            <tr>
-                <td>
-                    @item.TOPIC
-                </td>
-                <td>
-                    <input type="radio" name="@item.RUBRIC_ROWID" value="0" class="rubs" />
-                </td>
-                <td>
-                    <input type="radio" name="@item.RUBRIC_ROWID" value="1" class="rubs" />
-                </td>
-                <td>
-                    <input type="radio" name="@item.RUBRIC_ROWID" value="2" class="rubs" />
-                </td>
-                <td>
-                    <input type="radio" name="@item.RUBRIC_ROWID" value="3" class="rubs" />
-                </td>
+                {
+
+                    <tr>
+                        <td>
+                            @item.TOPIC
+                        </td>
+                        <td>
+                            <input type="radio" name="@item.RUBRIC_ROWID" value="0" class="rubs" />
+                        </td>
+                        <td>
+                            <input type="radio" name="@item.RUBRIC_ROWID" value="1" class="rubs" />
+                        </td>
+                        <td>
+                            <input type="radio" name="@item.RUBRIC_ROWID" value="2" class="rubs" />
+                        </td>
+                        <td>
+                            <input type="radio" name="@item.RUBRIC_ROWID" value="3" class="rubs" />
+                        </td>
 
 
-            </tr>
-            }
+                    </tr>
+                }
             </div>
         </table>
         <br />
@@ -95,11 +97,11 @@
                 <input type="submit" value="Submit" class="btn btn-default" />
             </div>
         </div>
-       
-        </div>
+
+    </div>
 </form>
 
-<div id="res">
+<div id="currentRecord">
     @Html.Partial("_InstructorInput")
 </div>
 
@@ -107,7 +109,7 @@
 <script>
     function submitRecord(btnClicked) {
         var $form = $(btnClicked).parents('form');
-        var tbl = $('#res');
+        var tbl = $('#currentRecord');
         $.ajax({
             type: "POST",
             url: '/Assessment/Submit/',
@@ -116,8 +118,8 @@
                 //do something about the error
             },
             success: function (response) {
-                //do something with response
-               // $('input[class="rubs"]').attr('checked', false);
+                //resets the previous selection for entering the next input
+                // $('input[class="rubs"]').attr('checked', false);
                 tbl.empty().append(response);
             }
         });
@@ -127,10 +129,10 @@
 
         var reply = confirm("Are you sure?");
         if (reply) {
-            var tbl = $('#res');
+            var tbl = $('#currentRecord');
             $.ajax({
                 type: "GET",
-                url: '/Assessment/Reset/',               
+                url: '/Assessment/Reset/',
                 error: function (xhr, status, error) {
                     //do something about the error
                 },
@@ -140,15 +142,6 @@
                 }
             });
         }
-        
-        
     }
 
-    function Confirm() {
-        var confirm = confirm("Are you sure ?");
-        if (confirm)
-            return true;
-        else
-            return false;
-    }
 </script>
