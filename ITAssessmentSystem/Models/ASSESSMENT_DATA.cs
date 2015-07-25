@@ -30,5 +30,6 @@ namespace ITAssessmentSystem.Models
     
         public virtual USER_INFO USER_INFO { get; set; }
         public virtual RUBRICS_DATA RUBRICS_DATA { get; set; }
+        public virtual departments departments { get; set; }
     }
 }

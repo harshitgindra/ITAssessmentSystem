@@ -43,5 +43,41 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="spInstructorAddNew" FunctionName="assessmentModel.Store.spInstructorAddNew" />
+    <FunctionImportMapping FunctionImportName="spINSTRUCTORDELETE" FunctionName="assessmentModel.Store.spINSTRUCTORDELETE" />
+    <FunctionImportMapping FunctionImportName="spINSTRUCTOREDIT" FunctionName="assessmentModel.Store.spINSTRUCTOREDIT" />
+    <FunctionImportMapping FunctionImportName="spINSTRUCTORGETALLRECORDS" FunctionName="assessmentModel.Store.spINSTRUCTORGETALLRECORDS">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="assessmentModel.spINSTRUCTORGETALLRECORDS_Result">
+          <ScalarProperty Name="PROF_NAME" ColumnName="PROF_NAME" />
+          <ScalarProperty Name="PROF_EMAILID" ColumnName="PROF_EMAILID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="spINSTRUCTORGETDETAILS" FunctionName="assessmentModel.Store.spINSTRUCTORGETDETAILS">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="assessmentModel.spINSTRUCTORGETDETAILS_Result">
+          <ScalarProperty Name="PROF_NAME" ColumnName="PROF_NAME" />
+          <ScalarProperty Name="PROF_EMAILID" ColumnName="PROF_EMAILID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="departments">
+      <EntityTypeMapping TypeName="assessmentModel.departments">
+        <MappingFragment StoreEntitySet="departments">
+          <ScalarProperty Name="department_desc" ColumnName="department_desc" />
+          <ScalarProperty Name="department" ColumnName="department" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FK__ASSESSMEN__DEPAR__7FEAFD3E" TypeName="assessmentModel.FK__ASSESSMEN__DEPAR__7FEAFD3E" StoreEntitySet="ASSESSMENT_DATA">
+      <EndProperty Name="ASSESSMENT_DATA">
+        <ScalarProperty Name="DATA_ROWID" ColumnName="DATA_ROWID" />
+      </EndProperty>
+      <EndProperty Name="departments">
+        <ScalarProperty Name="department" ColumnName="DEPARTMENT" />
+      </EndProperty>
+      <Condition ColumnName="DEPARTMENT" IsNull="false" />
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping>

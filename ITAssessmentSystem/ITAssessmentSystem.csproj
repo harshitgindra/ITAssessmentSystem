@@ -212,6 +212,9 @@
     <Compile Include="Models\ASSESSMENT_DATA.cs">
       <DependentUpon>Assessment.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\departments.cs">
+      <DependentUpon>Assessment.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\PerformanceIndicator.cs" />
     <Compile Include="Models\ProfessorList.cs" />
@@ -219,6 +222,12 @@
       <DependentUpon>Assessment.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SendMail.cs" />
+    <Compile Include="Models\spINSTRUCTORGETALLRECORDS_Result.cs">
+      <DependentUpon>Assessment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\spINSTRUCTORGETDETAILS_Result.cs">
+      <DependentUpon>Assessment.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\USER_INFO.cs">
       <DependentUpon>Assessment.tt</DependentUpon>
     </Compile>
@@ -321,6 +330,7 @@
     <Content Include="Views\Results\AllData.cshtml" />
     <Content Include="Views\Results\_AllData.cshtml" />
     <Content Include="Views\Instructor\Edit.cshtml" />
+    <Content Include="Views\Shared\_InstructorLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

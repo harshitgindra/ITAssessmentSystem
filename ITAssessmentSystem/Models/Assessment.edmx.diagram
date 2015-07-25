@@ -5,12 +5,15 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="0c6cfd0ab5cc4a2bbb62fd3745962d57" Name="Diagram1" ZoomLevel="74">
-        <EntityTypeShape EntityType="assessmentModel.ASSESSMENT_DATA" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="assessmentModel.RUBRICS_DATA" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="assessmentModel.ASSESSMENT_DATA" Width="1.5" PointX="5.5" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="assessmentModel.RUBRICS_DATA" Width="1.5" PointX="0.5" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="assessmentModel.USER_INFO" Width="1.5" PointX="0.75" PointY="6.125" IsExpanded="true" />
         <AssociationConnector Association="assessmentModel.FK__ASSESSMEN__PROF___2DE6D218" ManuallyRouted="false" />
         <AssociationConnector Association="assessmentModel.FK__ASSESSMENT_DATA__2CF2ADDF" ManuallyRouted="false" />
-      </Diagram>
+        <EntityTypeShape EntityType="assessmentModel.departments" Width="1.5" PointX="0.75" PointY="2.25" />
+        <AssociationConnector Association="assessmentModel.FK__ASSESSMEN__DEPAR__7FEAFD3E" />
+        <AssociationConnector Association="assessmentModel.FK__RUBRICS_D__DEPAR__7EF6D905" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

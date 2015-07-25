@@ -12,6 +12,8 @@ namespace ITAssessmentSystem.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class assessmentEntities : DbContext
     {
@@ -28,5 +30,57 @@ namespace ITAssessmentSystem.Models
         public virtual DbSet<ASSESSMENT_DATA> ASSESSMENT_DATA { get; set; }
         public virtual DbSet<RUBRICS_DATA> RUBRICS_DATA { get; set; }
         public virtual DbSet<USER_INFO> USER_INFO { get; set; }
+        public virtual DbSet<departments> departments { get; set; }
+    
+        
+    
+        public virtual int spInstructorAddNew(string instructorName, string instructorEmailID)
+        {
+            var instructorNameParameter = instructorName != null ?
+                new ObjectParameter("InstructorName", instructorName) :
+                new ObjectParameter("InstructorName", typeof(string));
+    
+            var instructorEmailIDParameter = instructorEmailID != null ?
+                new ObjectParameter("InstructorEmailID", instructorEmailID) :
+                new ObjectParameter("InstructorEmailID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spInstructorAddNew", instructorNameParameter, instructorEmailIDParameter);
+        }
+    
+        public virtual int spINSTRUCTORDELETE(string instructorEmailID)
+        {
+            var instructorEmailIDParameter = instructorEmailID != null ?
+                new ObjectParameter("InstructorEmailID", instructorEmailID) :
+                new ObjectParameter("InstructorEmailID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spINSTRUCTORDELETE", instructorEmailIDParameter);
+        }
+    
+        public virtual int spINSTRUCTOREDIT(string instructorEmailID, string instructorName)
+        {
+            var instructorEmailIDParameter = instructorEmailID != null ?
+                new ObjectParameter("InstructorEmailID", instructorEmailID) :
+                new ObjectParameter("InstructorEmailID", typeof(string));
+    
+            var instructorNameParameter = instructorName != null ?
+                new ObjectParameter("InstructorName", instructorName) :
+                new ObjectParameter("InstructorName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spINSTRUCTOREDIT", instructorEmailIDParameter, instructorNameParameter);
+        }
+    
+        public virtual ObjectResult<spINSTRUCTORGETALLRECORDS_Result> spINSTRUCTORGETALLRECORDS()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spINSTRUCTORGETALLRECORDS_Result>("spINSTRUCTORGETALLRECORDS");
+        }
+    
+        public virtual ObjectResult<spINSTRUCTORGETDETAILS_Result> spINSTRUCTORGETDETAILS(string instructorEmailID)
+        {
+            var instructorEmailIDParameter = instructorEmailID != null ?
+                new ObjectParameter("InstructorEmailID", instructorEmailID) :
+                new ObjectParameter("InstructorEmailID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spINSTRUCTORGETDETAILS_Result>("spINSTRUCTORGETDETAILS", instructorEmailIDParameter);
+        }
     }
 }

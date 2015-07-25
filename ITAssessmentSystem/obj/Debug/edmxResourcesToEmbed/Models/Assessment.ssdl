@@ -18,6 +18,13 @@
     <Property Name="DEVELOPED" Type="int" />
     <Property Name="EXEMPLARY" Type="int" />
   </EntityType>
+  <EntityType Name="departments">
+    <Key>
+      <PropertyRef Name="department" />
+    </Key>
+    <Property Name="department" Type="nvarchar" MaxLength="40" Nullable="false" />
+    <Property Name="department_desc" Type="nvarchar" MaxLength="200" />
+  </EntityType>
   <EntityType Name="RUBRICS_DATA">
     <Key>
       <PropertyRef Name="OUTCOMES" />
@@ -37,7 +44,7 @@
   <!--Errors Found During Generation:
 warning 6013: The table/view 'assessment.dbo.SampleCalculation' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
         <EntityType Name="SampleCalculation">
-          <Property Name="ID" Type="nvarchar" MaxLength="100" />
+          <Property Name="ID" Type="nvarchar" MaxLength="500" />
           <Property Name="poor" Type="int" />
           <Property Name="developing" Type="int" />
           <Property Name="developed" Type="int" />
@@ -50,6 +57,18 @@ warning 6013: The table/view 'assessment.dbo.SampleCalculation' does not have a 
     <Property Name="PROF_NAME" Type="nvarchar" MaxLength="50" />
     <Property Name="PROF_EMAILID" Type="nvarchar" MaxLength="25" Nullable="false" />
   </EntityType>
+  <Association Name="FK__ASSESSMEN__DEPAR__7FEAFD3E">
+    <End Role="departments" Type="Self.departments" Multiplicity="0..1" />
+    <End Role="ASSESSMENT_DATA" Type="Self.ASSESSMENT_DATA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="departments">
+        <PropertyRef Name="department" />
+      </Principal>
+      <Dependent Role="ASSESSMENT_DATA">
+        <PropertyRef Name="DEPARTMENT" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__ASSESSMEN__PROF___2DE6D218">
     <End Role="USER_INFO" Type="Self.USER_INFO" Multiplicity="0..1" />
     <End Role="ASSESSMENT_DATA" Type="Self.ASSESSMENT_DATA" Multiplicity="*" />
@@ -62,33 +81,67 @@ warning 6013: The table/view 'assessment.dbo.SampleCalculation' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__ASSESSMENT_DATA__2CF2ADDF">
-    <End Role="RUBRICS_DATA" Type="Self.RUBRICS_DATA" Multiplicity="0..1" />
-    <End Role="ASSESSMENT_DATA" Type="Self.ASSESSMENT_DATA" Multiplicity="*" />
+  <!--Errors Found During Generation:
+warning 6037: Foreign key constraint 'FK__ASSESSMENT_DATA__2CF2ADDF' has been omitted from the storage model. Column 'DEPARTMENT' of table 'assessmentModel.Store.ASSESSMENT_DATA' is a foreign key participating in multiple relationships. A one-to-one Entity Model will not validate since data inconsistency is possible.
+        <Association Name="FK__ASSESSMENT_DATA__2CF2ADDF">
+          <End Role="RUBRICS_DATA" Type="Self.RUBRICS_DATA" Multiplicity="0..1" />
+          <End Role="ASSESSMENT_DATA" Type="Self.ASSESSMENT_DATA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RUBRICS_DATA">
+              <PropertyRef Name="OUTCOMES" />
+              <PropertyRef Name="DEPARTMENT" />
+              <PropertyRef Name="TOPIC" />
+            </Principal>
+            <Dependent Role="ASSESSMENT_DATA">
+              <PropertyRef Name="OUTCOMES" />
+              <PropertyRef Name="DEPARTMENT" />
+              <PropertyRef Name="TOPIC" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>-->
+  <Association Name="FK__RUBRICS_D__DEPAR__7EF6D905">
+    <End Role="departments" Type="Self.departments" Multiplicity="1" />
+    <End Role="RUBRICS_DATA" Type="Self.RUBRICS_DATA" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="RUBRICS_DATA">
-        <PropertyRef Name="OUTCOMES" />
-        <PropertyRef Name="DEPARTMENT" />
-        <PropertyRef Name="TOPIC" />
+      <Principal Role="departments">
+        <PropertyRef Name="department" />
       </Principal>
-      <Dependent Role="ASSESSMENT_DATA">
-        <PropertyRef Name="OUTCOMES" />
+      <Dependent Role="RUBRICS_DATA">
         <PropertyRef Name="DEPARTMENT" />
-        <PropertyRef Name="TOPIC" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Function Name="spInstructorAddNew" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="InstructorName" Type="nvarchar" Mode="In" />
+    <Parameter Name="InstructorEmailID" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="spINSTRUCTORDELETE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="InstructorEmailID" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="spINSTRUCTOREDIT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="InstructorEmailID" Type="nvarchar" Mode="In" />
+    <Parameter Name="InstructorName" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="spINSTRUCTORGETALLRECORDS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="spINSTRUCTORGETDETAILS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="InstructorEmailID" Type="nvarchar" Mode="In" />
+  </Function>
   <EntityContainer Name="assessmentModelStoreContainer">
     <EntitySet Name="ASSESSMENT_DATA" EntityType="Self.ASSESSMENT_DATA" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="departments" EntityType="Self.departments" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="RUBRICS_DATA" EntityType="Self.RUBRICS_DATA" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="USER_INFO" EntityType="Self.USER_INFO" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__ASSESSMEN__DEPAR__7FEAFD3E" Association="Self.FK__ASSESSMEN__DEPAR__7FEAFD3E">
+      <End Role="departments" EntitySet="departments" />
+      <End Role="ASSESSMENT_DATA" EntitySet="ASSESSMENT_DATA" />
+    </AssociationSet>
     <AssociationSet Name="FK__ASSESSMEN__PROF___2DE6D218" Association="Self.FK__ASSESSMEN__PROF___2DE6D218">
       <End Role="USER_INFO" EntitySet="USER_INFO" />
       <End Role="ASSESSMENT_DATA" EntitySet="ASSESSMENT_DATA" />
     </AssociationSet>
-    <AssociationSet Name="FK__ASSESSMENT_DATA__2CF2ADDF" Association="Self.FK__ASSESSMENT_DATA__2CF2ADDF">
+    <AssociationSet Name="FK__RUBRICS_D__DEPAR__7EF6D905" Association="Self.FK__RUBRICS_D__DEPAR__7EF6D905">
+      <End Role="departments" EntitySet="departments" />
       <End Role="RUBRICS_DATA" EntitySet="RUBRICS_DATA" />
-      <End Role="ASSESSMENT_DATA" EntitySet="ASSESSMENT_DATA" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

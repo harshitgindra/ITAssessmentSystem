@@ -12,24 +12,18 @@ namespace ITAssessmentSystem.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class RUBRICS_DATA
+    public partial class departments
     {
-        public RUBRICS_DATA()
+        public departments()
         {
             this.ASSESSMENT_DATA = new HashSet<ASSESSMENT_DATA>();
+            this.RUBRICS_DATA = new HashSet<RUBRICS_DATA>();
         }
     
-        public int RUBRIC_ROWID { get; set; }
-        public string OUTCOMES { get; set; }
-        public string DEPARTMENT { get; set; }
-        public string PERFORMANCE_INDICATOR { get; set; }
-        public string TOPIC { get; set; }
-        public string POOR { get; set; }
-        public string DEVELOPING { get; set; }
-        public string DEVELOPED { get; set; }
-        public string EXEMPLARY { get; set; }
+        public string department { get; set; }
+        public string department_desc { get; set; }
     
         public virtual ICollection<ASSESSMENT_DATA> ASSESSMENT_DATA { get; set; }
-        public virtual departments departments { get; set; }
+        public virtual ICollection<RUBRICS_DATA> RUBRICS_DATA { get; set; }
     }
 }

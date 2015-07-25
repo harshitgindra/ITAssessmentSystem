@@ -19,6 +19,7 @@
     <Property Name="EXEMPLARY" Type="Int32" />
     <NavigationProperty Name="USER_INFO" Relationship="Self.FK__ASSESSMEN__PROF___2DE6D218" FromRole="ASSESSMENT_DATA" ToRole="USER_INFO" />
     <NavigationProperty Name="RUBRICS_DATA" Relationship="Self.FK__ASSESSMENT_DATA__2CF2ADDF" FromRole="ASSESSMENT_DATA" ToRole="RUBRICS_DATA" />
+    <NavigationProperty Name="departments" Relationship="assessmentModel.FK__ASSESSMEN__DEPAR__7FEAFD3E" FromRole="ASSESSMENT_DATA" ToRole="departments" />
   </EntityType>
   <EntityType Name="RUBRICS_DATA">
     <Key>
@@ -36,6 +37,7 @@
     <Property Name="DEVELOPED" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
     <Property Name="EXEMPLARY" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="ASSESSMENT_DATA" Relationship="Self.FK__ASSESSMENT_DATA__2CF2ADDF" FromRole="RUBRICS_DATA" ToRole="ASSESSMENT_DATA" />
+    <NavigationProperty Name="departments" Relationship="assessmentModel.FK__RUBRICS_D__DEPAR__7EF6D905" FromRole="RUBRICS_DATA" ToRole="departments" />
   </EntityType>
   <EntityType Name="USER_INFO">
     <Key>
@@ -85,5 +87,65 @@
       <End Role="RUBRICS_DATA" EntitySet="RUBRICS_DATA" />
       <End Role="ASSESSMENT_DATA" EntitySet="ASSESSMENT_DATA" />
     </AssociationSet>
+    <FunctionImport Name="spDeleteInstructor">
+      <Parameter Name="emailID" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="spInstructorAddNew">
+      <Parameter Name="InstructorName" Mode="In" Type="String" />
+      <Parameter Name="InstructorEmailID" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="spINSTRUCTORDELETE">
+      <Parameter Name="InstructorEmailID" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="spINSTRUCTOREDIT">
+      <Parameter Name="InstructorEmailID" Mode="In" Type="String" />
+      <Parameter Name="InstructorName" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="spINSTRUCTORGETALLRECORDS" ReturnType="Collection(assessmentModel.spINSTRUCTORGETALLRECORDS_Result)" />
+    <FunctionImport Name="spINSTRUCTORGETDETAILS" ReturnType="Collection(assessmentModel.spINSTRUCTORGETDETAILS_Result)">
+      <Parameter Name="InstructorEmailID" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="departments" EntityType="assessmentModel.departments" />
+    <AssociationSet Name="FK__ASSESSMEN__DEPAR__7FEAFD3E" Association="assessmentModel.FK__ASSESSMEN__DEPAR__7FEAFD3E">
+      <End Role="departments" EntitySet="departments" />
+      <End Role="ASSESSMENT_DATA" EntitySet="ASSESSMENT_DATA" />
+    </AssociationSet>
+    <AssociationSet Name="FK__RUBRICS_D__DEPAR__7EF6D905" Association="assessmentModel.FK__RUBRICS_D__DEPAR__7EF6D905">
+      <End Role="departments" EntitySet="departments" />
+      <End Role="RUBRICS_DATA" EntitySet="RUBRICS_DATA" />
+    </AssociationSet>
   </EntityContainer>
+  <ComplexType Name="spINSTRUCTORGETALLRECORDS_Result">
+    <Property Type="String" Name="PROF_NAME" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="PROF_EMAILID" Nullable="false" MaxLength="25" />
+  </ComplexType>
+  <ComplexType Name="spINSTRUCTORGETDETAILS_Result">
+    <Property Type="String" Name="PROF_NAME" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="PROF_EMAILID" Nullable="false" MaxLength="25" />
+  </ComplexType>
+  <EntityType Name="departments">
+    <Key>
+      <PropertyRef Name="department" />
+    </Key>
+    <Property Name="department" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="true" />
+    <Property Name="department_desc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ASSESSMENT_DATA" Relationship="assessmentModel.FK__ASSESSMEN__DEPAR__7FEAFD3E" FromRole="departments" ToRole="ASSESSMENT_DATA" />
+    <NavigationProperty Name="RUBRICS_DATA" Relationship="assessmentModel.FK__RUBRICS_D__DEPAR__7EF6D905" FromRole="departments" ToRole="RUBRICS_DATA" />
+  </EntityType>
+  <Association Name="FK__ASSESSMEN__DEPAR__7FEAFD3E">
+    <End Type="assessmentModel.departments" Role="departments" Multiplicity="0..1" />
+    <End Type="assessmentModel.ASSESSMENT_DATA" Role="ASSESSMENT_DATA" Multiplicity="*" />
+  </Association>
+  <Association Name="FK__RUBRICS_D__DEPAR__7EF6D905">
+    <End Type="assessmentModel.departments" Role="departments" Multiplicity="1" />
+    <End Type="assessmentModel.RUBRICS_DATA" Role="RUBRICS_DATA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="departments">
+        <PropertyRef Name="department" />
+      </Principal>
+      <Dependent Role="RUBRICS_DATA">
+        <PropertyRef Name="DEPARTMENT" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

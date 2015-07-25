@@ -14,16 +14,24 @@ namespace ITAssessmentSystem
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                name: "InstructorEdit",
-                url: "{controller}/{action}/{email}",
-                defaults: new { controller = "Instructor", action = "Edit", email = UrlParameter.Optional }
+                name: "Home",
+                url: "{controller}/{action}/",
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+               name: "InstructorEdit",
+               url: "{controller}/{action}/{email}",
+               defaults: new { controller = "Instructor", action = "Edit", email = UrlParameter.Optional }
+           );
 
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+           
         }
     }
 }

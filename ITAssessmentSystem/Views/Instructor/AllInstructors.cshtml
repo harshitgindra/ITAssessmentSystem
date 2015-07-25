@@ -1,15 +1,13 @@
-﻿@model IEnumerable<ITAssessmentSystem.Models.USER_INFO>
+﻿@model IEnumerable<ITAssessmentSystem.Models.spINSTRUCTORGETALLRECORDS_Result>
 
 @{
-    ViewBag.Title = "AllInstructors";
+    ViewBag.Title = "All Instructors";
+    Layout = "~/Views/Shared/_InstructorLayout.cshtml";
 }
 
 <h2>AllInstructors</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
+<table class="table table-hover table-bordered">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.PROF_NAME)
@@ -20,20 +18,37 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.PROF_NAME)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PROF_EMAILID)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.PROF_EMAILID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.PROF_EMAILID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.PROF_EMAILID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        using (Html.BeginForm("DeleteRecord", "Instructor", new { email = item.PROF_EMAILID }))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PROF_NAME)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PROF_EMAILID)
+                </td>
+                <td>
+                    @Html.ActionLink("EditRecord", "Edit", new { email = item.PROF_EMAILID }, new { @class = "btn btn-primary" }) |
+
+                    <input type="submit" value="Delete" class="btn btn-danger" onclick=" confirmdelete();" />
+
+
+                </td>
+            </tr>
+        }
+    }
 
 </table>
+
+<script>
+    function confirmDelete() {
+        var reply = confirm("Are you sure?");
+        if (reply)
+            return true;
+        else
+            return false;
+    }
+
+</script>

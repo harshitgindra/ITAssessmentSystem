@@ -17,63 +17,106 @@ namespace ITAssessmentSystem.Controllers
         }
         public ActionResult Insert()
         {
-            
+
             return View();
         }
 
         [HttpPost]
         public ActionResult Insert(USER_INFO userinfo)
         {
-            assessmentEntities assessment = new assessmentEntities();
-            try
+            using (var context = new assessmentEntities())
             {
-                assessment.USER_INFO.Add(userinfo);
-                if (assessment.SaveChanges() == 1)
-                    Response.Write("Professor Record inserted Successfully");
-
-                else
-                    Response.Write("Something went wrong. Please retry");
+                try
+                {
+                    var result = context.spInstructorAddNew(userinfo.PROF_NAME, userinfo.PROF_EMAILID);
+                    return View();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return View("Error");
+                }
             }
-            catch (Exception ex)
-            {
-                Response.Write(ex.Message);
-            }
-            return View();
         }
 
         public ActionResult AllInstructors()
         {
-            assessmentEntities assessment = new assessmentEntities();
-            var result = assessment.USER_INFO
-                .ToList();
 
-            return View(result);
+            using (var context = new assessmentEntities())
+            {
+                try
+                {
+                    var result = (IEnumerable<spINSTRUCTORGETALLRECORDS_Result>)context.spINSTRUCTORGETALLRECORDS().ToList();
+                    return View(result);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return View("Error");
+                }
+            }
+
         }
 
 
-        public ActionResult Edit(string id)
+        public ActionResult Edit(string email)
         {
             using (var context = new assessmentEntities())
             {
-                USER_INFO instructor = context.USER_INFO.Where(inst => inst.PROF_EMAILID.Equals(id)).SingleOrDefault();
-                return View(instructor);
+                try
+                {
+                    var result = context.spINSTRUCTORGETDETAILS(email).SingleOrDefault();
+                    return View(result);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return View("Error");
+                }
             }
-            
+
         }
 
         [HttpPost]
-        public ActionResult Edit(USER_INFO userinfo)
+        [ActionName("EditRecord")]
+        public ActionResult Edit_Save(USER_INFO userinfo)
         {
             using (var context = new assessmentEntities())
             {
-                 context.USER_INFO.Where(c => c.PROF_EMAILID.Equals(userinfo.PROF_EMAILID))
-                    .ToList().ForEach(x => x.PROF_NAME = userinfo.PROF_NAME);
-                 var results = context.SaveChanges();
+                try
+                {
+                    var i = context.spINSTRUCTOREDIT(userinfo.PROF_EMAILID, userinfo.PROF_NAME);
+                    return RedirectToAction("AllInstructors");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return View("Error");
+                }
             }
-            return View();
         }
 
-       
+        [HttpPost]
+        [ActionName("DeleteRecord")]
+        public ActionResult Delete(string email)
+        {
+            using (var context = new assessmentEntities())
+            {
+                try
+                {
+                    var result = context.spINSTRUCTORDELETE(email);
+                    return RedirectToAction("AllInstructors");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return View("Error");
+                }
+                finally
+                {
 
-	}
+                }
+            }
+        }
+    }
 }

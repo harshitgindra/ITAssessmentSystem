@@ -2,9 +2,10 @@
 
 @{
     ViewBag.Title = "Insert";
+    Layout = "~/Views/Shared/_InstructorLayout.cshtml";
 }
 
-<h2>Insert</h2>
+<h2>Insert New Record</h2>
 
 
 @using (Html.BeginForm()) 
@@ -12,7 +13,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>USER_INFO</h4>
+        <h4>Instructor Information</h4>
         <hr />
         @Html.ValidationSummary(true)
 
