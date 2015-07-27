@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="assessmentModelStoreContainer" CdmEntityContainer="assessmentEntities">
+    <EntitySetMapping Name="ASSESSMENT_DATA">
+      <EntityTypeMapping TypeName="assessmentModel.ASSESSMENT_DATA">
+        <MappingFragment StoreEntitySet="ASSESSMENT_DATA">
+          <ScalarProperty Name="DATA_ROWID" ColumnName="DATA_ROWID" />
+          <ScalarProperty Name="RUBRIC_ROWID" ColumnName="RUBRIC_ROWID" />
+          <ScalarProperty Name="OUTCOMES" ColumnName="OUTCOMES" />
+          <ScalarProperty Name="DEPARTMENT" ColumnName="DEPARTMENT" />
+          <ScalarProperty Name="PROF_EMAILID" ColumnName="PROF_EMAILID" />
+          <ScalarProperty Name="SEMESTER" ColumnName="SEMESTER" />
+          <ScalarProperty Name="COURSE" ColumnName="COURSE" />
+          <ScalarProperty Name="PERFORMANCE_INDICATOR" ColumnName="PERFORMANCE_INDICATOR" />
+          <ScalarProperty Name="TOPIC" ColumnName="TOPIC" />
+          <ScalarProperty Name="POOR" ColumnName="POOR" />
+          <ScalarProperty Name="DEVELOPING" ColumnName="DEVELOPING" />
+          <ScalarProperty Name="DEVELOPED" ColumnName="DEVELOPED" />
+          <ScalarProperty Name="EXEMPLARY" ColumnName="EXEMPLARY" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DEPARTMENTS">
+      <EntityTypeMapping TypeName="assessmentModel.DEPARTMENT">
+        <MappingFragment StoreEntitySet="DEPARTMENTS">
+          <ScalarProperty Name="department1" ColumnName="department" />
+          <ScalarProperty Name="department_desc" ColumnName="department_desc" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RUBRICS_DATA">
+      <EntityTypeMapping TypeName="assessmentModel.RUBRICS_DATA">
+        <MappingFragment StoreEntitySet="RUBRICS_DATA">
+          <ScalarProperty Name="RUBRIC_ROWID" ColumnName="RUBRIC_ROWID" />
+          <ScalarProperty Name="OUTCOMES" ColumnName="OUTCOMES" />
+          <ScalarProperty Name="DEPARTMENT" ColumnName="DEPARTMENT" />
+          <ScalarProperty Name="PERFORMANCE_INDICATOR" ColumnName="PERFORMANCE_INDICATOR" />
+          <ScalarProperty Name="TOPIC" ColumnName="TOPIC" />
+          <ScalarProperty Name="POOR" ColumnName="POOR" />
+          <ScalarProperty Name="DEVELOPING" ColumnName="DEVELOPING" />
+          <ScalarProperty Name="DEVELOPED" ColumnName="DEVELOPED" />
+          <ScalarProperty Name="EXEMPLARY" ColumnName="EXEMPLARY" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="USER_INFO">
+      <EntityTypeMapping TypeName="assessmentModel.USER_INFO">
+        <MappingFragment StoreEntitySet="USER_INFO">
+          <ScalarProperty Name="PROF_NAME" ColumnName="PROF_NAME" />
+          <ScalarProperty Name="PROF_EMAILID" ColumnName="PROF_EMAILID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="spInstructorAddNew" FunctionName="assessmentModel.Store.spInstructorAddNew" />
+    <FunctionImportMapping FunctionImportName="spINSTRUCTORDELETE" FunctionName="assessmentModel.Store.spINSTRUCTORDELETE" />
+    <FunctionImportMapping FunctionImportName="spINSTRUCTOREDIT" FunctionName="assessmentModel.Store.spINSTRUCTOREDIT" />
+    <FunctionImportMapping FunctionImportName="spINSTRUCTORGETALLRECORDS" FunctionName="assessmentModel.Store.spINSTRUCTORGETALLRECORDS">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="assessmentModel.spINSTRUCTORGETALLRECORDS_Result">
+          <ScalarProperty Name="PROF_NAME" ColumnName="PROF_NAME" />
+          <ScalarProperty Name="PROF_EMAILID" ColumnName="PROF_EMAILID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="spINSTRUCTORGETDETAILS" FunctionName="assessmentModel.Store.spINSTRUCTORGETDETAILS">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="assessmentModel.spINSTRUCTORGETDETAILS_Result">
+          <ScalarProperty Name="PROF_NAME" ColumnName="PROF_NAME" />
+          <ScalarProperty Name="PROF_EMAILID" ColumnName="PROF_EMAILID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

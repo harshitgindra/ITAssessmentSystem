@@ -1,9 +1,7 @@
-﻿@model IEnumerable<ITAssessmentSystem.Models.RUBRICS_DATA>
+﻿@model IEnumerable<ITAssessmentSystem.Models.spRUBRICGETSEARCHRESULTS_Result>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
+<br/>
+<table class="table table-bordered table-hover">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.OUTCOMES)
@@ -57,4 +55,4 @@
     }
 </table>
 
-@Html.ActionLink("Send This Rubric","Send","Rubric")
+@Html.ActionLink("Send This Rubric", "Send", "Rubric", new { @class = "btn btn-primary" })

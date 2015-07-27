@@ -18,18 +18,18 @@
         @Html.ValidationSummary(true)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PROF_NAME, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.INSTRUCTOR_NAME, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PROF_NAME)
-                @Html.ValidationMessageFor(model => model.PROF_NAME)
+                @Html.EditorFor(model => model.INSTRUCTOR_NAME)
+                @Html.ValidationMessageFor(model => model.INSTRUCTOR_NAME)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PROF_EMAILID, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.INSTRUCTOR_EMAILID, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PROF_EMAILID)
-                @Html.ValidationMessageFor(model => model.PROF_EMAILID)
+                @Html.EditorFor(model => model.INSTRUCTOR_EMAILID)
+                @Html.ValidationMessageFor(model => model.INSTRUCTOR_EMAILID)
             </div>
         </div>
 

@@ -28,11 +28,9 @@ namespace ITAssessmentSystem.Models
         }
     
         public virtual DbSet<ASSESSMENT_DATA> ASSESSMENT_DATA { get; set; }
+        public virtual DbSet<DEPARTMENT> DEPARTMENTS { get; set; }
         public virtual DbSet<RUBRICS_DATA> RUBRICS_DATA { get; set; }
         public virtual DbSet<USER_INFO> USER_INFO { get; set; }
-        public virtual DbSet<departments> departments { get; set; }
-    
-        
     
         public virtual int spInstructorAddNew(string instructorName, string instructorEmailID)
         {
@@ -81,6 +79,73 @@ namespace ITAssessmentSystem.Models
                 new ObjectParameter("InstructorEmailID", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spINSTRUCTORGETDETAILS_Result>("spINSTRUCTORGETDETAILS", instructorEmailIDParameter);
+        }
+    
+        public virtual ObjectResult<spDEPARTMENTS_GETALL_Result> spDEPARTMENTS_GETALL()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spDEPARTMENTS_GETALL_Result>("spDEPARTMENTS_GETALL");
+        }
+    
+        public virtual ObjectResult<spRUBRICGETPERFORMANCEINDICATORS_Result> spRUBRICGETPERFORMANCEINDICATORS(string dEPARTMENT)
+        {
+            var dEPARTMENTParameter = dEPARTMENT != null ?
+                new ObjectParameter("DEPARTMENT", dEPARTMENT) :
+                new ObjectParameter("DEPARTMENT", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spRUBRICGETPERFORMANCEINDICATORS_Result>("spRUBRICGETPERFORMANCEINDICATORS", dEPARTMENTParameter);
+        }
+    
+        public virtual ObjectResult<spRUBRICGETSEARCHRESULTS_Result> spRUBRICGETSEARCHRESULTS(string dEPARTMENT, string oUTCOMES)
+        {
+            var dEPARTMENTParameter = dEPARTMENT != null ?
+                new ObjectParameter("DEPARTMENT", dEPARTMENT) :
+                new ObjectParameter("DEPARTMENT", typeof(string));
+    
+            var oUTCOMESParameter = oUTCOMES != null ?
+                new ObjectParameter("OUTCOMES", oUTCOMES) :
+                new ObjectParameter("OUTCOMES", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spRUBRICGETSEARCHRESULTS_Result>("spRUBRICGETSEARCHRESULTS", dEPARTMENTParameter, oUTCOMESParameter);
+        }
+    
+        public virtual ObjectResult<spRUBRICSGETRECORD_RUBID_Result> spRUBRICSGETRECORD_RUBID(Nullable<int> rUB_ROWID)
+        {
+            var rUB_ROWIDParameter = rUB_ROWID.HasValue ?
+                new ObjectParameter("RUB_ROWID", rUB_ROWID) :
+                new ObjectParameter("RUB_ROWID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spRUBRICSGETRECORD_RUBID_Result>("spRUBRICSGETRECORD_RUBID", rUB_ROWIDParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> spASSESSMENT_VERIFYINSTRUCTOR(string instructor_EmailID)
+        {
+            var instructor_EmailIDParameter = instructor_EmailID != null ?
+                new ObjectParameter("Instructor_EmailID", instructor_EmailID) :
+                new ObjectParameter("Instructor_EmailID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("spASSESSMENT_VERIFYINSTRUCTOR", instructor_EmailIDParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> spASSESSMENT_VERIFYOUTCOME_DEPT(string outcome, string department_cd)
+        {
+            var outcomeParameter = outcome != null ?
+                new ObjectParameter("Outcome", outcome) :
+                new ObjectParameter("Outcome", typeof(string));
+    
+            var department_cdParameter = department_cd != null ?
+                new ObjectParameter("Department_cd", department_cd) :
+                new ObjectParameter("Department_cd", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("spASSESSMENT_VERIFYOUTCOME_DEPT", outcomeParameter, department_cdParameter);
+        }
+    
+        public virtual ObjectResult<spASSESSMENT_GETSEARCHRESULTS_Result> spASSESSMENT_GETSEARCHRESULTS(string param)
+        {
+            var paramParameter = param != null ?
+                new ObjectParameter("param", param) :
+                new ObjectParameter("param", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spASSESSMENT_GETSEARCHRESULTS_Result>("spASSESSMENT_GETSEARCHRESULTS", paramParameter);
         }
     }
 }

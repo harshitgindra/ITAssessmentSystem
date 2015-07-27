@@ -13,7 +13,7 @@ namespace ITAssessmentSystem.Models
     
     public partial class spINSTRUCTORGETALLRECORDS_Result
     {
-        public string PROF_NAME { get; set; }
-        public string PROF_EMAILID { get; set; }
+        public string INSTRUCTOR_NAME { get; set; }
+        public string INSTRUCTOR_EMAILID { get; set; }
     }
 }

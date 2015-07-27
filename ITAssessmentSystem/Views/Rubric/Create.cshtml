@@ -2,49 +2,48 @@
 
 @{
     ViewBag.Title = "Create";
-    
+    Layout = "~/Views/Shared/_AdministratorLayout.cshtml";
 }
 
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>RUBRICS</h4>
+        <h4>RUBRICS_DATA</h4>
         <hr />
         @Html.ValidationSummary(true)
 
-        
-       
         <div class="form-group">
             @Html.LabelFor(model => model.OUTCOMES, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.OUTCOMES)
                 @Html.ValidationMessageFor(model => model.OUTCOMES)
-                
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DEPARTMENT, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.DEPARTMENT_CD, "DEPARTMENT_CD", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("DEPARTMENT", new List<SelectListItem>
+                @Html.DropDownList("DEPARTMENT_CD", new SelectList(ViewBag.Departments, "Value", "Text"), new
             {
-                new SelectListItem{Text = "INFORMATION SYSTEMS", Value="IS"},
-                new SelectListItem{Text = "MSIS", Value="MSIS"},
-                new SelectListItem{Text = "COMPUTER SCIENCE", Value="CS"},
-                new SelectListItem{Text = "NETWORK AND TELECOMMUNICATION MANAGEMENT", Value="NTM"},
-            })
+                onchange = @"
+                getDept(this.value)
+                "
+            }
+)
             </div>
         </div>
+
+
 
         <div class="form-group">
             @Html.LabelFor(model => model.PERFORMANCE_INDICATOR, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.PERFORMANCE_INDICATOR, new { cols = 75, rows = 2 })
+                @Html.EditorFor(model => model.PERFORMANCE_INDICATOR)
                 @Html.ValidationMessageFor(model => model.PERFORMANCE_INDICATOR)
             </div>
         </div>
@@ -52,7 +51,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.TOPIC, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.TOPIC, new { cols = 75, rows = 2 })
+                @Html.EditorFor(model => model.TOPIC)
                 @Html.ValidationMessageFor(model => model.TOPIC)
             </div>
         </div>
@@ -60,7 +59,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.POOR, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.POOR, new { cols = 75, rows = 3 })
+                @Html.EditorFor(model => model.POOR)
                 @Html.ValidationMessageFor(model => model.POOR)
             </div>
         </div>
@@ -68,7 +67,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DEVELOPING, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.DEVELOPING, new { cols = 75, rows = 3 })
+                @Html.EditorFor(model => model.DEVELOPING)
                 @Html.ValidationMessageFor(model => model.DEVELOPING)
             </div>
         </div>
@@ -76,7 +75,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DEVELOPED, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.DEVELOPED, new { cols = 75, rows = 3 })
+                @Html.EditorFor(model => model.DEVELOPED)
                 @Html.ValidationMessageFor(model => model.DEVELOPED)
             </div>
         </div>
@@ -84,7 +83,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.EXEMPLARY, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.EXEMPLARY, new { cols = 75, rows = 3 })
+                @Html.EditorFor(model => model.EXEMPLARY)
                 @Html.ValidationMessageFor(model => model.EXEMPLARY)
             </div>
         </div>
@@ -97,6 +96,9 @@
     </div>
 }
 
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

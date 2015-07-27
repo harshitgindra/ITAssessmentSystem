@@ -10,18 +10,10 @@
 namespace ITAssessmentSystem.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class USER_INFO
+    public partial class spDEPARTMENTS_GETALL_Result
     {
-        public USER_INFO()
-        {
-            this.ASSESSMENT_DATA = new HashSet<ASSESSMENT_DATA>();
-        }
-    
-        public string INSTRUCTOR_NAME { get; set; }
-        public string INSTRUCTOR_EMAILID { get; set; }
-    
-        public virtual ICollection<ASSESSMENT_DATA> ASSESSMENT_DATA { get; set; }
+        public string DEPARTMENT_CD { get; set; }
+        public string department_desc { get; set; }
     }
 }

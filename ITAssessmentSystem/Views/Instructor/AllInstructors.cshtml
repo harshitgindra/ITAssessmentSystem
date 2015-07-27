@@ -10,27 +10,27 @@
 <table class="table table-hover table-bordered">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.PROF_NAME)
+            @Html.DisplayNameFor(model => model.INSTRUCTOR_NAME)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PROF_EMAILID)
+            @Html.DisplayNameFor(model => model.INSTRUCTOR_EMAILID)
         </th>
         <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
-        using (Html.BeginForm("DeleteRecord", "Instructor", new { email = item.PROF_EMAILID }))
+        using (Html.BeginForm("DeleteRecord", "Instructor", new { email = item.INSTRUCTOR_EMAILID }))
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PROF_NAME)
+                    @Html.DisplayFor(modelItem => item.INSTRUCTOR_NAME)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PROF_EMAILID)
+                    @Html.DisplayFor(modelItem => item.INSTRUCTOR_EMAILID)
                 </td>
                 <td>
-                    @Html.ActionLink("EditRecord", "Edit", new { email = item.PROF_EMAILID }, new { @class = "btn btn-primary" }) |
+                    @Html.ActionLink("EditRecord", "Edit", new { email = item.INSTRUCTOR_EMAILID }, new { @class = "btn btn-primary" }) |
 
                     <input type="submit" value="Delete" class="btn btn-danger" onclick=" confirmdelete();" />
 

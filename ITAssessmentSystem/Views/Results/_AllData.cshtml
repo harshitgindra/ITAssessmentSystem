@@ -1,6 +1,6 @@
 ﻿@using PagedList;
 @using PagedList.Mvc;
-@model IPagedList<ITAssessmentSystem.Models.ASSESSMENT_DATA>
+@model IPagedList<ITAssessmentSystem.Models.spASSESSMENT_GETSEARCHRESULTS_Result>
 
 
 <table class="table">
@@ -53,10 +53,10 @@
     <tr>
         
         <td>
-            @Html.DisplayFor(modelItem => item.PROF_EMAILID)
+            @Html.DisplayFor(modelItem => item.INSTRUCTOR_NAME)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.DEPARTMENT)
+            @Html.DisplayFor(modelItem => item.department_desc)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.SEMESTER)

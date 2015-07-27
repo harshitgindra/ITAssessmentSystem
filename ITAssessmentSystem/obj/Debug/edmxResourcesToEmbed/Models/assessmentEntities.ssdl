@@ -7,8 +7,8 @@
     <Property Name="DATA_ROWID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="RUBRIC_ROWID" Type="int" />
     <Property Name="OUTCOMES" Type="nvarchar" MaxLength="4" />
-    <Property Name="DEPARTMENT_CD" Type="nvarchar" MaxLength="10" />
-    <Property Name="INSTRUCTOR_EMAILID" Type="nvarchar" MaxLength="25" />
+    <Property Name="DEPARTMENT" Type="nvarchar" MaxLength="10" />
+    <Property Name="PROF_EMAILID" Type="nvarchar" MaxLength="25" />
     <Property Name="SEMESTER" Type="nvarchar" MaxLength="15" />
     <Property Name="COURSE" Type="nvarchar" MaxLength="10" />
     <Property Name="PERFORMANCE_INDICATOR" Type="nvarchar" MaxLength="2000" />
@@ -20,9 +20,9 @@
   </EntityType>
   <EntityType Name="DEPARTMENTS">
     <Key>
-      <PropertyRef Name="DEPARTMENT_CD" />
+      <PropertyRef Name="department" />
     </Key>
-    <Property Name="DEPARTMENT_CD" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="department" Type="nvarchar" MaxLength="10" Nullable="false" />
     <Property Name="department_desc" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="RUBRICS_DATA">
@@ -31,7 +31,7 @@
     </Key>
     <Property Name="RUBRIC_ROWID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="OUTCOMES" Type="nvarchar" MaxLength="4" Nullable="false" />
-    <Property Name="DEPARTMENT_CD" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="DEPARTMENT" Type="nvarchar" MaxLength="10" Nullable="false" />
     <Property Name="PERFORMANCE_INDICATOR" Type="nvarchar" MaxLength="2000" Nullable="false" />
     <Property Name="TOPIC" Type="nvarchar" MaxLength="2000" Nullable="false" />
     <Property Name="POOR" Type="nvarchar" MaxLength="2000" />
@@ -41,36 +41,36 @@
   </EntityType>
   <EntityType Name="USER_INFO">
     <Key>
-      <PropertyRef Name="INSTRUCTOR_EMAILID" />
+      <PropertyRef Name="PROF_EMAILID" />
     </Key>
-    <Property Name="INSTRUCTOR_NAME" Type="nvarchar" MaxLength="50" Nullable="false" />
-    <Property Name="INSTRUCTOR_EMAILID" Type="nvarchar" MaxLength="25" Nullable="false" />
+    <Property Name="PROF_NAME" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="PROF_EMAILID" Type="nvarchar" MaxLength="25" Nullable="false" />
   </EntityType>
-  <Association Name="FK__ASSESSMEN__DEPAR__3BFFE745">
+  <Association Name="FK__ASSESSMEN__DEPAR__27F8EE98">
     <End Role="DEPARTMENTS" Type="Self.DEPARTMENTS" Multiplicity="0..1" />
     <End Role="ASSESSMENT_DATA" Type="Self.ASSESSMENT_DATA" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="DEPARTMENTS">
-        <PropertyRef Name="DEPARTMENT_CD" />
+        <PropertyRef Name="department" />
       </Principal>
       <Dependent Role="ASSESSMENT_DATA">
-        <PropertyRef Name="DEPARTMENT_CD" />
+        <PropertyRef Name="DEPARTMENT" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__ASSESSMEN__INSTR__3CF40B7E">
+  <Association Name="FK__ASSESSMEN__PROF___28ED12D1">
     <End Role="USER_INFO" Type="Self.USER_INFO" Multiplicity="0..1" />
     <End Role="ASSESSMENT_DATA" Type="Self.ASSESSMENT_DATA" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="USER_INFO">
-        <PropertyRef Name="INSTRUCTOR_EMAILID" />
+        <PropertyRef Name="PROF_EMAILID" />
       </Principal>
       <Dependent Role="ASSESSMENT_DATA">
-        <PropertyRef Name="INSTRUCTOR_EMAILID" />
+        <PropertyRef Name="PROF_EMAILID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__ASSESSMEN__RUBRI__3B0BC30C">
+  <Association Name="FK__ASSESSMEN__RUBRI__2704CA5F">
     <End Role="RUBRICS_DATA" Type="Self.RUBRICS_DATA" Multiplicity="0..1" />
     <End Role="ASSESSMENT_DATA" Type="Self.ASSESSMENT_DATA" Multiplicity="*" />
     <ReferentialConstraint>
@@ -82,29 +82,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__RUBRICS_D__DEPAR__382F5661">
+  <Association Name="FK__RUBRICS_D__DEPAR__24285DB4">
     <End Role="DEPARTMENTS" Type="Self.DEPARTMENTS" Multiplicity="1" />
     <End Role="RUBRICS_DATA" Type="Self.RUBRICS_DATA" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="DEPARTMENTS">
-        <PropertyRef Name="DEPARTMENT_CD" />
+        <PropertyRef Name="department" />
       </Principal>
       <Dependent Role="RUBRICS_DATA">
-        <PropertyRef Name="DEPARTMENT_CD" />
+        <PropertyRef Name="DEPARTMENT" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Function Name="spASSESSMENT_GETSEARCHRESULTS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="param" Type="nvarchar" Mode="In" />
-  </Function>
-  <Function Name="spASSESSMENT_VERIFYINSTRUCTOR" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="Instructor_EmailID" Type="nvarchar" Mode="In" />
-  </Function>
-  <Function Name="spASSESSMENT_VERIFYOUTCOME_DEPT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="Outcome" Type="nvarchar" Mode="In" />
-    <Parameter Name="Department_cd" Type="nvarchar" Mode="In" />
-  </Function>
-  <Function Name="spDEPARTMENTS_GETALL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="spInstructorAddNew" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="InstructorName" Type="nvarchar" Mode="In" />
     <Parameter Name="InstructorEmailID" Type="nvarchar" Mode="In" />
@@ -120,34 +109,24 @@
   <Function Name="spINSTRUCTORGETDETAILS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="InstructorEmailID" Type="nvarchar" Mode="In" />
   </Function>
-  <Function Name="spRUBRICGETPERFORMANCEINDICATORS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="DEPARTMENT" Type="nvarchar" Mode="In" />
-  </Function>
-  <Function Name="spRUBRICGETSEARCHRESULTS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="DEPARTMENT" Type="nvarchar" Mode="In" />
-    <Parameter Name="OUTCOMES" Type="nvarchar" Mode="In" />
-  </Function>
-  <Function Name="spRUBRICSGETRECORD_RUBID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="RUB_ROWID" Type="int" Mode="In" />
-  </Function>
   <EntityContainer Name="assessmentModelStoreContainer">
     <EntitySet Name="ASSESSMENT_DATA" EntityType="Self.ASSESSMENT_DATA" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DEPARTMENTS" EntityType="Self.DEPARTMENTS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="RUBRICS_DATA" EntityType="Self.RUBRICS_DATA" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="USER_INFO" EntityType="Self.USER_INFO" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK__ASSESSMEN__DEPAR__3BFFE745" Association="Self.FK__ASSESSMEN__DEPAR__3BFFE745">
+    <AssociationSet Name="FK__ASSESSMEN__DEPAR__27F8EE98" Association="Self.FK__ASSESSMEN__DEPAR__27F8EE98">
       <End Role="DEPARTMENTS" EntitySet="DEPARTMENTS" />
       <End Role="ASSESSMENT_DATA" EntitySet="ASSESSMENT_DATA" />
     </AssociationSet>
-    <AssociationSet Name="FK__ASSESSMEN__INSTR__3CF40B7E" Association="Self.FK__ASSESSMEN__INSTR__3CF40B7E">
+    <AssociationSet Name="FK__ASSESSMEN__PROF___28ED12D1" Association="Self.FK__ASSESSMEN__PROF___28ED12D1">
       <End Role="USER_INFO" EntitySet="USER_INFO" />
       <End Role="ASSESSMENT_DATA" EntitySet="ASSESSMENT_DATA" />
     </AssociationSet>
-    <AssociationSet Name="FK__ASSESSMEN__RUBRI__3B0BC30C" Association="Self.FK__ASSESSMEN__RUBRI__3B0BC30C">
+    <AssociationSet Name="FK__ASSESSMEN__RUBRI__2704CA5F" Association="Self.FK__ASSESSMEN__RUBRI__2704CA5F">
       <End Role="RUBRICS_DATA" EntitySet="RUBRICS_DATA" />
       <End Role="ASSESSMENT_DATA" EntitySet="ASSESSMENT_DATA" />
     </AssociationSet>
-    <AssociationSet Name="FK__RUBRICS_D__DEPAR__382F5661" Association="Self.FK__RUBRICS_D__DEPAR__382F5661">
+    <AssociationSet Name="FK__RUBRICS_D__DEPAR__24285DB4" Association="Self.FK__RUBRICS_D__DEPAR__24285DB4">
       <End Role="DEPARTMENTS" EntitySet="DEPARTMENTS" />
       <End Role="RUBRICS_DATA" EntitySet="RUBRICS_DATA" />
     </AssociationSet>

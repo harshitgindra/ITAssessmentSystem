@@ -12,15 +12,15 @@ namespace ITAssessmentSystem.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class departments
+    public partial class DEPARTMENT
     {
-        public departments()
+        public DEPARTMENT()
         {
             this.ASSESSMENT_DATA = new HashSet<ASSESSMENT_DATA>();
             this.RUBRICS_DATA = new HashSet<RUBRICS_DATA>();
         }
     
-        public string department { get; set; }
+        public string DEPARTMENT_CD { get; set; }
         public string department_desc { get; set; }
     
         public virtual ICollection<ASSESSMENT_DATA> ASSESSMENT_DATA { get; set; }

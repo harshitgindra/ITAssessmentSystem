@@ -10,26 +10,22 @@
 namespace ITAssessmentSystem.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class RUBRICS_DATA
+    public partial class spASSESSMENT_GETSEARCHRESULTS_Result
     {
-        public RUBRICS_DATA()
-        {
-            this.ASSESSMENT_DATA = new HashSet<ASSESSMENT_DATA>();
-        }
-    
-        public int RUBRIC_ROWID { get; set; }
+        public int DATA_ROWID { get; set; }
         public string OUTCOMES { get; set; }
         public string DEPARTMENT_CD { get; set; }
+        public string INSTRUCTOR_EMAILID { get; set; }
+        public string SEMESTER { get; set; }
+        public string COURSE { get; set; }
         public string PERFORMANCE_INDICATOR { get; set; }
         public string TOPIC { get; set; }
-        public string POOR { get; set; }
-        public string DEVELOPING { get; set; }
-        public string DEVELOPED { get; set; }
-        public string EXEMPLARY { get; set; }
-    
-        public virtual ICollection<ASSESSMENT_DATA> ASSESSMENT_DATA { get; set; }
-        public virtual DEPARTMENT DEPARTMENT { get; set; }
+        public Nullable<int> POOR { get; set; }
+        public Nullable<int> DEVELOPING { get; set; }
+        public Nullable<int> DEVELOPED { get; set; }
+        public Nullable<int> EXEMPLARY { get; set; }
+        public string INSTRUCTOR_NAME { get; set; }
+        public string department_desc { get; set; }
     }
 }

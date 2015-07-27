@@ -28,8 +28,8 @@ namespace ITAssessmentSystem.Controllers
             {
                 try
                 {
-                    var result = context.spInstructorAddNew(userinfo.PROF_NAME, userinfo.PROF_EMAILID);
-                    return View();
+                    var result = context.spInstructorAddNew(userinfo.INSTRUCTOR_NAME, userinfo.INSTRUCTOR_EMAILID);
+                    return RedirectToAction("AllInstructors");
                 }
                 catch (Exception ex)
                 {
@@ -85,7 +85,7 @@ namespace ITAssessmentSystem.Controllers
             {
                 try
                 {
-                    var i = context.spINSTRUCTOREDIT(userinfo.PROF_EMAILID, userinfo.PROF_NAME);
+                    var i = context.spINSTRUCTOREDIT(userinfo.INSTRUCTOR_EMAILID, userinfo.INSTRUCTOR_NAME);
                     return RedirectToAction("AllInstructors");
                 }
                 catch (Exception ex)

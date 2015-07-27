@@ -17,8 +17,8 @@ namespace ITAssessmentSystem.Models
         public int DATA_ROWID { get; set; }
         public Nullable<int> RUBRIC_ROWID { get; set; }
         public string OUTCOMES { get; set; }
-        public string DEPARTMENT { get; set; }
-        public string PROF_EMAILID { get; set; }
+        public string DEPARTMENT_CD { get; set; }
+        public string INSTRUCTOR_EMAILID { get; set; }
         public string SEMESTER { get; set; }
         public string COURSE { get; set; }
         public string PERFORMANCE_INDICATOR { get; set; }
@@ -28,8 +28,8 @@ namespace ITAssessmentSystem.Models
         public Nullable<int> DEVELOPED { get; set; }
         public Nullable<int> EXEMPLARY { get; set; }
     
+        public virtual DEPARTMENT DEPARTMENT { get; set; }
         public virtual USER_INFO USER_INFO { get; set; }
         public virtual RUBRICS_DATA RUBRICS_DATA { get; set; }
-        public virtual departments departments { get; set; }
     }
 }

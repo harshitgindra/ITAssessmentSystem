@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ITAssessmentSystem.Models.RUBRICS_DATA>
+﻿@model IEnumerable<ITAssessmentSystem.Models.spRUBRICGETSEARCHRESULTS_Result>
 
 <form id="xxx" method="post">
     <div class="form-horizontal">
@@ -27,7 +27,7 @@
         <div class="form-group">
             @Html.Label("Instructor Email ID", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBox("Instructor_Email")
+                @Html.TextBox("Instructor_Email",  Request.QueryString["inst"].ToString(), new { @readonly = "readonly" })
             </div>
         </div>
         <div class="form-group">
@@ -60,7 +60,7 @@
             </thead>
             <div id="reset">
                 @foreach (var item in Model
-                as List<ITAssessmentSystem.Models.RUBRICS_DATA>)
+                as List<ITAssessmentSystem.Models.spRUBRICGETSEARCHRESULTS_Result>)
                 {
 
                     <tr>

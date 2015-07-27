@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -19,81 +20,86 @@ namespace ITAssessmentSystem.Controllers
         public ActionResult Reference()
         {
             ViewBag.total = 0;
-            string dept, outcome;
-            try
+            string dept, outcome, instructor;
+            using (var context = new assessmentEntities())
             {
-                dept = Request.QueryString["Dept"].ToString();
-                outcome = Request.QueryString["outcome"].ToString();
+                try
+                {
+                    dept = Request.QueryString["Dept"].ToString();
+                    outcome = Request.QueryString["outcome"].ToString();
+                    instructor = Request.QueryString["inst"].ToString();
+
+                    if ((context.spASSESSMENT_VERIFYINSTRUCTOR(instructor).SingleOrDefault() != 0) && (context.spASSESSMENT_VERIFYOUTCOME_DEPT(outcome, dept).SingleOrDefault() != 0))
+                    {
+                        var result = context.spRUBRICGETSEARCHRESULTS(dept, outcome).ToList();
+                        var rubRowID = result.Select(rubrowID => rubrowID.RUBRIC_ROWID.ToString()).ToList();
+                        Session["RubRowIDS"] = rubRowID;
+                        foreach (var item in rubRowID)
+                        {
+                            Session[item] = "0-0-0-0";
+
+                        }
+                        return View(result);
+                    }
+                    else
+                    {
+                        ViewBag.ErrorMsg = "Invalid URL. Please check the Link again";
+                        return View("Error");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return View("Error");
+                }
             }
-            catch (Exception ex)
-            {
-                return View("Error");
-            }
- 
-            assessmentEntities assessment = new assessmentEntities();
-            var result = assessment.RUBRICS_DATA
-                .Where(x => x.DEPARTMENT.Equals(dept))
-                .Where(y => y.OUTCOMES.Equals(outcome))
-                .ToList();            
-            var rubRowID = result.Select(x=>x.RUBRIC_ROWID.ToString()).ToList();
-            Session["RubRowIDS"] = rubRowID;
-           
-            foreach (var item in rubRowID)
-            {
-                Session[item] = "0-0-0-0";
-                
-            }
-            return View(result);
+
         }
 
         [HttpPost]
         public ActionResult Reference(FormCollection f)
         {
-           // string x = f["Course"].ToString();
-            bool status = false;
-            assessmentEntities assessment = new assessmentEntities();
-            ASSESSMENT_DATA assessmentData = new ASSESSMENT_DATA();
-            assessmentData.COURSE = f["Course"].ToString();
-            assessmentData.DEPARTMENT = f["Department"].ToString();
-            assessmentData.SEMESTER = f["Semester"].ToString();
-            assessmentData.PROF_EMAILID = f["Instructor_Email"].ToString();
-            assessmentData.OUTCOMES = f["Outcome"].ToString();
 
-            foreach (var item in Session["RubRowIDS"] as List<String>)
+            bool status = false;
+            using (var context = new assessmentEntities())
             {
-                string sessionData = Session[item].ToString();
-                String[] data = sessionData.Split('-');
-                assessmentData.RUBRIC_ROWID = Int16.Parse(item);
-                assessmentData.POOR = Int16.Parse(data[0]);
-                assessmentData.DEVELOPING = Int16.Parse(data[1]);
-                assessmentData.DEVELOPED = Int16.Parse(data[2]);
-                assessmentData.EXEMPLARY = Int16.Parse(data[3]);
-                var rubID = Int16.Parse(item);
-                var res = assessment.RUBRICS_DATA.Where(x => x.RUBRIC_ROWID == rubID).ToList();
-                assessmentData.PERFORMANCE_INDICATOR = res.SingleOrDefault().PERFORMANCE_INDICATOR;
-                assessmentData.TOPIC = res.SingleOrDefault().TOPIC;
-                var save = assessment.ASSESSMENT_DATA.Add(assessmentData);
-                if (assessment.SaveChanges() == 1)
+
+                try
                 {
-                    status = true;
+                    ASSESSMENT_DATA assessmentData = new ASSESSMENT_DATA();
+                    assessmentData.COURSE = f["Course"].ToString();
+                    assessmentData.DEPARTMENT_CD = f["Department"].ToString();
+                    assessmentData.SEMESTER = f["Semester"].ToString();
+                    assessmentData.INSTRUCTOR_EMAILID = f["Instructor_Email"].ToString();
+                    assessmentData.OUTCOMES = f["Outcome"].ToString();
+                    foreach (var item in Session["RubRowIDS"] as List<String>)
+                    {
+                        string sessionData = Session[item].ToString();
+                        String[] data = sessionData.Split('-');
+                        assessmentData.RUBRIC_ROWID = Int16.Parse(item);
+                        assessmentData.POOR = Int16.Parse(data[0]);
+                        assessmentData.DEVELOPING = Int16.Parse(data[1]);
+                        assessmentData.DEVELOPED = Int16.Parse(data[2]);
+                        assessmentData.EXEMPLARY = Int16.Parse(data[3]);
+                        var rubID = Int16.Parse(item);
+                        var rubricRecord = context.spRUBRICSGETRECORD_RUBID(rubID).ToList();
+                        assessmentData.PERFORMANCE_INDICATOR = rubricRecord.SingleOrDefault().PERFORMANCE_INDICATOR;
+                        assessmentData.TOPIC = rubricRecord.SingleOrDefault().TOPIC;
+                        var result = context.ASSESSMENT_DATA.Add(assessmentData);
+                        context.SaveChanges();
+                    }
+                    return View("Success");
                 }
-                else
+                catch (Exception ex)
                 {
-                    status = false; ;
+                    Response.WriteFile(ex.Message);
+                    return View("Error");
                 }
+
             }
-            if (status)
-            {
-                return View("Success");
-            }
-            else
-            {
-                return View("error");
-            }
-           
+
         }
 
-        
+
 
 
         public ActionResult Submit(FormCollection f)
@@ -120,5 +126,5 @@ namespace ITAssessmentSystem.Controllers
             }
             return PartialView("_InstructorInput");
         }
-	}
+    }
 }

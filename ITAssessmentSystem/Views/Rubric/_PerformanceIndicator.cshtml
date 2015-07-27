@@ -1,15 +1,13 @@
 ﻿
+<br/>
+<div class="form-group">
+    @Html.Label("Performance Indicator")
 
-<p>Performance Indicators:</p>
-
-@Html.DropDownList("PIndicators", new SelectList(ViewBag.PIndicator, "Value", "Text")
+    @Html.DropDownList("Outcomes", new SelectList(ViewBag.PIndicator, "Value", "Text")
 )
+    <br />
 
-
-@Html.ActionLink("Get Rubrics", "Display")
-
-
-
-@Scripts.Render("~/bundles/jquery")
+    </div>
+    @Scripts.Render("~/bundles/jquery")
 
 

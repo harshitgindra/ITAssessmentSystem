@@ -15,69 +15,47 @@ namespace ITAssessmentSystem.Controllers
     {
         //
         // GET: /Results/
-        IEnumerable<ASSESSMENT_DATA> results = null;
+        
         //Reference: https://stackoverflow.com/questions/12844779/search-on-all-fields-of-an-entity
         public ActionResult Index()
         {
             return View();
         }
 
+
+
         [HttpGet]
         public ActionResult AllData(string param, int? page, string colPram, string sortOrder)
         {
-
+            IEnumerable<spASSESSMENT_GETSEARCHRESULTS_Result> results = null;
             param = string.IsNullOrEmpty(param) ? "" : param;
             ViewBag.Order = "";
             if (String.IsNullOrEmpty(colPram) && String.IsNullOrWhiteSpace(sortOrder))
                 results = getAllRecords(param);
             else
-                results = SortTable(param, colPram, sortOrder);
+                results = SortTable(param, colPram, sortOrder).ToList();
 
             var pageView = results.ToPagedList(page ?? 1, 5);
             return View("_AllData", "AllData", pageView);
         }
 
-        public IEnumerable<ASSESSMENT_DATA> getAllRecords(string param)
+        public IEnumerable<spASSESSMENT_GETSEARCHRESULTS_Result> getAllRecords(string param)
         {
             using (var context = new assessmentEntities())
             {
-                /*var stringProperties = typeof(ASSESSMENT_DATA).GetProperties().Where(prop =>
-                    prop.PropertyType == param.GetType());
-                var results = context.ASSESSMENT_DATA.Where(customer => 
-                        stringProperties.Any(prop =>
-                           prop.GetValue(customer, null) == param)).ToList();*/
-
-                results = context.ASSESSMENT_DATA.Where(s => s.COURSE.Contains(param)
-                    || s.DEPARTMENT.Contains(param)
-                    || s.PERFORMANCE_INDICATOR.Contains(param)
-                    || s.PROF_EMAILID.Contains(param)
-                    || s.SEMESTER.Contains(param)
-                    || s.TOPIC.Contains(param)
-                    || s.USER_INFO.PROF_NAME.Contains(param))
-                    .OrderBy(s => s.PERFORMANCE_INDICATOR)
-                    .ToList();
-                return results;
+                return (IList<spASSESSMENT_GETSEARCHRESULTS_Result>)context.spASSESSMENT_GETSEARCHRESULTS(param).ToList();
             }
 
         }
 
-        public IEnumerable<ASSESSMENT_DATA> SortTable(string param, string colPram, string sortOrder)
+        public IEnumerable<spASSESSMENT_GETSEARCHRESULTS_Result> SortTable(string param, string colPram, string sortOrder)
         {
             using (var context = new assessmentEntities())
             {
                 ViewBag.Order = String.IsNullOrEmpty(sortOrder) ? "desc" : "";
                 string colAndOrder = colPram + " " + sortOrder;
-                results = context.ASSESSMENT_DATA.Where(s => s.COURSE.Contains(param)
-                        || s.DEPARTMENT.Contains(param)
-                        || s.PERFORMANCE_INDICATOR.Contains(param)
-                        || s.PROF_EMAILID.Contains(param)
-                        || s.SEMESTER.Contains(param)
-                        || s.TOPIC.Contains(param)
-                        || s.USER_INFO.PROF_NAME.Contains(param))
-                        .OrderBy(colAndOrder)
-
-                        .ToList();
-                return results;
+                return (IList<spASSESSMENT_GETSEARCHRESULTS_Result>)context.spASSESSMENT_GETSEARCHRESULTS(param).ToList();               
+                
             }
 
         }
@@ -85,6 +63,7 @@ namespace ITAssessmentSystem.Controllers
 
         public void Export(string param, string colPram, string sortOrder)
         {
+            IEnumerable<spASSESSMENT_GETSEARCHRESULTS_Result> results = null;
             param = string.IsNullOrEmpty(param) ? "" : param;
             if (String.IsNullOrEmpty(colPram) && String.IsNullOrWhiteSpace(sortOrder))
             {
@@ -114,8 +93,8 @@ namespace ITAssessmentSystem.Controllers
             foreach (var item in results)
             {
                 sw.WriteLine(string.Format("\"{0}\",\"{1}\", \"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\",\"{9}\"",
-                    item.PROF_EMAILID,
-                    item.DEPARTMENT,
+                    item.INSTRUCTOR_EMAILID,
+                    item.department_desc,
                     item.SEMESTER,
                     item.COURSE,
                     item.PERFORMANCE_INDICATOR,

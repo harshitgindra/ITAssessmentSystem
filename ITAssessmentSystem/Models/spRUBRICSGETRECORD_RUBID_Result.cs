@@ -10,18 +10,17 @@
 namespace ITAssessmentSystem.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class USER_INFO
+    public partial class spRUBRICSGETRECORD_RUBID_Result
     {
-        public USER_INFO()
-        {
-            this.ASSESSMENT_DATA = new HashSet<ASSESSMENT_DATA>();
-        }
-    
-        public string INSTRUCTOR_NAME { get; set; }
-        public string INSTRUCTOR_EMAILID { get; set; }
-    
-        public virtual ICollection<ASSESSMENT_DATA> ASSESSMENT_DATA { get; set; }
+        public int RUBRIC_ROWID { get; set; }
+        public string OUTCOMES { get; set; }
+        public string DEPARTMENT_CD { get; set; }
+        public string PERFORMANCE_INDICATOR { get; set; }
+        public string TOPIC { get; set; }
+        public string POOR { get; set; }
+        public string DEVELOPING { get; set; }
+        public string DEVELOPED { get; set; }
+        public string EXEMPLARY { get; set; }
     }
 }

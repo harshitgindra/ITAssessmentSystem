@@ -9,8 +9,22 @@ namespace ITAssessmentSystem.Models
     public class PerformanceIndicator
     {
         //Reference: http://highoncoding.com/Articles/770_Implementing_Dynamic_DropDownList_in_ASP_NET_MVC_3_Framework.aspx
-        public RUBRICS_DATA rub { set; get; }
-        public List<SelectListItem> selection = new List<SelectListItem>();
+
+
+        public List<SelectListItem> getPerformanceIndicatorList(string dept)
+        {
+            List<SelectListItem> performanceIndicators = new List<SelectListItem>();
+            using (var context = new assessmentEntities())
+            {
+                //var result = context.RUBRICS_DATA.Where(x => x.DEPARTMENT_CD.Equals(id)).Select(x => x.PERFORMANCE_INDICATOR).Distinct().ToList();
+                var result = context.spRUBRICGETPERFORMANCEINDICATORS(dept);
+                foreach (var item in result)
+                {
+                    performanceIndicators.Add(new SelectListItem() { Text = item.performance_indicator, Value = item.outcomes });
+                }
+                return performanceIndicators;
+            }
+        }
         
     }
 

@@ -4,16 +4,16 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0c6cfd0ab5cc4a2bbb62fd3745962d57" Name="Diagram1" ZoomLevel="74">
-        <EntityTypeShape EntityType="assessmentModel.ASSESSMENT_DATA" Width="1.5" PointX="5.5" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="assessmentModel.RUBRICS_DATA" Width="1.5" PointX="0.5" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="assessmentModel.USER_INFO" Width="1.5" PointX="0.75" PointY="6.125" IsExpanded="true" />
-        <AssociationConnector Association="assessmentModel.FK__ASSESSMEN__PROF___2DE6D218" ManuallyRouted="false" />
-        <AssociationConnector Association="assessmentModel.FK__ASSESSMENT_DATA__2CF2ADDF" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="assessmentModel.departments" Width="1.5" PointX="0.75" PointY="2.25" />
-        <AssociationConnector Association="assessmentModel.FK__ASSESSMEN__DEPAR__7FEAFD3E" />
-        <AssociationConnector Association="assessmentModel.FK__RUBRICS_D__DEPAR__7EF6D905" />
-        </Diagram>
+      <Diagram DiagramId="43b47dfe78564f12864206120ec2cb18" Name="Diagram1">
+        <EntityTypeShape EntityType="assessmentModel.ASSESSMENT_DATA" Width="1.5" PointX="5.25" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="assessmentModel.DEPARTMENT" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="assessmentModel.RUBRICS_DATA" Width="1.5" PointX="3" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="assessmentModel.USER_INFO" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
+        <AssociationConnector Association="assessmentModel.FK__ASSESSMEN__DEPAR__3BFFE745" ManuallyRouted="false" />
+        <AssociationConnector Association="assessmentModel.FK__ASSESSMEN__INSTR__3CF40B7E" ManuallyRouted="false" />
+        <AssociationConnector Association="assessmentModel.FK__ASSESSMEN__RUBRI__3B0BC30C" ManuallyRouted="false" />
+        <AssociationConnector Association="assessmentModel.FK__RUBRICS_D__DEPAR__382F5661" ManuallyRouted="false" />
+      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
