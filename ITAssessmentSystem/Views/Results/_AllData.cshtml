@@ -8,26 +8,26 @@
         
         <th>
 
-            @Html.ActionLink("Professor", "AllData", new { param = Request.QueryString["param"], page = 1, colPram = "PROF_EMAILID", sortOrder = ViewBag.Order })
+            @Html.ActionLink("Professor", "AllData", new { param = Request.QueryString["param"], page = 1, column = "Instructor", sortOrder = ViewBag.Order })
         </th>
         <th>
 
-            @Html.ActionLink("Department", "AllData", new { param = Request.QueryString["param"], page = 1, colPram = "DEPARTMENT", sortOrder = ViewBag.Order })
+            @Html.ActionLink("Department", "AllData", new { param = Request.QueryString["param"], page = 1, column = "department", sortOrder = ViewBag.Order })
         </th>
         <th>
-            @Html.ActionLink("SEMESTER", "AllData", new { param = Request.QueryString["param"], page = 1, colPram = "SEMESTER", sortOrder = ViewBag.Order })
+            @Html.ActionLink("SEMESTER", "AllData", new { param = Request.QueryString["param"], page = 1, column = "semester", sortOrder = ViewBag.Order })
         </th>
         <th>
 
-            @Html.ActionLink("COURSE", "AllData", new { param = Request.QueryString["param"], page = 1, colPram = "COURSE", sortOrder = ViewBag.Order })
+            @Html.ActionLink("COURSE", "AllData", new { param = Request.QueryString["param"], page = 1, column = "course", sortOrder = ViewBag.Order })
         </th>
         
         <th>
-            @Html.ActionLink("PERFORMANCE_INDICATOR", "AllData", new { param = Request.QueryString["param"], page = 1, colPram = "PERFORMANCE_INDICATOR", sortOrder = ViewBag.Order })
+            @Html.ActionLink("PERFORMANCE_INDICATOR", "AllData", new { param = Request.QueryString["param"], page = 1, column = "performanceIndicator", sortOrder = ViewBag.Order })
         </th>
         <th>
 
-            @Html.ActionLink("Topic", "AllData", new { param = Request.QueryString["param"], page = 1, colPram = "TOPIC", sortOrder = ViewBag.Order })
+            @Html.ActionLink("Topic", "AllData", new { param = Request.QueryString["param"], page = 1, column = "topic", sortOrder = ViewBag.Order })
         </th>
         <th>
             @Html.DisplayName("POOR")
@@ -91,4 +91,4 @@
 
 </table>
 
-@Html.PagedListPager(Model, page => Url.Action("AddressList", "Home", new { page, param = Request.QueryString["param"], colPram = Request.QueryString["colPram"], sortOrder = Request.QueryString["sortOrder"] }));
+@Html.PagedListPager(Model, page => Url.Action("AddressList", "Home", new { page, param = Request.QueryString["param"], column = Request.QueryString["column"], sortOrder = Request.QueryString["sortOrder"] }));

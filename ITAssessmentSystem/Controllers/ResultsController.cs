@@ -8,6 +8,7 @@ using System.Linq.Dynamic;
 using PagedList;
 using PagedList.Mvc;
 using System.IO;
+using System.Linq.Expressions;
 
 namespace ITAssessmentSystem.Controllers
 {
@@ -15,7 +16,7 @@ namespace ITAssessmentSystem.Controllers
     {
         //
         // GET: /Results/
-        
+
         //Reference: https://stackoverflow.com/questions/12844779/search-on-all-fields-of-an-entity
         public ActionResult Index()
         {
@@ -25,43 +26,51 @@ namespace ITAssessmentSystem.Controllers
 
 
         [HttpGet]
-        public ActionResult AllData(string param, int? page, string colPram, string sortOrder)
+        public ActionResult AllData(string param, int? page, string column, string sortOrder)
         {
-            IEnumerable<spASSESSMENT_GETSEARCHRESULTS_Result> results = null;
-            param = string.IsNullOrEmpty(param) ? "" : param;
-            ViewBag.Order = "";
-            if (String.IsNullOrEmpty(colPram) && String.IsNullOrWhiteSpace(sortOrder))
-                results = getAllRecords(param);
+            using (var context = new assessmentEntities())
+            {
+                IEnumerable<spASSESSMENT_GETSEARCHRESULTS_Result> results = null;
+                param = string.IsNullOrEmpty(param) ? "" : param;
+                //sortOrder = string.IsNullOrEmpty(sortOrder) ? "" : sortOrder;
+                ViewBag.Order = "";
+                if (String.IsNullOrEmpty(column) && String.IsNullOrWhiteSpace(sortOrder))
+                    results = getAllRecords(context, param).ToList();
+                else
+                    results = SortTable(context, param, column, sortOrder).ToList();
+
+                var pageView = results.ToPagedList(page ?? 1, 5);
+                return View("_AllData", "AllData", pageView);
+            }
+        }
+
+        public IQueryable<spASSESSMENT_GETSEARCHRESULTS_Result> getAllRecords(assessmentEntities context, string param)
+        {
+            return context.spASSESSMENT_GETSEARCHRESULTS(param).AsQueryable();
+        }
+
+        public IQueryable<spASSESSMENT_GETSEARCHRESULTS_Result> SortTable(assessmentEntities context, string param, string column, string sortOrder)
+        {
+
+            ViewBag.Order = String.IsNullOrEmpty(sortOrder) ? "desc" : "";
+            sortOrder = String.IsNullOrEmpty(sortOrder) ? "" : sortOrder;
+            var results = context.spASSESSMENT_GETSEARCHRESULTS(param).AsQueryable();
+            Func<IQueryable<spASSESSMENT_GETSEARCHRESULTS_Result>, Expression<Func<spASSESSMENT_GETSEARCHRESULTS_Result, string>>, IOrderedQueryable<spASSESSMENT_GETSEARCHRESULTS_Result>> orderBy;
+
+            if (!sortOrder.Equals("desc"))
+            {
+                orderBy = Queryable.OrderBy;
+            }
             else
-                results = SortTable(param, colPram, sortOrder).ToList();
-
-            var pageView = results.ToPagedList(page ?? 1, 5);
-            return View("_AllData", "AllData", pageView);
-        }
-
-        public IEnumerable<spASSESSMENT_GETSEARCHRESULTS_Result> getAllRecords(string param)
-        {
-            using (var context = new assessmentEntities())
             {
-                return (IList<spASSESSMENT_GETSEARCHRESULTS_Result>)context.spASSESSMENT_GETSEARCHRESULTS(param).ToList();
+                orderBy = Queryable.OrderByDescending;
             }
-
+            results = orderBy(results, spASSESSMENT_GETSEARCHRESULTS_Result.Order(column))
+               .ThenBy(searchResults => searchResults.OUTCOMES);
+            return results;
         }
 
-        public IEnumerable<spASSESSMENT_GETSEARCHRESULTS_Result> SortTable(string param, string colPram, string sortOrder)
-        {
-            using (var context = new assessmentEntities())
-            {
-                ViewBag.Order = String.IsNullOrEmpty(sortOrder) ? "desc" : "";
-                string colAndOrder = colPram + " " + sortOrder;
-                return (IList<spASSESSMENT_GETSEARCHRESULTS_Result>)context.spASSESSMENT_GETSEARCHRESULTS(param).ToList();               
-                
-            }
-
-        }
-
-
-        public void Export(string param, string colPram, string sortOrder)
+        /*public void Export(string param, string colPram, string sortOrder)
         {
             IEnumerable<spASSESSMENT_GETSEARCHRESULTS_Result> results = null;
             param = string.IsNullOrEmpty(param) ? "" : param;
@@ -108,6 +117,6 @@ namespace ITAssessmentSystem.Controllers
             Response.Output.Write(sw.ToString());
             Response.Flush();
             Response.End();
-        }
+        }*/
     }
 }

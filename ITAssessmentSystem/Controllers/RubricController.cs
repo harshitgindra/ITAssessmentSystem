@@ -30,7 +30,7 @@ namespace ITAssessmentSystem.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(RUBRICS_DATA rub)
+        public ActionResult Create(RUBRICS_DATA rubricData)
         {
             if (ModelState.IsValid)
             {
@@ -38,7 +38,7 @@ namespace ITAssessmentSystem.Controllers
                 {
                     try
                     {
-                        context.RUBRICS_DATA.Add(rub);
+                        context.RUBRICS_DATA.Add(rubricData);
                         context.SaveChanges();
                     }
                     catch (Exception ex)

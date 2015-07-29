@@ -10,7 +10,8 @@
 namespace ITAssessmentSystem.Models
 {
     using System;
-    
+    using System.Linq.Expressions;
+
     public partial class spASSESSMENT_GETSEARCHRESULTS_Result
     {
         public int DATA_ROWID { get; set; }
@@ -27,5 +28,35 @@ namespace ITAssessmentSystem.Models
         public Nullable<int> EXEMPLARY { get; set; }
         public string INSTRUCTOR_NAME { get; set; }
         public string department_desc { get; set; }
+
+        internal static Expression<Func<spASSESSMENT_GETSEARCHRESULTS_Result, string>> Order(string column)
+        {
+            Expression<Func<spASSESSMENT_GETSEARCHRESULTS_Result, string>> result = null;
+            switch (column)
+            {
+                case "semester":
+                    result = searchResults => searchResults.SEMESTER;
+                    break;
+                case "course":
+                    result = searchResults => searchResults.COURSE;
+                    break;
+                case "performanceIndicator":
+                    result = searchResults => searchResults.PERFORMANCE_INDICATOR;
+                    break;
+                case "department":
+                    result = searchResults => searchResults.department_desc;
+                    break;
+                case "Instructor":
+                    result = searchResults => searchResults.INSTRUCTOR_NAME;
+                    break;
+                case "topic":
+                    result = searchResults => searchResults.TOPIC;
+                    break;
+                default:
+                    result = searchResults => searchResults.OUTCOMES;
+                    break;
+            }
+            return result;
+        }
     }
 }
