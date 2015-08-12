@@ -11,6 +11,7 @@ namespace ITAssessmentSystem.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class RUBRICS_DATA
     {
@@ -18,15 +19,35 @@ namespace ITAssessmentSystem.Models
         {
             this.ASSESSMENT_DATA = new HashSet<ASSESSMENT_DATA>();
         }
-    
+      
         public int RUBRIC_ROWID { get; set; }
+
+        [Display(Name = "Outcome")]
+        [Required]
         public string OUTCOMES { get; set; }
+
+        [Display(Name = "Department")]
+        [Required]
         public string DEPARTMENT_CD { get; set; }
+
+        [Display(Name = "Performance Indicator")]
+        [Required]
         public string PERFORMANCE_INDICATOR { get; set; }
+
+        [Display(Name = "Topic Name")]
+        [Required]
         public string TOPIC { get; set; }
+
+        [Display(Name = "Poor")]
         public string POOR { get; set; }
+
+        [Display(Name = "Developing")]
         public string DEVELOPING { get; set; }
+
+        [Display(Name = "Developed")]
         public string DEVELOPED { get; set; }
+
+        [Display(Name = "Exemplary")]
         public string EXEMPLARY { get; set; }
     
         public virtual ICollection<ASSESSMENT_DATA> ASSESSMENT_DATA { get; set; }

@@ -3,13 +3,18 @@
     Layout = "~/Views/Shared/_AdministratorLayout.cshtml";
 }
 
-<form role="form">
-    <br/>
-    <div class="form-group">
+@using (Ajax.BeginForm("Search", "Rubric", new AjaxOptions
+{
+    UpdateTargetId = "Rubric"
+}))
+{
+
+    <br />
+    <div class="container">
         
             @Html.Label("Select Department")
-        
-       
+
+
             @Html.DropDownList("DEPARTMENT", new SelectList(ViewBag.Departments, "Value", "Text"), new
             {
                 onchange = @"
@@ -19,7 +24,7 @@
         )
         
     </div>
-    
+
 
 
     <div id="PIndicator">
@@ -28,11 +33,11 @@
 
     <div class="form-group">
         <div class="col-md-10">
-            <input type="button" value="Search" class="btn btn-primary" onclick="getRubricTable(this);" />
+           
         </div>
     </div>
-</form>
-<br/>
+}
+<br />
 <div id="Rubric">
 
 </div>

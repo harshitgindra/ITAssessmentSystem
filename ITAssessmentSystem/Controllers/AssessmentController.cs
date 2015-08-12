@@ -49,6 +49,7 @@ namespace ITAssessmentSystem.Controllers
                 }
                 catch (Exception ex)
                 {
+                    ViewBag.ErrorMsg = "Unable to fetch data. Please contact the Assessment officer";
                     return View("Error");
                 }
             }
@@ -91,29 +92,37 @@ namespace ITAssessmentSystem.Controllers
                 }
                 catch (Exception ex)
                 {
-                    Response.WriteFile(ex.Message);
+                    Console.WriteLine(ex.Message);
+                    ViewBag.ErrorMsg = "Unable to save the data. Please retry again";
                     return View("Error");
                 }
-
             }
-
         }
-
-
 
 
         public ActionResult Submit(FormCollection f)
         {
             foreach (var item in Session["RubRowIDS"] as List<String>)
             {
-                var userInput = Int16.Parse(f[item]);
-                string sessionData = Session[item].ToString();
-                String[] data = sessionData.Split('-');
-                var result = Int16.Parse(data[userInput]) + 1;
-                data[userInput] = result.ToString();
-                sessionData = data[0] + "-" + data[1] + "-" + data[2] + "-" + data[3];
-                Session[item] = sessionData;
-                ViewBag.total = Int16.Parse(data[0]) + Int16.Parse(data[1]) + Int16.Parse(data[2]) + Int16.Parse(data[3]);
+                try
+                {
+
+
+                    var userInput = Int16.Parse(f[item]);
+                    string sessionData = Session[item].ToString();
+                    String[] data = sessionData.Split('-');
+                    var result = Int16.Parse(data[userInput]) + 1;
+                    data[userInput] = result.ToString();
+                    sessionData = data[0] + "-" + data[1] + "-" + data[2] + "-" + data[3];
+                    Session[item] = sessionData;
+                    ViewBag.total = Int16.Parse(data[0]) + Int16.Parse(data[1]) + Int16.Parse(data[2]) + Int16.Parse(data[3]);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    ViewBag.ErrorMsg = "Something went wrong. Please retry.";
+                    return View("Error");
+                }
             }
             return PartialView("_InstructorInput");
         }

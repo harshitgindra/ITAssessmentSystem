@@ -349,6 +349,7 @@
     <Content Include="Views\Shared\_InstructorLayout.cshtml" />
     <Content Include="Views\Rubric\MailResult.cshtml" />
     <Content Include="Views\Shared\_AdministratorLayout.cshtml" />
+    <Content Include="Views\Rubric\_InsertResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

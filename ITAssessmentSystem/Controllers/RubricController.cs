@@ -24,9 +24,13 @@ namespace ITAssessmentSystem.Controllers
 
         public ActionResult Create()
         {
-            DepartmentList departmentList = new DepartmentList();
-            ViewBag.Departments = departmentList.getDepartmentList();
-            return View();
+            using (var context = new assessmentEntities())
+            {
+                DepartmentList departmentList = new DepartmentList();
+                ViewBag.Departments = departmentList.getDepartmentList(context);
+                return View();
+            }
+
         }
 
         [HttpPost]
@@ -40,26 +44,28 @@ namespace ITAssessmentSystem.Controllers
                     {
                         context.RUBRICS_DATA.Add(rubricData);
                         context.SaveChanges();
+                        ViewBag.InsertionResult = "Rubric Successfully inserted.";
                     }
                     catch (Exception ex)
                     {
                         Response.Write(ex.Message);
+                        ViewBag.ErrorMsg = "Performance Indicator already Exist. Please check the input again";
                         return View("Error");
                     }
                     finally
                     {
                         DepartmentList departmentList = new DepartmentList();
-                        ViewBag.Departments = departmentList.getDepartmentList();
+                        ViewBag.Departments = departmentList.getDepartmentList(context);
                     }
                 }
-                return View();
+                return PartialView("_InsertResult");
             }
             else
             {
+                ViewBag.ErrorMsg = "Invalid Input entered.";
                 return View("Error");
             }
         }
-
 
         public ActionResult AllRubrics()
         {
@@ -68,10 +74,11 @@ namespace ITAssessmentSystem.Controllers
                 using (var context = new assessmentEntities())
                 {
                     DepartmentList departmentList = new DepartmentList();
-                    ViewBag.Departments = departmentList.getDepartmentList();
+                    ViewBag.Departments = departmentList.getDepartmentList(context);
                 }
                 return View();
             }
+            ViewBag.ErrorMsg = "Invalid option selected. No such record exist";
             return View("Error");
         }
 
@@ -83,18 +90,27 @@ namespace ITAssessmentSystem.Controllers
             return PartialView("_PerformanceIndicator");
         }
 
+        [HttpPost]
         public ActionResult Search(FormCollection f)
         {
             using (var context = new assessmentEntities())
             {
-                string Outcomes = f["Outcomes"].ToString();
-                string deptSelected = f["DEPARTMENT"].ToString();
-                var result = context.spRUBRICGETSEARCHRESULTS(deptSelected, Outcomes).ToList();
-                //saving variables for emailing
-                Session["Outcome"] = Outcomes;
-                Session["DEPARTMENT"] = deptSelected;
-
-                return PartialView("_Search", result);
+                try
+                {
+                    string Outcomes = f["Outcomes"].ToString();
+                    string deptSelected = f["DEPARTMENT"].ToString();
+                    var result = context.spRUBRICGETSEARCHRESULTS(deptSelected, Outcomes).ToList();
+                    //saving variables for emailing
+                    Session["Outcome"] = Outcomes;
+                    Session["DEPARTMENT"] = deptSelected;
+                    return PartialView("_Search", result);
+                }
+                catch (Exception ex)
+                {
+                    Response.Write(ex.Message);
+                    ViewBag.ErrorMsg = "Bad selection. No such rubric exist.";
+                    return View("Error");
+                }
             }
         }
 
@@ -102,7 +118,6 @@ namespace ITAssessmentSystem.Controllers
         {
             ProfessorList professorList = new ProfessorList();
             ViewBag.professorList = professorList.getProfessorListList();
-           
             return View();
         }
 
@@ -123,7 +138,8 @@ namespace ITAssessmentSystem.Controllers
             }
             else
             {
-                ViewBag.link = "Something went wrong. Retry";
+                ViewBag.ErrorMsg = "Unable to send the link to the Instructor. Please check the network connections or else try sending the link personally. Here it the link below \n" +
+                    "<h3>" + finalLink + "</h3>";
                 return View("Error");
             }
         }

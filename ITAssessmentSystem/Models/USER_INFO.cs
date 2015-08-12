@@ -11,6 +11,7 @@ namespace ITAssessmentSystem.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class USER_INFO
     {
@@ -18,8 +19,13 @@ namespace ITAssessmentSystem.Models
         {
             this.ASSESSMENT_DATA = new HashSet<ASSESSMENT_DATA>();
         }
-    
+
+        [Display(Name = "Instructor Name")]
+        [Required]
         public string INSTRUCTOR_NAME { get; set; }
+
+        [Display(Name = "Instructor Email-ID")]
+        [Required]
         public string INSTRUCTOR_EMAILID { get; set; }
     
         public virtual ICollection<ASSESSMENT_DATA> ASSESSMENT_DATA { get; set; }

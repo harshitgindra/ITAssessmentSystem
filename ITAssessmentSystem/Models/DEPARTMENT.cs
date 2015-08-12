@@ -11,6 +11,7 @@ namespace ITAssessmentSystem.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class DEPARTMENT
     {
@@ -19,8 +20,13 @@ namespace ITAssessmentSystem.Models
             this.ASSESSMENT_DATA = new HashSet<ASSESSMENT_DATA>();
             this.RUBRICS_DATA = new HashSet<RUBRICS_DATA>();
         }
-    
+
+        [Display(Name = "Department Code")]
+        [Required]
         public string DEPARTMENT_CD { get; set; }
+
+        [Display(Name = "Department Name")]
+        [Required]
         public string department_desc { get; set; }
     
         public virtual ICollection<ASSESSMENT_DATA> ASSESSMENT_DATA { get; set; }

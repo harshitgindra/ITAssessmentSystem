@@ -1,13 +1,10 @@
 ﻿
-<br/>
+<br />
 <div class="form-group">
     @Html.Label("Performance Indicator")
 
-    @Html.DropDownList("Outcomes", new SelectList(ViewBag.PIndicator, "Value", "Text")
-)
+    @Html.DropDownList("Outcomes", new SelectList(ViewBag.PIndicator, "Value", "Text"))
     <br />
 
-    </div>
-    @Scripts.Render("~/bundles/jquery")
-
-
+</div>
+<input type="submit" value="Search Again" class="btn btn-primary"/>

@@ -8,7 +8,7 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm())
+@using (Ajax.BeginForm("Create", "Rubric", new AjaxOptions { UpdateTargetId = "SaveResult" }))
 {
     @Html.AntiForgeryToken()
 
@@ -26,14 +26,9 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DEPARTMENT_CD, "DEPARTMENT_CD", new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.DEPARTMENT_CD, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("DEPARTMENT_CD", new SelectList(ViewBag.Departments, "Value", "Text"), new
-            {
-                onchange = @"
-                getDept(this.value)
-                "
-            }
+                @Html.DropDownList("DEPARTMENT_CD", new SelectList(ViewBag.Departments, "Value", "Text")
 )
             </div>
         </div>
@@ -95,6 +90,10 @@
         </div>
     </div>
 }
+
+<div id="SaveResult">
+
+</div>
 
 <div>
     @Html.ActionLink("Back to List", "Index")

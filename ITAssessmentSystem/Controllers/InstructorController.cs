@@ -11,13 +11,9 @@ namespace ITAssessmentSystem.Controllers
     {
         //
         // GET: /Instructor/
-        public ActionResult Index()
-        {
-            return View();
-        }
+        
         public ActionResult Insert()
         {
-
             return View();
         }
 
@@ -34,6 +30,7 @@ namespace ITAssessmentSystem.Controllers
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
+                    ViewBag.ErrorMsg = "Instructor Email ID already exist in the Database. Please use different one.";
                     return View("Error");
                 }
             }
@@ -41,7 +38,6 @@ namespace ITAssessmentSystem.Controllers
 
         public ActionResult AllInstructors()
         {
-
             using (var context = new assessmentEntities())
             {
                 try
@@ -52,6 +48,7 @@ namespace ITAssessmentSystem.Controllers
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
+                    ViewBag.ErrorMsg = "Something went wrong while fetching. Please retry after some time.";
                     return View("Error");
                 }
             }
@@ -71,6 +68,7 @@ namespace ITAssessmentSystem.Controllers
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
+                    ViewBag.ErrorMsg = "Unable to fetch the record. Please retry again.";
                     return View("Error");
                 }
             }
@@ -91,6 +89,7 @@ namespace ITAssessmentSystem.Controllers
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
+                    ViewBag.ErrorMsg = "Unable to edit the record. Please retry again.";
                     return View("Error");
                 }
             }
@@ -110,12 +109,10 @@ namespace ITAssessmentSystem.Controllers
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
+                    ViewBag.ErrorMsg = "The Record does not exist or has already been deleted.";
                     return View("Error");
                 }
-                finally
-                {
-
-                }
+               
             }
         }
     }
