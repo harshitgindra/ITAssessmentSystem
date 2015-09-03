@@ -1,0 +1,104 @@
+﻿@model ITAssessmentSystem.Models.RUBRICS_DATA
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_AdministratorLayout.cshtml";
+}
+
+<h2>Create</h2>
+
+
+@using (Ajax.BeginForm("Create", "Rubric", new AjaxOptions { UpdateTargetId = "SaveResult" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>RUBRICS_DATA</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.OUTCOMES, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.OUTCOMES)
+                @Html.ValidationMessageFor(model => model.OUTCOMES)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DEPARTMENT_CD, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("DEPARTMENT_CD", new SelectList(ViewBag.Departments, "Value", "Text")
+)
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PERFORMANCE_INDICATOR, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PERFORMANCE_INDICATOR)
+                @Html.ValidationMessageFor(model => model.PERFORMANCE_INDICATOR)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TOPIC, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TOPIC)
+                @Html.ValidationMessageFor(model => model.TOPIC)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.POOR, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.POOR)
+                @Html.ValidationMessageFor(model => model.POOR)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DEVELOPING, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DEVELOPING)
+                @Html.ValidationMessageFor(model => model.DEVELOPING)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DEVELOPED, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DEVELOPED)
+                @Html.ValidationMessageFor(model => model.DEVELOPED)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EXEMPLARY, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EXEMPLARY)
+                @Html.ValidationMessageFor(model => model.EXEMPLARY)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div id="SaveResult">
+
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -3,22 +3,25 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
 namespace ITAssessmentSystem.Controllers
 {
+    [AuthorizeUser(Users = "hgindra")]
     public class RubricController : Controller
     {
         //
         // GET: /Rubric/
 
-        //Reference for Dropdownlist :https://stackoverflow.com/questions/16594958/how-to-use-a-viewbag-to-create-a-dropdownlist
-        private readonly string link = "http://localhost:52704/Assessment/Reference?";
+        //private readonly string link = "http://localhost:52704/Assessment/Reference?";
+        private readonly string link = "http://iis.it.ilstu.edu/Assessment/Assessment/Reference?";
 
         public ActionResult Index()
         {
+            
             return View();
         }
 
@@ -30,7 +33,6 @@ namespace ITAssessmentSystem.Controllers
                 ViewBag.Departments = departmentList.getDepartmentList(context);
                 return View();
             }
-
         }
 
         [HttpPost]
@@ -69,6 +71,7 @@ namespace ITAssessmentSystem.Controllers
 
         public ActionResult AllRubrics()
         {
+            
             if (ModelState.IsValid)
             {
                 using (var context = new assessmentEntities())
@@ -141,6 +144,62 @@ namespace ITAssessmentSystem.Controllers
                 ViewBag.ErrorMsg = "Unable to send the link to the Instructor. Please check the network connections or else try sending the link personally. Here it the link below \n" +
                     "<h3>" + finalLink + "</h3>";
                 return View("Error");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Edit(int rubID)
+        {
+            using (var context = new assessmentEntities())
+            {
+                var results = context.RUBRICS_DATA.Where(rubid => rubid.RUBRIC_ROWID == rubID).SingleOrDefault();
+                return PartialView("_EditRubric", results);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SaveRubric(RUBRICS_DATA rubricData)
+        {
+            using (var context = new assessmentEntities())
+            {
+                context.spUPDATERUBRICDATA(rubricData.RUBRIC_ROWID, rubricData.OUTCOMES, rubricData.PERFORMANCE_INDICATOR, rubricData.TOPIC, rubricData.POOR, rubricData.DEVELOPING, rubricData.DEVELOPED, rubricData.EXEMPLARY);
+                context.SaveChanges();
+                var rubricRecord = context.spRUBRICSGETRECORD_RUBID(rubricData.RUBRIC_ROWID).SingleOrDefault();
+                return EditCancel(rubricData.RUBRIC_ROWID);
+            }
+        }
+
+
+        public PartialViewResult getRubricDetails(spRUBRICSGETRECORD_RUBID_Result rubricRecord, assessmentEntities context)
+        {
+            var results = context.spRUBRICGETSEARCHRESULTS(rubricRecord.DEPARTMENT_CD, rubricRecord.OUTCOMES).SingleOrDefault();
+            return PartialView("_Search", results);
+        }
+
+        public PartialViewResult EditCancel(int rowID)
+        {
+            using (var context = new assessmentEntities())
+            {
+                var rubricRecord = context.spRUBRICSGETRECORD_RUBID(rowID).SingleOrDefault();
+                spRUBRICGETSEARCHRESULTS_Result rubDetails = new spRUBRICGETSEARCHRESULTS_Result();
+                rubDetails.RUBRIC_ROWID = rubricRecord.RUBRIC_ROWID;
+                rubDetails.PERFORMANCE_INDICATOR = rubricRecord.PERFORMANCE_INDICATOR;
+                rubDetails.TOPIC = rubricRecord.TOPIC;
+                rubDetails.OUTCOMES = rubricRecord.OUTCOMES;
+                rubDetails.POOR = rubricRecord.POOR;
+                rubDetails.DEVELOPING = rubricRecord.DEVELOPING;
+                rubDetails.DEVELOPED = rubricRecord.DEVELOPED;
+                rubDetails.EXEMPLARY = rubricRecord.EXEMPLARY;
+                return PartialView("_RubricRows", rubDetails);
+            }
+        }
+
+        public void DeleteRubricRecord(int rubID)
+        {
+            using (var context = new assessmentEntities())
+            {
+                context.spRUBRIC_DELETE_RUBRICROW(rubID);
+                context.SaveChanges();
             }
         }
     }

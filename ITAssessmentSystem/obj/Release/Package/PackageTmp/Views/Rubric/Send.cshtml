@@ -1,0 +1,20 @@
+﻿@model ITAssessmentSystem.Models.USER_INFO
+
+@{
+    ViewBag.Title = "Send";
+    Layout = "~/Views/Shared/_AdministratorLayout.cshtml";
+}
+
+<h2>Send</h2>
+
+@using (Html.BeginForm("Send", "Rubric", FormMethod.Post))
+{
+    
+    @Html.DropDownList("InstructorList", new SelectList(ViewBag.professorList, "Value", "Text")
+)
+
+    <input type="submit" id="sendMail" class="btn btn-default" />
+}
+
+
+

@@ -17,10 +17,10 @@ namespace ITAssessmentSystem.Models
             using (var context = new assessmentEntities())
             {
                 //var result = context.RUBRICS_DATA.Where(x => x.DEPARTMENT_CD.Equals(id)).Select(x => x.PERFORMANCE_INDICATOR).Distinct().ToList();
-                var result = context.spRUBRICGETPERFORMANCEINDICATORS(dept);
+                var result = context.spRUBRICGETPERFORMANCEINDICATORS(dept).OrderBy(order=>order.outcomes);
                 foreach (var item in result)
                 {
-                    performanceIndicators.Add(new SelectListItem() { Text = item.performance_indicator, Value = item.outcomes });
+                    performanceIndicators.Add(new SelectListItem() { Text = item.outcomes +"-" +item.performance_indicator, Value = item.outcomes });
                 }
                 return performanceIndicators;
             }

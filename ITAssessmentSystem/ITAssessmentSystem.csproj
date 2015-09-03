@@ -17,8 +17,8 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -185,6 +185,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AssessmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InstructorController.cs" />
@@ -212,6 +213,7 @@
     <Compile Include="Models\ASSESSMENT_DATA.cs">
       <DependentUpon>Assessment.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AuthorizeUser.cs" />
     <Compile Include="Models\DEPARTMENT.cs">
       <DependentUpon>Assessment.tt</DependentUpon>
     </Compile>
@@ -266,6 +268,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Resources\CSS\Rubrics.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <EntityDeploy Include="Models\Assessment.edmx">
@@ -285,6 +288,7 @@
       <DependentUpon>Assessment.edmx</DependentUpon>
       <LastGenOutput>Assessment.cs</LastGenOutput>
     </Content>
+    <None Include="Properties\PublishProfiles\Trail-1.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -350,6 +354,12 @@
     <Content Include="Views\Rubric\MailResult.cshtml" />
     <Content Include="Views\Shared\_AdministratorLayout.cshtml" />
     <Content Include="Views\Rubric\_InsertResult.cshtml" />
+    <Content Include="Views\Rubric\_EditRubric.cshtml" />
+    <Content Include="Views\Rubric\_RubricRows.cshtml" />
+    <Content Include="Views\Home\Unauthorised.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Shared\_DefaultLayout.cshtml" />
+    <Content Include="Views\Shared\_RubricLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -99,29 +99,51 @@ namespace ITAssessmentSystem.Controllers
             }
         }
 
+        public bool VerifyInstructorInput(FormCollection formCollection, List<String> RubRowIDS)
+        {
+            bool isValid = true;
+            if (RubRowIDS != null)
+            {
+                foreach (var item in RubRowIDS)
+                {
+                    if (String.IsNullOrEmpty(formCollection[item]))
+                    {
+                        isValid = false;
+                    }
+                }
+            }
+            else
+            {
+                isValid = false;
+            }
+            return isValid;
+        }
+
 
         public ActionResult Submit(FormCollection f)
         {
-            foreach (var item in Session["RubRowIDS"] as List<String>)
+            if (VerifyInstructorInput(f, Session["RubRowIDS"] as List<String>))
             {
-                try
+                foreach (var item in Session["RubRowIDS"] as List<String>)
                 {
+                    try
+                    {
+                        var userInput = Int16.Parse(f[item]);
+                        string sessionData = Session[item].ToString();
+                        String[] data = sessionData.Split('-');
+                        var result = Int16.Parse(data[userInput]) + 1;
+                        data[userInput] = result.ToString();
+                        sessionData = data[0] + "-" + data[1] + "-" + data[2] + "-" + data[3];
+                        Session[item] = sessionData;
+                        ViewBag.total = Int16.Parse(data[0]) + Int16.Parse(data[1]) + Int16.Parse(data[2]) + Int16.Parse(data[3]);
+                    }
 
-
-                    var userInput = Int16.Parse(f[item]);
-                    string sessionData = Session[item].ToString();
-                    String[] data = sessionData.Split('-');
-                    var result = Int16.Parse(data[userInput]) + 1;
-                    data[userInput] = result.ToString();
-                    sessionData = data[0] + "-" + data[1] + "-" + data[2] + "-" + data[3];
-                    Session[item] = sessionData;
-                    ViewBag.total = Int16.Parse(data[0]) + Int16.Parse(data[1]) + Int16.Parse(data[2]) + Int16.Parse(data[3]);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    ViewBag.ErrorMsg = "Something went wrong. Please retry.";
-                    return View("Error");
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        ViewBag.ErrorMsg = "Something went wrong. Please retry.";
+                        return View("Error");
+                    }
                 }
             }
             return PartialView("_InstructorInput");

@@ -29,7 +29,7 @@ namespace ITAssessmentSystem.Models
             try
             {
                 mailClient.UseDefaultCredentials = true; // false;
-                //mailClient.Send(emailMessage);
+                mailClient.Send(emailMessage);
             }
             catch (Exception e)
             {

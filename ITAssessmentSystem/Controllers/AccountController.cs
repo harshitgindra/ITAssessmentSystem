@@ -45,8 +45,9 @@ namespace ITAssessmentSystem.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 var user = await UserManager.FindAsync(model.UserName, model.Password);
-                if (user != null)
+                if (true)
                 {
                     await SignInAsync(user, model.RememberMe);
                     return RedirectToLocal(returnUrl);

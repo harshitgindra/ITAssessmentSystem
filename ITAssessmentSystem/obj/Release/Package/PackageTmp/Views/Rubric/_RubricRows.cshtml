@@ -1,0 +1,55 @@
+﻿@model ITAssessmentSystem.Models.spRUBRICGETSEARCHRESULTS_Result
+
+
+<td>
+    @Html.DisplayFor(modelItem => Model.OUTCOMES)
+    @Html.Hidden("RubID", @Model.RUBRIC_ROWID)
+</td>
+<td>
+    @Html.DisplayFor(modelItem => Model.PERFORMANCE_INDICATOR)
+</td>
+<td>
+    @Html.DisplayFor(modelItem => Model.TOPIC)
+</td>
+<td>
+    @Html.DisplayFor(modelItem => Model.POOR)
+</td>
+<td>
+    @Html.DisplayFor(modelItem => Model.DEVELOPING)
+</td>
+<td>
+    @Html.DisplayFor(modelItem => Model.DEVELOPED)
+</td>
+<td>
+    @Html.DisplayFor(modelItem => Model.EXEMPLARY)
+</td>
+<td>
+    @Ajax.ActionLink("Edit", "Edit", "Rubric", new { rubID = Model.RUBRIC_ROWID }, new AjaxOptions
+           {
+               UpdateTargetId = Model.RUBRIC_ROWID.ToString()
+           },
+           new { @class = "btn btn-primary" })
+    <input type="button" value="Delete" id="@Model.RUBRIC_ROWID" onclick="ConfirmDelete(this)" />
+</td>
+
+<script>
+    function ConfirmDelete(ev) {
+        var confirmation = confirm("Are you sure?");
+        if (confirmation) {
+            $.ajax({
+                url: '@Url.Action("DeleteRubricRecord", "Rubric")',
+                data: { rubID: ev.id },
+                contentType: 'application/html ; charset:utf-8',
+                type: 'GET',
+                dataType: 'html'
+            }).success(function (result) {
+                var tbl = $('#' + ev.id);
+                tbl.empty();
+            }).error(function () {
+            });
+        }
+        else {
+            return false;
+        }
+    }
+</script>

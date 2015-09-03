@@ -19,7 +19,7 @@ namespace ITAssessmentSystem.Models
             var result = context.DEPARTMENTS.ToList();
             foreach (var item in result)
             {
-                departmentList.Add(new SelectListItem() { Text = item.department_desc, Value = item.DEPARTMENT_CD });
+                departmentList.Add(new SelectListItem() { Text = item.DEPARTMENT_DESC, Value = item.DEPARTMENT_CD });
             }
             return departmentList;
         }

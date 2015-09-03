@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ITAssessmentSystem.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,7 @@ namespace ITAssessmentSystem.Controllers
 {
     public class HomeController : Controller
     {
+        [AuthorizeUser(Users = "hgindra")]
         public ActionResult Index()
         {
             return View();
@@ -25,6 +27,16 @@ namespace ITAssessmentSystem.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public ActionResult Unauthorised()
+        {
+            return View();
+        }
+
+        public ActionResult Home()
+        {
+            return View("Index");
         }
 
     }

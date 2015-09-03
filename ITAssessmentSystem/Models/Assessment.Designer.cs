@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\Harshit\Documents\Visual Studio 2013\Projects\ITAssessmentSystem\ITAssessmentSystem\Models\Assessment.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\hgindra\Downloads\ITAssessmentSystem-master (1)\ITAssessmentSystem-master\ITAssessmentSystem\Models\Assessment.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
