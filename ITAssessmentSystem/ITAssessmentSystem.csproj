@@ -288,6 +288,8 @@
       <DependentUpon>Assessment.edmx</DependentUpon>
       <LastGenOutput>Assessment.cs</LastGenOutput>
     </Content>
+    <None Include="Properties\PublishProfiles\isuassessmentsystem - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\isuassessmentsystem - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\Trail-1.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />

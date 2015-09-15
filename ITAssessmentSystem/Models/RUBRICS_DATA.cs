@@ -44,6 +44,8 @@ public partial class RUBRICS_DATA
 
     public string EXEMPLARY { get; set; }
 
+    public Nullable<int> EXPECTATION_LEVEL { get; set; }
+
 
 
     public virtual ICollection<ASSESSMENT_DATA> ASSESSMENT_DATA { get; set; }

@@ -162,7 +162,7 @@ namespace ITAssessmentSystem.Controllers
         {
             using (var context = new assessmentEntities())
             {
-                context.spUPDATERUBRICDATA(rubricData.RUBRIC_ROWID, rubricData.OUTCOMES, rubricData.PERFORMANCE_INDICATOR, rubricData.TOPIC, rubricData.POOR, rubricData.DEVELOPING, rubricData.DEVELOPED, rubricData.EXEMPLARY);
+                context.spUPDATERUBRICDATA(rubricData.RUBRIC_ROWID, rubricData.OUTCOMES, rubricData.PERFORMANCE_INDICATOR, rubricData.TOPIC, rubricData.POOR, rubricData.DEVELOPING, rubricData.DEVELOPED, rubricData.EXEMPLARY, rubricData.EXPECTATION_LEVEL);
                 context.SaveChanges();
                 var rubricRecord = context.spRUBRICSGETRECORD_RUBID(rubricData.RUBRIC_ROWID).SingleOrDefault();
                 return EditCancel(rubricData.RUBRIC_ROWID);
@@ -190,6 +190,7 @@ namespace ITAssessmentSystem.Controllers
                 rubDetails.DEVELOPING = rubricRecord.DEVELOPING;
                 rubDetails.DEVELOPED = rubricRecord.DEVELOPED;
                 rubDetails.EXEMPLARY = rubricRecord.EXEMPLARY;
+                rubDetails.EXPECTATION_LEVEL = rubricRecord.EXPECTATION_LEVEL;
                 return PartialView("_RubricRows", rubDetails);
             }
         }

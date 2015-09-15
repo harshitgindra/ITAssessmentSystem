@@ -2,14 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Security.Principal;
 using System.Web.Mvc;
 
 namespace ITAssessmentSystem.Controllers
 {
+
     public class HomeController : Controller
     {
-        [AuthorizeUser(Users = "hgindra")]
+        
         public ActionResult Index()
         {
             return View();

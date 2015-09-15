@@ -43,6 +43,7 @@
           <Property Name="DEVELOPING" Type="nvarchar" MaxLength="2000" />
           <Property Name="DEVELOPED" Type="nvarchar" MaxLength="2000" />
           <Property Name="EXEMPLARY" Type="nvarchar" MaxLength="2000" />
+          <Property Name="EXPECTATION_LEVEL" Type="int" />
         </EntityType>
         <EntityType Name="USER_INFO">
           <Key>
@@ -146,6 +147,7 @@
           <Parameter Name="DEVELOPING" Type="nvarchar" Mode="In" />
           <Parameter Name="DEVELOPED" Type="nvarchar" Mode="In" />
           <Parameter Name="EXEMPLARY" Type="nvarchar" Mode="In" />
+          <Parameter Name="EXPECTED_LEVEL" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="assessmentModelStoreContainer">
           <EntitySet Name="ASSESSMENT_DATA" EntityType="Self.ASSESSMENT_DATA" Schema="dbo" store:Type="Tables" />
@@ -218,6 +220,7 @@
           <Property Name="EXEMPLARY" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ASSESSMENT_DATA" Relationship="Self.FK__ASSESSMEN__RUBRI__3B0BC30C" FromRole="RUBRICS_DATA" ToRole="ASSESSMENT_DATA" />
           <NavigationProperty Name="DEPARTMENT" Relationship="Self.FK__RUBRICS_D__DEPAR__382F5661" FromRole="RUBRICS_DATA" ToRole="DEPARTMENTS" />
+          <Property Name="EXPECTATION_LEVEL" Type="Int32" />
         </EntityType>
         <EntityType Name="USER_INFO">
           <Key>
@@ -341,9 +344,10 @@
             <Parameter Name="DEVELOPING" Mode="In" Type="String" />
             <Parameter Name="DEVELOPED" Mode="In" Type="String" />
             <Parameter Name="EXEMPLARY" Mode="In" Type="String" />
+            <Parameter Name="EXPECTED_LEVEL" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="spRUBRIC_DELETE_RUBRICROW">
-            <Parameter Name="RUBID" Mode="In" Type="Int32" />
+          <Parameter Name="RUBID" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="spINSTRUCTORGETALLRECORDS_Result">
@@ -436,6 +440,7 @@
           <EntitySetMapping Name="RUBRICS_DATA">
             <EntityTypeMapping TypeName="assessmentModel.RUBRICS_DATA">
               <MappingFragment StoreEntitySet="RUBRICS_DATA">
+                <ScalarProperty Name="EXPECTATION_LEVEL" ColumnName="EXPECTATION_LEVEL" />
                 <ScalarProperty Name="RUBRIC_ROWID" ColumnName="RUBRIC_ROWID" />
                 <ScalarProperty Name="OUTCOMES" ColumnName="OUTCOMES" />
                 <ScalarProperty Name="DEPARTMENT_CD" ColumnName="DEPARTMENT_CD" />

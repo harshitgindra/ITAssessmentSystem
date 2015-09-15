@@ -45,6 +45,7 @@
     <Property Name="EXEMPLARY" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="ASSESSMENT_DATA" Relationship="Self.FK__ASSESSMEN__RUBRI__3B0BC30C" FromRole="RUBRICS_DATA" ToRole="ASSESSMENT_DATA" />
     <NavigationProperty Name="DEPARTMENT" Relationship="Self.FK__RUBRICS_D__DEPAR__382F5661" FromRole="RUBRICS_DATA" ToRole="DEPARTMENTS" />
+    <Property Name="EXPECTATION_LEVEL" Type="Int32" />
   </EntityType>
   <EntityType Name="USER_INFO">
     <Key>

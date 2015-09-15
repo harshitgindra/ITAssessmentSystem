@@ -2,91 +2,96 @@
 @using PagedList.Mvc;
 @model IPagedList<ITAssessmentSystem.Models.spASSESSMENT_GETSEARCHRESULTS_Result>
 
-
 <table class="table">
     <tr>
         <th>
             @Html.ActionLink("Professor", "AllData", new { param = Request.QueryString["param"], page = 1, column = "Instructor", sortOrder = ViewBag.Order })
         </th>
         <th>
-
             @Html.ActionLink("Department", "AllData", new { param = Request.QueryString["param"], page = 1, column = "department", sortOrder = ViewBag.Order })
         </th>
         <th>
             @Html.ActionLink("SEMESTER", "AllData", new { param = Request.QueryString["param"], page = 1, column = "semester", sortOrder = ViewBag.Order })
         </th>
         <th>
-
             @Html.ActionLink("COURSE", "AllData", new { param = Request.QueryString["param"], page = 1, column = "course", sortOrder = ViewBag.Order })
         </th>
-        
         <th>
             @Html.ActionLink("PERFORMANCE_INDICATOR", "AllData", new { param = Request.QueryString["param"], page = 1, column = "performanceIndicator", sortOrder = ViewBag.Order })
         </th>
         <th>
-
             @Html.ActionLink("Topic", "AllData", new { param = Request.QueryString["param"], page = 1, column = "topic", sortOrder = ViewBag.Order })
         </th>
         <th>
             @Html.DisplayName("POOR")
         </th>
         <th>
-
             @Html.DisplayName("DEVELOPING")
         </th>
         <th>
-
             @Html.DisplayName("DEVELOPED")
         </th>
         <th>
-
             @Html.DisplayName("EXEMPLARY")
         </th>
-
-
-
-    </tr>
-
-    @foreach (var item in Model) {
-    <tr>
-        
-        <td>
-            @Html.DisplayFor(modelItem => item.INSTRUCTOR_NAME)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.department_desc)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SEMESTER)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.COURSE)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PERFORMANCE_INDICATOR)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TOPIC)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.POOR)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DEVELOPING)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DEVELOPED)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EXEMPLARY)
-        </td>
-       
-
-
+        <th>
+            @Html.DisplayName("Actual Level")
+        </th>
+        <th>
+            @Html.DisplayName("Expected Level")
+        </th>
 
     </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
 
+            <td>
+                @Html.DisplayFor(modelItem => item.INSTRUCTOR_NAME)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.department_desc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SEMESTER)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.COURSE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PERFORMANCE_INDICATOR)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TOPIC)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.POOR)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DEVELOPING)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DEVELOPED)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EXEMPLARY)
+            </td>
+            <td>
+                @{
+        ViewBag.ActualLevel = Math.Ceiling((double)((item.DEVELOPED + item.EXEMPLARY) /
+(double)(item.POOR + item.DEVELOPING + item.DEVELOPED + item.EXEMPLARY)) * 100);}
+                @ViewBag.ActualLevel%
+            </td>
+            <td></td>
+            @item.EXPECTATION_LEVEL
+        </tr>
+    }
 </table>
-
-@Html.PagedListPager(Model, page => Url.Action("AllData", "Results", new { page, param = Request.QueryString["param"], column = Request.QueryString["column"], sortOrder = Request.QueryString["sortOrder"] }))
+@Html.PagedListPager(Model, page => Url.Action("AllData", "Results",
+    new
+    {
+        page,
+        param = Request.QueryString["param"],
+        column = Request.QueryString["column"],
+        sortOrder = Request.QueryString["sortOrder"]
+    }))

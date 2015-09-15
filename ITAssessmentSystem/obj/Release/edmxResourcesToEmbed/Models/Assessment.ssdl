@@ -38,6 +38,7 @@
     <Property Name="DEVELOPING" Type="nvarchar" MaxLength="2000" />
     <Property Name="DEVELOPED" Type="nvarchar" MaxLength="2000" />
     <Property Name="EXEMPLARY" Type="nvarchar" MaxLength="2000" />
+    <Property Name="EXPECTATION_LEVEL" Type="int" />
   </EntityType>
   <EntityType Name="USER_INFO">
     <Key>

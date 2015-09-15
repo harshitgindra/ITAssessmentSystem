@@ -31,6 +31,7 @@
     <EntitySetMapping Name="RUBRICS_DATA">
       <EntityTypeMapping TypeName="assessmentModel.RUBRICS_DATA">
         <MappingFragment StoreEntitySet="RUBRICS_DATA">
+          <ScalarProperty Name="EXPECTATION_LEVEL" ColumnName="EXPECTATION_LEVEL" />
           <ScalarProperty Name="RUBRIC_ROWID" ColumnName="RUBRIC_ROWID" />
           <ScalarProperty Name="OUTCOMES" ColumnName="OUTCOMES" />
           <ScalarProperty Name="DEPARTMENT_CD" ColumnName="DEPARTMENT_CD" />

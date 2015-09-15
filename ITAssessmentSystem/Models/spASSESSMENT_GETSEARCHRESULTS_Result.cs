@@ -12,69 +12,72 @@
 namespace ITAssessmentSystem.Models
 {
 
-using System;
+    using System;
     using System.Linq.Expressions;
-    
-public partial class spASSESSMENT_GETSEARCHRESULTS_Result
-{
 
-    public int DATA_ROWID { get; set; }
-
-    public string OUTCOMES { get; set; }
-
-    public string DEPARTMENT_CD { get; set; }
-
-    public string INSTRUCTOR_EMAILID { get; set; }
-
-    public string SEMESTER { get; set; }
-
-    public string COURSE { get; set; }
-
-    public string PERFORMANCE_INDICATOR { get; set; }
-
-    public string TOPIC { get; set; }
-
-    public Nullable<int> POOR { get; set; }
-
-    public Nullable<int> DEVELOPING { get; set; }
-
-    public Nullable<int> DEVELOPED { get; set; }
-
-    public Nullable<int> EXEMPLARY { get; set; }
-
-    public string INSTRUCTOR_NAME { get; set; }
-
-    public string department_desc { get; set; }
-
-    internal static Expression<Func<spASSESSMENT_GETSEARCHRESULTS_Result, string>> Order(string column)
+    public partial class spASSESSMENT_GETSEARCHRESULTS_Result
     {
-        Expression<Func<spASSESSMENT_GETSEARCHRESULTS_Result, string>> result = null;
-        switch (column)
+
+        public int DATA_ROWID { get; set; }
+
+        public string OUTCOMES { get; set; }
+
+        public string DEPARTMENT_CD { get; set; }
+
+        public string INSTRUCTOR_EMAILID { get; set; }
+
+        public string SEMESTER { get; set; }
+
+        public string COURSE { get; set; }
+
+        public string PERFORMANCE_INDICATOR { get; set; }
+
+        public string TOPIC { get; set; }
+
+        public Nullable<int> POOR { get; set; }
+
+        public Nullable<int> DEVELOPING { get; set; }
+
+        public Nullable<int> DEVELOPED { get; set; }
+
+        public Nullable<int> EXEMPLARY { get; set; }
+
+        public string INSTRUCTOR_NAME { get; set; }
+
+        public Nullable<int> EXPECTATION_LEVEL { get; set; }
+
+        public string department_desc { get; set; }
+
+        internal static Expression<Func<spASSESSMENT_GETSEARCHRESULTS_Result, string>> Order(string column)
         {
-            case "semester":
-                result = searchResults => searchResults.SEMESTER;
-                break;
-            case "course":
-                result = searchResults => searchResults.COURSE;
-                break;
-            case "performanceIndicator":
-                result = searchResults => searchResults.PERFORMANCE_INDICATOR;
-                break;
-            case "department":
-                result = searchResults => searchResults.department_desc;
-                break;
-            case "Instructor":
-                result = searchResults => searchResults.INSTRUCTOR_NAME;
-                break;
-            case "topic":
-                result = searchResults => searchResults.TOPIC;
-                break;
-            default:
-                result = searchResults => searchResults.OUTCOMES;
-                break;
+            Expression<Func<spASSESSMENT_GETSEARCHRESULTS_Result, string>> result = null;
+            switch (column)
+            {
+                case "semester":
+                    result = searchResults => searchResults.SEMESTER;
+                    break;
+                case "course":
+                    result = searchResults => searchResults.COURSE;
+                    break;
+                case "performanceIndicator":
+                    result = searchResults => searchResults.PERFORMANCE_INDICATOR;
+                    break;
+                case "department":
+                    result = searchResults => searchResults.department_desc;
+                    break;
+                case "Instructor":
+                    result = searchResults => searchResults.INSTRUCTOR_NAME;
+                    break;
+                case "topic":
+                    result = searchResults => searchResults.TOPIC;
+                    break;
+                default:
+                    result = searchResults => searchResults.OUTCOMES;
+                    break;
+            }
+            return result;
         }
-        return result;
     }
-}
 
 }
+

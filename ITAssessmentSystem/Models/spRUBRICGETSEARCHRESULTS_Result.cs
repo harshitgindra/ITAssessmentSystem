@@ -35,6 +35,8 @@ public partial class spRUBRICGETSEARCHRESULTS_Result
 
     public string EXEMPLARY { get; set; }
 
+    public Nullable<int> EXPECTATION_LEVEL { get; set; }
+
 }
 
 }

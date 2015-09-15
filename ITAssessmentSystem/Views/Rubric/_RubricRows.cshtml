@@ -24,6 +24,9 @@
     @Html.DisplayFor(modelItem => Model.EXEMPLARY)
 </td>
 <td>
+    @Html.DisplayFor(modelItem => Model.EXPECTATION_LEVEL)
+</td>
+<td>
     @Ajax.ActionLink("Edit", "Edit", "Rubric", new { rubID = Model.RUBRIC_ROWID }, new AjaxOptions
            {
                UpdateTargetId = Model.RUBRIC_ROWID.ToString()

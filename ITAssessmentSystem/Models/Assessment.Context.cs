@@ -198,7 +198,7 @@ public partial class assessmentEntities : DbContext
     }
 
 
-    public virtual int spUPDATERUBRICDATA(Nullable<int> rUBRIC_ROWID, string oUTCOMES, string pERFORMANCE_INDICATOR, string tOPIC, string pOOR, string dEVELOPING, string dEVELOPED, string eXEMPLARY)
+    public virtual int spUPDATERUBRICDATA(Nullable<int> rUBRIC_ROWID, string oUTCOMES, string pERFORMANCE_INDICATOR, string tOPIC, string pOOR, string dEVELOPING, string dEVELOPED, string eXEMPLARY, Nullable<int> eXPECTED_LEVEL)
     {
 
         var rUBRIC_ROWIDParameter = rUBRIC_ROWID.HasValue ?
@@ -241,7 +241,12 @@ public partial class assessmentEntities : DbContext
             new ObjectParameter("EXEMPLARY", typeof(string));
 
 
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spUPDATERUBRICDATA", rUBRIC_ROWIDParameter, oUTCOMESParameter, pERFORMANCE_INDICATORParameter, tOPICParameter, pOORParameter, dEVELOPINGParameter, dEVELOPEDParameter, eXEMPLARYParameter);
+        var eXPECTED_LEVELParameter = eXPECTED_LEVEL.HasValue ?
+            new ObjectParameter("EXPECTED_LEVEL", eXPECTED_LEVEL) :
+            new ObjectParameter("EXPECTED_LEVEL", typeof(int));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spUPDATERUBRICDATA", rUBRIC_ROWIDParameter, oUTCOMESParameter, pERFORMANCE_INDICATORParameter, tOPICParameter, pOORParameter, dEVELOPINGParameter, dEVELOPEDParameter, eXEMPLARYParameter, eXPECTED_LEVELParameter);
     }
 
 

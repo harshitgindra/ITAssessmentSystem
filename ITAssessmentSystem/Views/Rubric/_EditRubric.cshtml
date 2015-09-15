@@ -1,31 +1,33 @@
 ﻿@model ITAssessmentSystem.Models.RUBRICS_DATA
-    <td colspan="8">
-        @using (Ajax.BeginForm("SaveRubric", "Rubric", new AjaxOptions { UpdateTargetId = Model.RUBRIC_ROWID.ToString() }))
+<td colspan="9">
+    @using (Ajax.BeginForm("SaveRubric", "Rubric", new AjaxOptions { UpdateTargetId = Model.RUBRIC_ROWID.ToString() }))
 {
-
-    <table class="table fixedTable">
+    <table class="table fixedTable" cellpadding="5">
         <tr>
             <td>
                 @Html.HiddenFor(model => model.RUBRIC_ROWID)
-                @Html.TextAreaFor(model => model.OUTCOMES, new { @cols = 5, @rows = 1 })
+                @Html.TextAreaFor(model => model.OUTCOMES)
             </td>
             <td>
-                @Html.TextAreaFor(model => model.PERFORMANCE_INDICATOR, new { @cols = 20, @rows = 4 })
+                @Html.TextAreaFor(model => model.PERFORMANCE_INDICATOR, new { @rows = 4 })
             </td>
             <td>
-                @Html.TextAreaFor(model => model.TOPIC, new { @cols = 20, @rows = 4 })
+                @Html.TextAreaFor(model => model.TOPIC, new { @rows = 4 })
             </td>
             <td>
-                @Html.TextAreaFor(model => model.POOR, new { @cols = 20, @rows = 4 })
+                @Html.TextAreaFor(model => model.POOR, new { @rows = 4 })
             </td>
             <td>
-                @Html.TextAreaFor(model => model.DEVELOPING, new { @cols = 20, @rows = 4 })
+                @Html.TextAreaFor(model => model.DEVELOPING, new { @rows = 4 })
             </td>
             <td>
-                @Html.TextAreaFor(model => model.DEVELOPED, new { @cols = 20, @rows = 4 })
+                @Html.TextAreaFor(model => model.DEVELOPED, new { @rows = 4 })
             </td>
             <td>
-                @Html.TextAreaFor(model => model.EXEMPLARY, new { @cols = 20, @rows = 4 })
+                @Html.TextAreaFor(model => model.EXEMPLARY, new { @rows = 4 })
+            </td>
+            <td>
+                @Html.TextAreaFor(model => model.EXPECTATION_LEVEL)
             </td>
             <td>
                 <input type="submit" value="Save" class="btn btn-default" />
@@ -39,7 +41,4 @@
         </tr>
     </table>
 }
-    </td>
-
-
-
+</td>
