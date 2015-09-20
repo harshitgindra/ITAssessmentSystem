@@ -12,7 +12,6 @@ using ITAssessmentSystem.Models;
 
 namespace ITAssessmentSystem.Controllers
 {
-    [Authorize]
     public class AccountController : Controller
     {
         public AccountController()
@@ -24,6 +23,8 @@ namespace ITAssessmentSystem.Controllers
         {
             UserManager = userManager;
         }
+
+        
 
         public UserManager<ApplicationUser> UserManager { get; private set; }
 

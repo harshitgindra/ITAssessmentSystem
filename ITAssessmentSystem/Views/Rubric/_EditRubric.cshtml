@@ -3,7 +3,7 @@
     @using (Ajax.BeginForm("SaveRubric", "Rubric", new AjaxOptions { UpdateTargetId = Model.RUBRIC_ROWID.ToString() }))
 {
     <table class="table fixedTable" cellpadding="5">
-        <tr>
+        <tr id="@Model.RUBRIC_ROWID">
             <td>
                 @Html.HiddenFor(model => model.RUBRIC_ROWID)
                 @Html.TextAreaFor(model => model.OUTCOMES)

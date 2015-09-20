@@ -1,4 +1,4 @@
-﻿@model ITAssessmentSystem.Models.spRUBRICGETSEARCHRESULTS_Result
+﻿@model ITAssessmentSystem.Models.RUBRICS_DATA
 
 
 <td>
@@ -22,6 +22,9 @@
 </td>
 <td>
     @Html.DisplayFor(modelItem => Model.EXEMPLARY)
+</td>
+<td>
+    @Html.DisplayFor(modelItem => Model.EXPECTATION_LEVEL)
 </td>
 <td>
     @Ajax.ActionLink("Edit", "Edit", "Rubric", new { rubID = Model.RUBRIC_ROWID }, new AjaxOptions

@@ -288,7 +288,9 @@
       <DependentUpon>Assessment.edmx</DependentUpon>
       <LastGenOutput>Assessment.cs</LastGenOutput>
     </Content>
+    <None Include="Properties\PublishProfiles\isuassessmentsystem - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\isuassessmentsystem - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\isuassessmentsystem - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\isuassessmentsystem - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\Trail-1.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
@@ -308,6 +310,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Home\Unauthorised.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -358,10 +361,11 @@
     <Content Include="Views\Rubric\_InsertResult.cshtml" />
     <Content Include="Views\Rubric\_EditRubric.cshtml" />
     <Content Include="Views\Rubric\_RubricRows.cshtml" />
-    <Content Include="Views\Home\Unauthorised.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Shared\_DefaultLayout.cshtml" />
     <Content Include="Views\Shared\_RubricLayout.cshtml" />
+    <Content Include="Views\Home\AboutUs.cshtml" />
+    <Content Include="Views\Home\Tutorial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

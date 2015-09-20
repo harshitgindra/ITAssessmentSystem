@@ -12,7 +12,6 @@ using System.Linq.Expressions;
 
 namespace ITAssessmentSystem.Controllers
 {
-    [AuthorizeUser(Users = "hgindra")]
     public class ResultsController : Controller
     {
         //

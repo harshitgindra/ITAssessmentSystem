@@ -169,6 +169,7 @@
       <Parameter Name="DEVELOPING" Mode="In" Type="String" />
       <Parameter Name="DEVELOPED" Mode="In" Type="String" />
       <Parameter Name="EXEMPLARY" Mode="In" Type="String" />
+      <Parameter Name="EXPECTED_LEVEL" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="spRUBRIC_DELETE_RUBRICROW">
       <Parameter Name="RUBID" Mode="In" Type="Int32" />

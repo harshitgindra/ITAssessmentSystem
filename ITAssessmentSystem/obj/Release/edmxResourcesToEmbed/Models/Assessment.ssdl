@@ -142,6 +142,7 @@
     <Parameter Name="DEVELOPING" Type="nvarchar" Mode="In" />
     <Parameter Name="DEVELOPED" Type="nvarchar" Mode="In" />
     <Parameter Name="EXEMPLARY" Type="nvarchar" Mode="In" />
+    <Parameter Name="EXPECTED_LEVEL" Type="int" Mode="In" />
   </Function>
   <EntityContainer Name="assessmentModelStoreContainer">
     <EntitySet Name="ASSESSMENT_DATA" EntityType="Self.ASSESSMENT_DATA" Schema="dbo" store:Type="Tables" />

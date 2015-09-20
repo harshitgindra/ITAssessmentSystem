@@ -1,24 +1,22 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Home Page";
     Layout = "~/Views/Shared/_AdministratorLayout.cshtml";
+
 }
-
 <div class="jumbotron">
-    <h2>Admin Panel</h2>
-    <h4>@ViewBag.UserName</h4>
+    <h1>IT Assessment System</h1>
+    <p class="lead">This application helps the instructor of Illinois State University to submit feedback for the students.</p>
 </div>
-<div class="row">
-    <div class="col-md-4">
-        <h2>Check all Rubrics</h2>
-        @Html.ActionLink("Click Here", "AllRubric", "Rubric", new { @class = "btn btn-primary" })
+<div class="well row">
+    <div class="col-md-6">
+        
+        <div class="panel-body">
+            @Html.ActionLink("Tutorial", "Tutorial", "Home", new { @class = "btn btn-primary" })
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Instructor List</h2>
-        @Html.ActionLink("Click Here", "AllInstructors", "Instructor", new { @class = "btn btn-primary" })
-    </div>
-    <div class="col-md-4">
-        <h2>Assessment Data</h2>
-        @Html.ActionLink("Click Here", "AllData", "Result", new { @class = "btn btn-primary" })
+    <div class="col-md-6">
+        <div class="panel-body">
+            @Html.ActionLink("About us", "AboutUs", "Home", new { @class = "btn btn-primary" })
+        </div>
     </div>
 </div>
-

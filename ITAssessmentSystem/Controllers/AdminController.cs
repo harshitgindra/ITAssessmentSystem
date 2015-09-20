@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace ITAssessmentSystem.Controllers
 {
-    [AuthorizeUser(Users = "hgindra")]
+    
     public class AdminController : Controller
     {
         //
