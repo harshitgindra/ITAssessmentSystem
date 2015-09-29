@@ -19,7 +19,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/12/2015 00:47:26</publishTime>
     </File>
     <File Include="bin/ITAssessmentSystem.dll">
-      <publishTime>09/13/2015 17:24:24</publishTime>
+      <publishTime>09/25/2015 09:47:21</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
       <publishTime>08/12/2015 00:47:27</publishTime>
@@ -151,7 +151,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/13/2015 22:02:42</publishTime>
     </File>
     <File Include="Resources/CSS/Rubrics.css">
-      <publishTime>09/02/2015 21:25:20</publishTime>
+      <publishTime>09/25/2015 09:44:18</publishTime>
     </File>
     <File Include="Scripts/bootstrap.js">
       <publishTime>08/12/2015 00:47:22</publishTime>
@@ -277,13 +277,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/12/2015 00:47:23</publishTime>
     </File>
     <File Include="Views/Results/AllData.cshtml">
-      <publishTime>08/13/2015 21:47:03</publishTime>
+      <publishTime>09/25/2015 09:37:06</publishTime>
     </File>
     <File Include="Views/Results/_AllData.cshtml">
-      <publishTime>09/13/2015 14:46:11</publishTime>
+      <publishTime>09/25/2015 09:38:58</publishTime>
     </File>
     <File Include="Views/Rubric/AllRubrics.cshtml">
-      <publishTime>09/02/2015 23:55:18</publishTime>
+      <publishTime>09/25/2015 09:42:30</publishTime>
     </File>
     <File Include="Views/Rubric/Create.cshtml">
       <publishTime>09/13/2015 14:07:53</publishTime>
@@ -301,7 +301,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/12/2015 00:47:23</publishTime>
     </File>
     <File Include="Views/Rubric/_EditRubric.cshtml">
-      <publishTime>09/13/2015 14:53:16</publishTime>
+      <publishTime>09/25/2015 09:44:08</publishTime>
     </File>
     <File Include="Views/Rubric/_GenerateLink.cshtml">
       <publishTime>08/12/2015 00:47:23</publishTime>
@@ -310,13 +310,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/12/2015 00:47:23</publishTime>
     </File>
     <File Include="Views/Rubric/_PerformanceIndicator.cshtml">
-      <publishTime>08/13/2015 21:33:07</publishTime>
+      <publishTime>09/25/2015 09:48:22</publishTime>
     </File>
     <File Include="Views/Rubric/_RubricRows.cshtml">
-      <publishTime>09/02/2015 21:21:39</publishTime>
+      <publishTime>09/25/2015 09:44:27</publishTime>
     </File>
     <File Include="Views/Rubric/_Search.cshtml">
-      <publishTime>09/02/2015 21:24:58</publishTime>
+      <publishTime>09/25/2015 09:44:31</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>08/12/2015 00:47:23</publishTime>

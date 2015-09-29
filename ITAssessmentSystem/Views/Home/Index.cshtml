@@ -1,22 +1,33 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
-    Layout = "~/Views/Shared/_AdministratorLayout.cshtml";
-
+    ViewBag.Title = "Home";
+     Layout = "~/Views/Shared/_DefaultLayout.cshtml";
 }
 <div class="jumbotron">
-    <h1>IT Assessment System</h1>
-    <p class="lead">This application helps the instructor of Illinois State University to submit feedback for the students.</p>
-</div>
-<div class="well row">
-    <div class="col-md-6">
-        
-        <div class="panel-body">
-            @Html.ActionLink("Tutorial", "Tutorial", "Home", new { @class = "btn btn-primary" })
+    <h2>Login</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary()
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.Label("UserName", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBox("UserName")
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Password", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Password("Password")
+
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Login" />
+            </div>
         </div>
-    </div>
-    <div class="col-md-6">
-        <div class="panel-body">
-            @Html.ActionLink("About us", "AboutUs", "Home", new { @class = "btn btn-primary" })
-        </div>
-    </div>
+    }
 </div>
+

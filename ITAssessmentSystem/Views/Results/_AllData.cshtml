@@ -2,7 +2,7 @@
 @using PagedList.Mvc;
 @model IPagedList<ITAssessmentSystem.Models.spASSESSMENT_GETSEARCHRESULTS_Result>
 
-<table class="table">
+<table class="table table-bordered">
     <tr>
         <th>
             @Html.ActionLink("Professor", "AllData", new { param = Request.QueryString["param"], page = 1, column = "Instructor", sortOrder = ViewBag.Order })
@@ -11,28 +11,28 @@
             @Html.ActionLink("Department", "AllData", new { param = Request.QueryString["param"], page = 1, column = "department", sortOrder = ViewBag.Order })
         </th>
         <th>
-            @Html.ActionLink("SEMESTER", "AllData", new { param = Request.QueryString["param"], page = 1, column = "semester", sortOrder = ViewBag.Order })
+            @Html.ActionLink("Semester", "AllData", new { param = Request.QueryString["param"], page = 1, column = "semester", sortOrder = ViewBag.Order })
         </th>
         <th>
-            @Html.ActionLink("COURSE", "AllData", new { param = Request.QueryString["param"], page = 1, column = "course", sortOrder = ViewBag.Order })
+            @Html.ActionLink("Course", "AllData", new { param = Request.QueryString["param"], page = 1, column = "course", sortOrder = ViewBag.Order })
         </th>
         <th>
-            @Html.ActionLink("PERFORMANCE_INDICATOR", "AllData", new { param = Request.QueryString["param"], page = 1, column = "performanceIndicator", sortOrder = ViewBag.Order })
+            @Html.ActionLink("Performance Indicator", "AllData", new { param = Request.QueryString["param"], page = 1, column = "performanceIndicator", sortOrder = ViewBag.Order })
         </th>
         <th>
             @Html.ActionLink("Topic", "AllData", new { param = Request.QueryString["param"], page = 1, column = "topic", sortOrder = ViewBag.Order })
         </th>
         <th>
-            @Html.DisplayName("POOR")
+            @Html.DisplayName("Poor")
         </th>
         <th>
-            @Html.DisplayName("DEVELOPING")
+            @Html.DisplayName("Developing")
         </th>
         <th>
-            @Html.DisplayName("DEVELOPED")
+            @Html.DisplayName("Developed")
         </th>
         <th>
-            @Html.DisplayName("EXEMPLARY")
+            @Html.DisplayName("Exemplary")
         </th>
         <th>
             @Html.DisplayName("Actual Level")
@@ -78,8 +78,8 @@
             </td>
             <td>
                 @{
-        ViewBag.ActualLevel = Math.Ceiling((double)((item.DEVELOPED + item.EXEMPLARY) /
-(double)(item.POOR + item.DEVELOPING + item.DEVELOPED + item.EXEMPLARY)) * 100);}
+                     ViewBag.ActualLevel = Math.Ceiling((double)((item.DEVELOPED + item.EXEMPLARY) /
+                     (double)(item.POOR + item.DEVELOPING + item.DEVELOPED + item.EXEMPLARY)) * 100);}
                 @ViewBag.ActualLevel%
             </td>
             <td></td>

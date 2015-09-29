@@ -5,6 +5,14 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="assessmentModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ADMIN_LOGIN">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ADMIN_USERNAME" Type="nvarchar" MaxLength="100" />
+          <Property Name="ADMIN_PASSWORD" Type="nvarchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="ASSESSMENT_DATA">
           <Key>
             <PropertyRef Name="DATA_ROWID" />
@@ -125,6 +133,10 @@
         <Function Name="spINSTRUCTORGETDETAILS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="InstructorEmailID" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="spLOGIN" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="adminUsername" Type="nvarchar" Mode="In" />
+          <Parameter Name="adminPassword" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="spRUBRIC_DELETE_RUBRICROW" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RUBID" Type="int" Mode="In" />
         </Function>
@@ -150,6 +162,7 @@
           <Parameter Name="EXPECTED_LEVEL" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="assessmentModelStoreContainer">
+          <EntitySet Name="ADMIN_LOGIN" EntityType="Self.ADMIN_LOGIN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ASSESSMENT_DATA" EntityType="Self.ASSESSMENT_DATA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DEPARTMENTS" EntityType="Self.DEPARTMENTS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RUBRICS_DATA" EntityType="Self.RUBRICS_DATA" Schema="dbo" store:Type="Tables" />
@@ -349,6 +362,11 @@
           <FunctionImport Name="spRUBRIC_DELETE_RUBRICROW">
           <Parameter Name="RUBID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="ADMIN_LOGIN" EntityType="assessmentModel.ADMIN_LOGIN" />
+          <FunctionImport Name="spLOGIN" ReturnType="Collection(assessmentModel.spLOGIN_Result)">
+            <Parameter Name="adminUsername" Mode="In" Type="String" />
+            <Parameter Name="adminPassword" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="spINSTRUCTORGETALLRECORDS_Result">
           <Property Type="String" Name="INSTRUCTOR_NAME" Nullable="false" MaxLength="50" />
@@ -403,6 +421,19 @@
           <Property Type="Int32" Name="EXEMPLARY" Nullable="true" />
           <Property Type="String" Name="INSTRUCTOR_NAME" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="department_desc" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <EntityType Name="ADMIN_LOGIN">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ADMIN_USERNAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ADMIN_PASSWORD" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <ComplexType Name="spLOGIN_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="ADMIN_USERNAME" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ADMIN_PASSWORD" Nullable="true" MaxLength="100" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -542,6 +573,24 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spUPDATERUBRICDATA" FunctionName="assessmentModel.Store.spUPDATERUBRICDATA" />
           <FunctionImportMapping FunctionImportName="spRUBRIC_DELETE_RUBRICROW" FunctionName="assessmentModel.Store.spRUBRIC_DELETE_RUBRICROW" />
+          <EntitySetMapping Name="ADMIN_LOGIN">
+            <EntityTypeMapping TypeName="assessmentModel.ADMIN_LOGIN">
+              <MappingFragment StoreEntitySet="ADMIN_LOGIN">
+                <ScalarProperty Name="ADMIN_PASSWORD" ColumnName="ADMIN_PASSWORD" />
+                <ScalarProperty Name="ADMIN_USERNAME" ColumnName="ADMIN_USERNAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spLOGIN" FunctionName="assessmentModel.Store.spLOGIN">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="assessmentModel.spLOGIN_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ADMIN_USERNAME" ColumnName="ADMIN_USERNAME" />
+                <ScalarProperty Name="ADMIN_PASSWORD" ColumnName="ADMIN_PASSWORD" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -12,6 +12,7 @@ using System.Linq.Expressions;
 
 namespace ITAssessmentSystem.Controllers
 {
+     [Authorize]
     public class ResultsController : Controller
     {
         //

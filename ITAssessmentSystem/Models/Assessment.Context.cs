@@ -43,6 +43,8 @@ public partial class assessmentEntities : DbContext
 
     public virtual DbSet<USER_INFO> USER_INFO { get; set; }
 
+    public virtual DbSet<ADMIN_LOGIN> ADMIN_LOGIN { get; set; }
+
 
     public virtual int spInstructorAddNew(string instructorName, string instructorEmailID)
     {
@@ -259,6 +261,23 @@ public partial class assessmentEntities : DbContext
 
 
         return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spRUBRIC_DELETE_RUBRICROW", rUBIDParameter);
+    }
+
+
+    public virtual ObjectResult<spLOGIN_Result> spLOGIN(string adminUsername, string adminPassword)
+    {
+
+        var adminUsernameParameter = adminUsername != null ?
+            new ObjectParameter("adminUsername", adminUsername) :
+            new ObjectParameter("adminUsername", typeof(string));
+
+
+        var adminPasswordParameter = adminPassword != null ?
+            new ObjectParameter("adminPassword", adminPassword) :
+            new ObjectParameter("adminPassword", typeof(string));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spLOGIN_Result>("spLOGIN", adminUsernameParameter, adminPasswordParameter);
     }
 
 }

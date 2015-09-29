@@ -63,13 +63,12 @@ namespace ITAssessmentSystem.Controllers
             bool status = false;
             using (var context = new assessmentEntities())
             {
-
                 try
                 {
                     ASSESSMENT_DATA assessmentData = new ASSESSMENT_DATA();
                     assessmentData.COURSE = f["Course"].ToString();
                     assessmentData.DEPARTMENT_CD = f["Department"].ToString();
-                    assessmentData.SEMESTER = f["Semester"].ToString();
+                    assessmentData.SEMESTER = f["Semester"].ToString() + f["Year"].ToString();
                     assessmentData.INSTRUCTOR_EMAILID = f["Instructor_Email"].ToString();
                     assessmentData.OUTCOMES = f["Outcome"].ToString();
                     foreach (var item in Session["RubRowIDS"] as List<String>)
@@ -81,19 +80,28 @@ namespace ITAssessmentSystem.Controllers
                         assessmentData.DEVELOPING = Int16.Parse(data[1]);
                         assessmentData.DEVELOPED = Int16.Parse(data[2]);
                         assessmentData.EXEMPLARY = Int16.Parse(data[3]);
-                        var rubID = Int16.Parse(item);
-                        var rubricRecord = context.spRUBRICSGETRECORD_RUBID(rubID).ToList();
-                        assessmentData.PERFORMANCE_INDICATOR = rubricRecord.SingleOrDefault().PERFORMANCE_INDICATOR;
-                        assessmentData.TOPIC = rubricRecord.SingleOrDefault().TOPIC;
-                        var result = context.ASSESSMENT_DATA.Add(assessmentData);
-                        context.SaveChanges();
+                        if (assessmentData.POOR + assessmentData.DEVELOPING + assessmentData.DEVELOPED + assessmentData.EXEMPLARY != 0)
+                        {
+                            var rubID = Int16.Parse(item);
+                            var rubricRecord = context.spRUBRICSGETRECORD_RUBID(rubID).ToList();
+                            assessmentData.PERFORMANCE_INDICATOR = rubricRecord.SingleOrDefault().PERFORMANCE_INDICATOR;
+                            assessmentData.TOPIC = rubricRecord.SingleOrDefault().TOPIC;
+                            var result = context.ASSESSMENT_DATA.Add(assessmentData);
+                            context.SaveChanges();
+                        }
+                        else
+                        {
+                            ViewBag.ErrorMsg = "Please input at least one record for assessment";
+                            return View("Error");
+                        }
+
                     }
                     return View("Success");
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    ViewBag.ErrorMsg = "Unable to save the data. Please retry again";
+                    ViewBag.ErrorMsg = "Please complete all form fields.";
                     return View("Error");
                 }
             }
@@ -120,6 +128,7 @@ namespace ITAssessmentSystem.Controllers
         }
 
 
+        [HttpPost]
         public ActionResult Submit(FormCollection f)
         {
             if (VerifyInstructorInput(f, Session["RubRowIDS"] as List<String>))

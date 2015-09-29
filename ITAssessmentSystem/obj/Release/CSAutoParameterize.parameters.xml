@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<parameters>
-  <parameter name="assessmentEntities-Web.config Connection String" description="assessmentEntities Connection String used in web.config by the application to access the database." defaultValue="metadata=res://*/Models.Assessment.csdl|res://*/Models.Assessment.ssdl|res://*/Models.Assessment.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=tttfrtd11p.database.windows.net;initial catalog=ASSESSMENT;persist security info=True;user id=harshitgindra;password=Harshit1991;MultipleActiveResultSets=True;App=EntityFramework&quot;" tags="SqlConnectionString">
-    <parameterEntry kind="XmlFile" scope="C:\\Users\\Harshit\\Documents\\Visual\ Studio\ 2013\\Projects\\ITAssessmentSystem\\ITAssessmentSystem\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='assessmentEntities']/@connectionString" />
-  </parameter>
-  <parameter name="ITAssessmentSystem.Models.ApplicationDbContext-Web.config Connection String" description="ITAssessmentSystem.Models.ApplicationDbContext Connection String used in web.config by the application to access the database." defaultValue="ITAssessmentSystem.Models.ApplicationDbContext_ConnectionString" tags="SqlConnectionString">
-    <parameterEntry kind="XmlFile" scope="C:\\Users\\Harshit\\Documents\\Visual\ Studio\ 2013\\Projects\\ITAssessmentSystem\\ITAssessmentSystem\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='ITAssessmentSystem.Models.ApplicationDbContext']/@connectionString" />
-  </parameter>
-</parameters>

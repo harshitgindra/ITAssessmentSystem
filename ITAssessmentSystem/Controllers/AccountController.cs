@@ -9,9 +9,11 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using ITAssessmentSystem.Models;
+using System.Web.Security;
 
 namespace ITAssessmentSystem.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
         public AccountController()
@@ -24,16 +26,14 @@ namespace ITAssessmentSystem.Controllers
             UserManager = userManager;
         }
 
-        
-
         public UserManager<ApplicationUser> UserManager { get; private set; }
 
         //
         // GET: /Account/Login
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        public ActionResult Login()
         {
-            ViewBag.ReturnUrl = returnUrl;
+            ViewBag.ReturnUrl = "";
             return View();
         }
 
@@ -42,23 +42,26 @@ namespace ITAssessmentSystem.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
 
-                var user = await UserManager.FindAsync(model.UserName, model.Password);
-                if (true)
+                using (var context = new assessmentEntities())
                 {
-                    await SignInAsync(user, model.RememberMe);
-                    return RedirectToLocal(returnUrl);
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Invalid username or password.");
+                    var userExist = context.spLOGIN(model.UserName, model.Password).ToList();
+                    if (userExist.Count == 1)
+                    {
+                        FormsAuthentication.SetAuthCookie(model.UserName, false);
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Log in credentials invalid");
+                    }
                 }
             }
-
+           
             // If we got this far, something failed, redisplay form
             return View(model);
         }

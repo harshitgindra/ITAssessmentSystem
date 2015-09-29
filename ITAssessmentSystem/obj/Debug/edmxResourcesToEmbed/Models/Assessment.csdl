@@ -174,6 +174,11 @@
     <FunctionImport Name="spRUBRIC_DELETE_RUBRICROW">
       <Parameter Name="RUBID" Mode="In" Type="Int32" />
     </FunctionImport>
+    <EntitySet Name="ADMIN_LOGIN" EntityType="assessmentModel.ADMIN_LOGIN" />
+    <FunctionImport Name="spLOGIN" ReturnType="Collection(assessmentModel.spLOGIN_Result)">
+      <Parameter Name="adminUsername" Mode="In" Type="String" />
+      <Parameter Name="adminPassword" Mode="In" Type="String" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="spINSTRUCTORGETALLRECORDS_Result">
     <Property Type="String" Name="INSTRUCTOR_NAME" Nullable="false" MaxLength="50" />
@@ -228,5 +233,18 @@
     <Property Type="Int32" Name="EXEMPLARY" Nullable="true" />
     <Property Type="String" Name="INSTRUCTOR_NAME" Nullable="false" MaxLength="50" />
     <Property Type="String" Name="department_desc" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <EntityType Name="ADMIN_LOGIN">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ADMIN_USERNAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ADMIN_PASSWORD" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <ComplexType Name="spLOGIN_Result">
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="ADMIN_USERNAME" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="ADMIN_PASSWORD" Nullable="true" MaxLength="100" />
   </ComplexType>
 </Schema>

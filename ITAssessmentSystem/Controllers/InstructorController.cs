@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace ITAssessmentSystem.Controllers
 {
+     [Authorize]
     public class InstructorController : Controller
     {
         //

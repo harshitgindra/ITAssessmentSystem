@@ -133,5 +133,23 @@
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="spUPDATERUBRICDATA" FunctionName="assessmentModel.Store.spUPDATERUBRICDATA" />
     <FunctionImportMapping FunctionImportName="spRUBRIC_DELETE_RUBRICROW" FunctionName="assessmentModel.Store.spRUBRIC_DELETE_RUBRICROW" />
+    <EntitySetMapping Name="ADMIN_LOGIN">
+      <EntityTypeMapping TypeName="assessmentModel.ADMIN_LOGIN">
+        <MappingFragment StoreEntitySet="ADMIN_LOGIN">
+          <ScalarProperty Name="ADMIN_PASSWORD" ColumnName="ADMIN_PASSWORD" />
+          <ScalarProperty Name="ADMIN_USERNAME" ColumnName="ADMIN_USERNAME" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="spLOGIN" FunctionName="assessmentModel.Store.spLOGIN">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="assessmentModel.spLOGIN_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="ADMIN_USERNAME" ColumnName="ADMIN_USERNAME" />
+          <ScalarProperty Name="ADMIN_PASSWORD" ColumnName="ADMIN_PASSWORD" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

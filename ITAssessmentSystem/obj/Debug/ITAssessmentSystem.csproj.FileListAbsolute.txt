@@ -228,3 +228,4 @@ C:\Users\hgindra\Downloads\ITAssessmentSystem-master (1)\ITAssessmentSystem-mast
 C:\Users\hgindra\Downloads\ITAssessmentSystem-master (1)\ITAssessmentSystem-master\ITAssessmentSystem\obj\Debug\ITAssessmentSystem.dll
 C:\Users\hgindra\Downloads\ITAssessmentSystem-master (1)\ITAssessmentSystem-master\ITAssessmentSystem\obj\Debug\ITAssessmentSystem.pdb
 C:\Users\hgindra\Downloads\ITAssessmentSystem-master (1)\ITAssessmentSystem-master\ITAssessmentSystem\obj\Debug\ITAssessmentSystem.csprojResolveAssemblyReference.cache
+C:\Users\hgindra\Downloads\ITAssessmentSystem-master (1)\ITAssessmentSystem-master\ITAssessmentSystem\bin\Crypto.dll

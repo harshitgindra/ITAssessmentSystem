@@ -4,16 +4,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace ITAssessmentSystem.Controllers
 {
-
     public class HomeController : Controller
     {
         
         public ActionResult Index()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Index(LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                using (var context = new assessmentEntities())
+                {
+                    var userExist = context.spLOGIN(model.UserName, model.Password).ToList();
+                    if (userExist.Count == 1)
+                    {
+                        FormsAuthentication.SetAuthCookie(model.UserName, false);
+                        return RedirectToAction("Index", "admin");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Log in credentials invalid");
+                    }
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
         }
 
         public ActionResult About()

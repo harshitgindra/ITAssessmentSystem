@@ -26,12 +26,19 @@
                 @*@Html.TextBox("Semester")*@
                 @Html.DropDownList("Semester", new List<SelectListItem>
                  {
-                    new SelectListItem{ Text="FALL 2015", Value = "FALL 2015" },
-                    new SelectListItem{ Text="SPRING 2016", Value = "SPRING 2016" },
-                    new SelectListItem{ Text="SUMMER 2016", Value = "SUMMER 2016" },
-                    new SelectListItem{ Text="FALL 2016", Value = "FALL 2016" },
-                    new SelectListItem{ Text="SPRING 2017", Value = "SPRING 2017" },
-                    new SelectListItem{ Text="SUMMER 2017", Value = "SUMMER 2017" }
+                    new SelectListItem{ Text="FALL", Value = "FALL " },
+                    new SelectListItem{ Text="SPRING", Value = "SPRING " },
+                    new SelectListItem{ Text="SUMMER", Value = "SUMMER " },
+       
+                 })
+                @Html.DropDownList("Year", new List<SelectListItem>
+                 {
+                    new SelectListItem{ Text="2015", Value = "2015" },
+                    new SelectListItem{ Text="2016", Value = "2016" },
+                    new SelectListItem{ Text="2017", Value = "2017" },
+                    new SelectListItem{ Text="2018", Value = "2018" },
+                    new SelectListItem{ Text="2019", Value = "2019" },
+                    new SelectListItem{ Text="2020", Value = "2020" }
                  })
                
             </div>

@@ -10,20 +10,20 @@ using System.Web.Mvc;
 
 namespace ITAssessmentSystem.Controllers
 {
+    [Authorize]
     public class RubricController : Controller
     {
         //
         // GET: /Rubric/
 
         //private readonly string link = "http://localhost:52704/Assessment/Reference?";
-        private readonly string link = "http://isuassessmentsystem.azurewebsites.net/Assessment/Reference?";
+        private readonly string link = "http://iis.it.ilstu.edu/Assessment/Assessment/Reference?";
 
         public ActionResult Index()
         {
-            
+
             return View();
         }
-
 
         public ActionResult Create()
         {
@@ -71,7 +71,7 @@ namespace ITAssessmentSystem.Controllers
 
         public ActionResult AllRubrics()
         {
-            
+
             if (ModelState.IsValid)
             {
                 using (var context = new assessmentEntities())
@@ -102,8 +102,7 @@ namespace ITAssessmentSystem.Controllers
                 {
                     string Outcomes = f["Outcomes"].ToString();
                     string deptSelected = f["DEPARTMENT"].ToString();
-                    var result = context.RUBRICS_DATA.Where(dept => dept.DEPARTMENT_CD == deptSelected && dept.OUTCOMES == Outcomes).ToList();
-                    //var result = context.spRUBRICGETSEARCHRESULTS(deptSelected, Outcomes).ToList();
+                    var result = context.spRUBRICGETSEARCHRESULTS(deptSelected, Outcomes).ToList();
                     //saving variables for emailing
                     Session["Outcome"] = Outcomes;
                     Session["DEPARTMENT"] = deptSelected;
@@ -181,8 +180,18 @@ namespace ITAssessmentSystem.Controllers
         {
             using (var context = new assessmentEntities())
             {
-                var rubricRecord = context.RUBRICS_DATA.Where(rubID => rubID.RUBRIC_ROWID == rowID).SingleOrDefault();
-                return PartialView("_RubricRows", rubricRecord);
+                var rubricRecord = context.spRUBRICSGETRECORD_RUBID(rowID).SingleOrDefault();
+                spRUBRICGETSEARCHRESULTS_Result rubDetails = new spRUBRICGETSEARCHRESULTS_Result();
+                rubDetails.RUBRIC_ROWID = rubricRecord.RUBRIC_ROWID;
+                rubDetails.PERFORMANCE_INDICATOR = rubricRecord.PERFORMANCE_INDICATOR;
+                rubDetails.TOPIC = rubricRecord.TOPIC;
+                rubDetails.OUTCOMES = rubricRecord.OUTCOMES;
+                rubDetails.POOR = rubricRecord.POOR;
+                rubDetails.DEVELOPING = rubricRecord.DEVELOPING;
+                rubDetails.DEVELOPED = rubricRecord.DEVELOPED;
+                rubDetails.EXEMPLARY = rubricRecord.EXEMPLARY;
+                rubDetails.EXPECTATION_LEVEL = rubricRecord.EXPECTATION_LEVEL;
+                return PartialView("_RubricRows", rubDetails);
             }
         }
 

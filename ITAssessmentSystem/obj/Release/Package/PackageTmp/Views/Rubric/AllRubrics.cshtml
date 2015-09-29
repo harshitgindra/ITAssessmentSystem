@@ -9,19 +9,19 @@
 }))
 {
     <br />
-    <div class="container">
 
-        @Html.Label("Select Department")
-
-        @Html.DropDownList("DEPARTMENT", new SelectList(ViewBag.Departments, "Value", "Text"), new
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("Select Department", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("DEPARTMENT", new SelectList(ViewBag.Departments, "Value", "Text"), new
             {
                 onchange = @"
                 getPerformanceIndicator(this.value)"
-            }
-        )
-    </div>
-    
-    <div id="PIndicator">
+            })
+            </div>
+        </div>
+        <div id="PIndicator"></div>
     </div>
 }
 <br />
