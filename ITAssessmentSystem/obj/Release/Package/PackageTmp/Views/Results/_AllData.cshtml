@@ -1,6 +1,6 @@
 ﻿@using PagedList;
 @using PagedList.Mvc;
-@model IPagedList<ITAssessmentSystem.Models.spASSESSMENT_GETSEARCHRESULTS_Result>
+@model IPagedList<ITAssessmentSystem.Models.spASSESSMENT_RECORDS_Result>
 
 <table class="table table-bordered">
     <tr>
@@ -12,6 +12,9 @@
         </th>
         <th>
             @Html.ActionLink("Semester", "AllData", new { param = Request.QueryString["param"], page = 1, column = "semester", sortOrder = ViewBag.Order })
+        </th>
+        <th>
+            @Html.ActionLink("Year", "AllData", new { param = Request.QueryString["param"], page = 1, column = "year", sortOrder = ViewBag.Order })
         </th>
         <th>
             @Html.ActionLink("Course", "AllData", new { param = Request.QueryString["param"], page = 1, column = "course", sortOrder = ViewBag.Order })
@@ -50,10 +53,13 @@
                 @Html.DisplayFor(modelItem => item.INSTRUCTOR_NAME)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.department_desc)
+                @Html.DisplayFor(modelItem => item.DEPARTMENT_DESC)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SEMESTER)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.YEAR)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.COURSE)
@@ -78,12 +84,12 @@
             </td>
             <td>
                 @{
-                     ViewBag.ActualLevel = Math.Ceiling((double)((item.DEVELOPED + item.EXEMPLARY) /
-                     (double)(item.POOR + item.DEVELOPING + item.DEVELOPED + item.EXEMPLARY)) * 100);}
-                @ViewBag.ActualLevel%
+        ViewBag.ActualLevel = Math.Ceiling((double)((item.DEVELOPED + item.EXEMPLARY) /
+        (double)(item.POOR + item.DEVELOPING + item.DEVELOPED + item.EXEMPLARY)) * 100);}
+                @ViewBag.ActualLevel %
             </td>
-            <td></td>
-            @item.EXPECTATION_LEVEL
+            <td>@item.EXPECTATION_LEVEL</td>
+            
         </tr>
     }
 </table>

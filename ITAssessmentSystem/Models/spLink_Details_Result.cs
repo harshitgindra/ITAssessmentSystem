@@ -10,20 +10,13 @@
 namespace ITAssessmentSystem.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class DEPARTMENT
+    public partial class spLink_Details_Result
     {
-        public DEPARTMENT()
-        {
-            this.RUBRICS_DATA = new HashSet<RUBRICS_DATA>();
-            this.ASSESSMENT_LINK = new HashSet<ASSESSMENT_LINK>();
-        }
-    
-        public string DEPARTMENT_CD { get; set; }
+        public string OUTCOMES { get; set; }
+        public string RANDOM_STRING { get; set; }
+        public Nullable<bool> LINK_STATUS { get; set; }
         public string DEPARTMENT_DESC { get; set; }
-    
-        public virtual ICollection<RUBRICS_DATA> RUBRICS_DATA { get; set; }
-        public virtual ICollection<ASSESSMENT_LINK> ASSESSMENT_LINK { get; set; }
+        public string INSTRUCTOR_NAME { get; set; }
     }
 }

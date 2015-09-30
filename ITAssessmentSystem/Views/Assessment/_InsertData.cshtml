@@ -4,7 +4,7 @@
 
     <div class="form-horizontal">
         @Html.ValidationSummary(true)
-
+        @Html.Hidden("RANDOM_STRING", Request.QueryString["linkid"])
         <div class="form-group">
             @Html.Label("Course", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -16,7 +16,7 @@
         <div class="form-group">
             @Html.Label("Department", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBox("Department", Request.QueryString["Dept"].ToString(), new { @readonly = "readonly" })
+                @Html.TextBox("Department", Model.First().DEPARTMENT_CD, new { @readonly = "readonly" })
             </div>
         </div>
 
@@ -29,9 +29,9 @@
                     new SelectListItem{ Text="FALL", Value = "FALL " },
                     new SelectListItem{ Text="SPRING", Value = "SPRING " },
                     new SelectListItem{ Text="SUMMER", Value = "SUMMER " },
-       
+
                  })
-                @Html.DropDownList("Year", new List<SelectListItem>
+                @Html.DropDownList("YEAR", new List<SelectListItem>
                  {
                     new SelectListItem{ Text="2015", Value = "2015" },
                     new SelectListItem{ Text="2016", Value = "2016" },
@@ -40,22 +40,21 @@
                     new SelectListItem{ Text="2019", Value = "2019" },
                     new SelectListItem{ Text="2020", Value = "2020" }
                  })
-               
+
             </div>
         </div>
         <div class="form-group">
             @Html.Label("Instructor Email ID", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBox("Instructor_Email", Request.QueryString["inst"].ToString(), new { @readonly = "readonly" })
+                @Html.TextBox("Instructor_Email", Model.First().Instructor_EmailID, new { @readonly = "readonly" })
             </div>
         </div>
         <div class="form-group">
             @Html.Label("Outcome", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBox("Outcome", Request.QueryString["Outcome"].ToString(), new { @readonly = "readonly" })
+                @Html.TextBox("Outcome", Model.First().OUTCOMES, new { @readonly = "readonly" })
             </div>
         </div>
-
 
         <table class="table table-bordered table-hover">
             <thead>
@@ -77,12 +76,12 @@
                     </th>
                 </tr>
             </thead>
+
             <div id="reset">
 
                 @foreach (var item in Model
                 as List<ITAssessmentSystem.Models.spRUBRICGETSEARCHRESULTS_Result>)
                 {
-
                     <tr>
                         <td>
                             @item.TOPIC
@@ -99,8 +98,6 @@
                         <td>
                             <input type="radio" name="@item.RUBRIC_ROWID" value="3" class="rubs" />
                         </td>
-
-
                     </tr>
                 }
 
@@ -134,7 +131,7 @@
         var tbl = $('#currentRecord');
         $.ajax({
             type: "POST",
-            url: '@Url.Action("Submit", "Assessment")',
+            url: '@Url.Action("InsertRecord", "Assessment")',
             data: $form.serialize(),
             error: function (xhr, status, error) {
                 //do something about the error

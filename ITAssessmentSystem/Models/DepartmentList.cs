@@ -12,7 +12,7 @@ namespace ITAssessmentSystem.Models
 
         //Reference: http://highoncoding.com/Articles/770_Implementing_Dynamic_DropDownList_in_ASP_NET_MVC_3_Framework.aspx
 
-        public List<SelectListItem> getDepartmentList(assessmentEntities context)
+        public List<SelectListItem> getDepartmentList(AssessmentEntities context)
         {
             List<SelectListItem> departmentList = new List<SelectListItem>();
             departmentList.Add(new SelectListItem() { Text = "Please select Department", Value = "default" });

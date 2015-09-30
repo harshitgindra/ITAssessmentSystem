@@ -11,7 +11,7 @@ namespace ITAssessmentSystem.Models
         public List<SelectListItem> getProfessorListList()
         {
             List<SelectListItem> departmentList = new List<SelectListItem>();
-            using (var context = new assessmentEntities())
+            using (var context = new AssessmentEntities())
             {
                 //PerformanceIndicator pIndicators = new PerformanceIndicator();
                 var result = context.USER_INFO.ToList();

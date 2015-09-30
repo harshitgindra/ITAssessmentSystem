@@ -12,7 +12,7 @@ using System.Linq.Expressions;
 
 namespace ITAssessmentSystem.Controllers
 {
-     [Authorize]
+    [Authorize]
     public class ResultsController : Controller
     {
         //
@@ -29,11 +29,11 @@ namespace ITAssessmentSystem.Controllers
         [HttpGet]
         public ActionResult AllData(string param, int? page, string column, string sortOrder)
         {
-            using (var context = new assessmentEntities())
+            using (var context = new AssessmentEntities())
             {
                 try
                 {
-                    IEnumerable<spASSESSMENT_GETSEARCHRESULTS_Result> results = null;
+                    IEnumerable<spASSESSMENT_RECORDS_Result> results = null;
                     param = string.IsNullOrEmpty(param) ? "" : param;
                     //sortOrder = string.IsNullOrEmpty(sortOrder) ? "" : sortOrder;
                     ViewBag.Order = "";
@@ -54,18 +54,18 @@ namespace ITAssessmentSystem.Controllers
             }
         }
 
-        public IQueryable<spASSESSMENT_GETSEARCHRESULTS_Result> getAllRecords(assessmentEntities context, string param)
+        public IQueryable<spASSESSMENT_RECORDS_Result> getAllRecords(AssessmentEntities context, string param)
         {
-            return context.spASSESSMENT_GETSEARCHRESULTS(param).AsQueryable();
+            return context.spASSESSMENT_RECORDS(param).AsQueryable();
         }
 
-        public IQueryable<spASSESSMENT_GETSEARCHRESULTS_Result> SortTable(assessmentEntities context, string param, string column, string sortOrder)
+        public IQueryable<spASSESSMENT_RECORDS_Result> SortTable(AssessmentEntities context, string param, string column, string sortOrder)
         {
 
             ViewBag.Order = String.IsNullOrEmpty(sortOrder) ? "desc" : "";
             sortOrder = String.IsNullOrEmpty(sortOrder) ? "" : sortOrder;
-            var results = context.spASSESSMENT_GETSEARCHRESULTS(param).AsQueryable();
-            Func<IQueryable<spASSESSMENT_GETSEARCHRESULTS_Result>, Expression<Func<spASSESSMENT_GETSEARCHRESULTS_Result, string>>, IOrderedQueryable<spASSESSMENT_GETSEARCHRESULTS_Result>> orderBy;
+            var results = context.spASSESSMENT_RECORDS(param).AsQueryable();
+            Func<IQueryable<spASSESSMENT_RECORDS_Result>, Expression<Func<spASSESSMENT_RECORDS_Result, string>>, IOrderedQueryable<spASSESSMENT_RECORDS_Result>> orderBy;
 
             if (!sortOrder.Equals("desc"))
             {
@@ -75,7 +75,7 @@ namespace ITAssessmentSystem.Controllers
             {
                 orderBy = Queryable.OrderByDescending;
             }
-            results = orderBy(results, spASSESSMENT_GETSEARCHRESULTS_Result.Order(column))
+            results = orderBy(results, spASSESSMENT_RECORDS_Result.Order(column))
                .ThenBy(searchResults => searchResults.OUTCOMES);
             return results;
         }

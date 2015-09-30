@@ -1,0 +1,59 @@
+﻿@model IEnumerable<ITAssessmentSystem.Models.spLink_Details_Result>
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_AdministratorLayout.cshtml";
+}
+
+<h2>List of link generated</h2>
+
+<h2>@ViewBag.ErrorMsg</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.INSTRUCTOR_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OUTCOMES)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DEPARTMENT_DESC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LINK_STATUS)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.INSTRUCTOR_NAME)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OUTCOMES)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DEPARTMENT_DESC)
+            </td>
+            <td>
+                @if (Convert.ToBoolean(item.LINK_STATUS))
+                {
+                   <p>Active</p>
+                }
+                else
+                {
+                    <p>Inactive</p>
+                }
+            </td>
+            <td>
+                @if (Convert.ToBoolean(item.LINK_STATUS))
+                {
+                    @Html.ActionLink("Delete", "Delete", new { id = item.RANDOM_STRING })
+                }
+            </td>
+        </tr>
+    }
+</table>

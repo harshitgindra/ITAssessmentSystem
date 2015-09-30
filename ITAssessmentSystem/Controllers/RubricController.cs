@@ -17,7 +17,7 @@ namespace ITAssessmentSystem.Controllers
         // GET: /Rubric/
 
         //private readonly string link = "http://localhost:52704/Assessment/Reference?";
-        private readonly string link = "http://iis.it.ilstu.edu/Assessment/Assessment/Reference?";
+        private readonly string link = "http://iis.it.ilstu.edu/Assessment/Assessment/Reference?linkid=";
 
         public ActionResult Index()
         {
@@ -27,7 +27,7 @@ namespace ITAssessmentSystem.Controllers
 
         public ActionResult Create()
         {
-            using (var context = new assessmentEntities())
+            using (var context = new AssessmentEntities())
             {
                 DepartmentList departmentList = new DepartmentList();
                 ViewBag.Departments = departmentList.getDepartmentList(context);
@@ -40,7 +40,7 @@ namespace ITAssessmentSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (var context = new assessmentEntities())
+                using (var context = new AssessmentEntities())
                 {
                     try
                     {
@@ -74,7 +74,7 @@ namespace ITAssessmentSystem.Controllers
 
             if (ModelState.IsValid)
             {
-                using (var context = new assessmentEntities())
+                using (var context = new AssessmentEntities())
                 {
                     DepartmentList departmentList = new DepartmentList();
                     ViewBag.Departments = departmentList.getDepartmentList(context);
@@ -96,7 +96,7 @@ namespace ITAssessmentSystem.Controllers
         [HttpPost]
         public ActionResult Search(FormCollection f)
         {
-            using (var context = new assessmentEntities())
+            using (var context = new AssessmentEntities())
             {
                 try
                 {
@@ -127,30 +127,46 @@ namespace ITAssessmentSystem.Controllers
         [HttpPost]
         public ActionResult Send(FormCollection f)
         {
-            string department = Session["DEPARTMENT"].ToString();
-            string outcome = Session["Outcome"].ToString();
-            string instructorSelected = f["InstructorList"].ToString();
-            string urlParameters = "Dept=" + department + "&outcome=" + outcome + "&inst=" + instructorSelected;
-            string finalLink = link + urlParameters;
-            SendMail sendmail = new SendMail();
-            if (sendmail.SendEmail(instructorSelected, "Assessment Form", sendmail.MailBody(finalLink)))
+            using (var context = new AssessmentEntities())
             {
-                //mail sending currently commented out
-                ViewBag.link = finalLink;
-                return View("MailResult");
+                
+                string department = Session["DEPARTMENT"].ToString();
+                string outcome = Session["Outcome"].ToString();
+                string instructorSelected = f["InstructorList"].ToString();
+                string urlParameters = "Dept=" + department + "&outcome=" + outcome + "&inst=" + instructorSelected;
+                string rdm_string = RandomString(30);
+                context.spLINK_INSERT(rdm_string, outcome, department, instructorSelected, true);
+                context.SaveChanges();
+                string finalLink = link + rdm_string;
+                SendMail sendmail = new SendMail();
+                if (sendmail.SendEmail(instructorSelected, "Assessment Form", sendmail.MailBody(finalLink)))
+                {
+                    //mail sending currently commented out
+                    
+                    ViewBag.link = finalLink;
+                    return View("MailResult");
+                }
+                else
+                {
+                    ViewBag.ErrorMsg = "Unable to send the link to the Instructor. Please check the network connections or else try sending the link personally. Here it the link below \n" +
+                        "<h3>" + finalLink + "</h3>";
+                    return View("Error");
+                }
             }
-            else
-            {
-                ViewBag.ErrorMsg = "Unable to send the link to the Instructor. Please check the network connections or else try sending the link personally. Here it the link below \n" +
-                    "<h3>" + finalLink + "</h3>";
-                return View("Error");
-            }
+        }
+
+        public static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var random = new Random();
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
         [HttpGet]
         public ActionResult Edit(int rubID)
         {
-            using (var context = new assessmentEntities())
+            using (var context = new AssessmentEntities())
             {
                 var results = context.RUBRICS_DATA.Where(rubid => rubid.RUBRIC_ROWID == rubID).SingleOrDefault();
                 return PartialView("_EditRubric", results);
@@ -160,7 +176,7 @@ namespace ITAssessmentSystem.Controllers
         [HttpPost]
         public ActionResult SaveRubric(RUBRICS_DATA rubricData)
         {
-            using (var context = new assessmentEntities())
+            using (var context = new AssessmentEntities())
             {
                 context.spUPDATERUBRICDATA(rubricData.RUBRIC_ROWID, rubricData.OUTCOMES, rubricData.PERFORMANCE_INDICATOR, rubricData.TOPIC, rubricData.POOR, rubricData.DEVELOPING, rubricData.DEVELOPED, rubricData.EXEMPLARY, rubricData.EXPECTATION_LEVEL);
                 context.SaveChanges();
@@ -170,7 +186,7 @@ namespace ITAssessmentSystem.Controllers
         }
 
 
-        public PartialViewResult getRubricDetails(spRUBRICSGETRECORD_RUBID_Result rubricRecord, assessmentEntities context)
+        public PartialViewResult getRubricDetails(spRUBRICSGETRECORD_RUBID_Result rubricRecord, AssessmentEntities context)
         {
             var results = context.spRUBRICGETSEARCHRESULTS(rubricRecord.DEPARTMENT_CD, rubricRecord.OUTCOMES).SingleOrDefault();
             return PartialView("_Search", results);
@@ -178,7 +194,7 @@ namespace ITAssessmentSystem.Controllers
 
         public PartialViewResult EditCancel(int rowID)
         {
-            using (var context = new assessmentEntities())
+            using (var context = new AssessmentEntities())
             {
                 var rubricRecord = context.spRUBRICSGETRECORD_RUBID(rowID).SingleOrDefault();
                 spRUBRICGETSEARCHRESULTS_Result rubDetails = new spRUBRICGETSEARCHRESULTS_Result();
@@ -197,7 +213,7 @@ namespace ITAssessmentSystem.Controllers
 
         public void DeleteRubricRecord(int rubID)
         {
-            using (var context = new assessmentEntities())
+            using (var context = new AssessmentEntities())
             {
                 context.spRUBRIC_DELETE_RUBRICROW(rubID);
                 context.SaveChanges();

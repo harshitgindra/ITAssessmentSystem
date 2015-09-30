@@ -16,7 +16,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("IT Assessment System", "Index", "Home", null, new { @class = "navbar-brand" })
+                @Html.ActionLink("IT Assessment System", "Index", "Admin", null, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -24,10 +24,17 @@
                     <li>@Html.ActionLink("Create New Rubric", "Create", "Rubric")</li>
                     <li>@Html.ActionLink("Assessment Results", "AllData", "Results")</li>
                 </ul>
-            </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>@Html.ActionLink("Logout", "LogOut", "Admin")</li>
+                    <li class="navbar-text" style="color:white">Hello @Html.Label(HttpContext.Current.User.Identity.Name)</li>
+                </ul>
+            </div>            
         </div>
     </div>
     <div class="container body-content">
+        <div class="jumbotron">
+            <h3> Hello @HttpContext.Current.User.Identity.Name</h3>
+        </div>
         @RenderBody()
         <hr />
         <footer>

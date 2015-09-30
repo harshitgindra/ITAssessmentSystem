@@ -14,7 +14,7 @@ namespace ITAssessmentSystem.Models
         public List<SelectListItem> getPerformanceIndicatorList(string dept)
         {
             List<SelectListItem> performanceIndicators = new List<SelectListItem>();
-            using (var context = new assessmentEntities())
+            using (var context = new AssessmentEntities())
             {
                 //var result = context.RUBRICS_DATA.Where(x => x.DEPARTMENT_CD.Equals(id)).Select(x => x.PERFORMANCE_INDICATOR).Distinct().ToList();
                 var result = context.spRUBRICGETPERFORMANCEINDICATORS(dept).OrderBy(order=>order.outcomes);

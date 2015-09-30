@@ -12,6 +12,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/Antlr3.Runtime.dll">
       <publishTime>08/12/2015 00:47:26</publishTime>
     </File>
+    <File Include="bin/Crypto.dll">
+      <publishTime>09/28/2015 20:40:40</publishTime>
+    </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>08/12/2015 00:47:27</publishTime>
     </File>
@@ -19,7 +22,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/12/2015 00:47:26</publishTime>
     </File>
     <File Include="bin/ITAssessmentSystem.dll">
-      <publishTime>09/25/2015 09:47:21</publishTime>
+      <publishTime>09/29/2015 21:21:19</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
       <publishTime>08/12/2015 00:47:27</publishTime>
@@ -145,10 +148,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/12/2015 00:47:21</publishTime>
     </File>
     <File Include="Models/Assessment.edmx.diagram">
-      <publishTime>08/12/2015 00:47:21</publishTime>
+      <publishTime>09/29/2015 19:40:08</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>08/13/2015 22:02:42</publishTime>
+      <publishTime>09/28/2015 20:40:40</publishTime>
     </File>
     <File Include="Resources/CSS/Rubrics.css">
       <publishTime>09/25/2015 09:44:18</publishTime>
@@ -231,8 +234,11 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Account/_SetPasswordPartial.cshtml">
       <publishTime>08/12/2015 00:47:22</publishTime>
     </File>
+    <File Include="Views/Admin/ChangePassword.cshtml">
+      <publishTime>09/28/2015 22:00:52</publishTime>
+    </File>
     <File Include="Views/Admin/Index.cshtml">
-      <publishTime>09/02/2015 23:17:51</publishTime>
+      <publishTime>09/28/2015 21:36:08</publishTime>
     </File>
     <File Include="Views/Assessment/Reference.cshtml">
       <publishTime>09/03/2015 09:53:27</publishTime>
@@ -247,7 +253,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/03/2015 09:39:50</publishTime>
     </File>
     <File Include="Views/Assessment/_InsertData.cshtml">
-      <publishTime>09/03/2015 09:49:50</publishTime>
+      <publishTime>09/29/2015 19:58:08</publishTime>
     </File>
     <File Include="Views/Assessment/_InstructorInput.cshtml">
       <publishTime>08/26/2015 23:18:40</publishTime>
@@ -262,13 +268,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/12/2015 00:47:23</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>09/13/2015 16:55:59</publishTime>
+      <publishTime>09/29/2015 21:19:10</publishTime>
     </File>
     <File Include="Views/Home/Unauthorised.cshtml">
       <publishTime>09/03/2015 10:13:32</publishTime>
     </File>
     <File Include="Views/Instructor/AllInstructors.cshtml">
-      <publishTime>09/03/2015 00:10:37</publishTime>
+      <publishTime>09/28/2015 21:33:50</publishTime>
     </File>
     <File Include="Views/Instructor/Edit.cshtml">
       <publishTime>08/12/2015 00:47:23</publishTime>
@@ -280,10 +286,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/25/2015 09:37:06</publishTime>
     </File>
     <File Include="Views/Results/_AllData.cshtml">
-      <publishTime>09/25/2015 09:38:58</publishTime>
+      <publishTime>09/29/2015 21:13:47</publishTime>
     </File>
     <File Include="Views/Rubric/AllRubrics.cshtml">
-      <publishTime>09/25/2015 09:42:30</publishTime>
+      <publishTime>09/28/2015 21:34:12</publishTime>
     </File>
     <File Include="Views/Rubric/Create.cshtml">
       <publishTime>09/13/2015 14:07:53</publishTime>
@@ -322,13 +328,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/12/2015 00:47:23</publishTime>
     </File>
     <File Include="Views/Shared/_AdministratorLayout.cshtml">
-      <publishTime>09/13/2015 16:38:25</publishTime>
+      <publishTime>09/28/2015 21:32:38</publishTime>
     </File>
     <File Include="Views/Shared/_DefaultLayout.cshtml">
-      <publishTime>09/02/2015 23:48:53</publishTime>
+      <publishTime>09/29/2015 21:16:31</publishTime>
     </File>
     <File Include="Views/Shared/_InstructorLayout.cshtml">
-      <publishTime>08/12/2015 00:47:23</publishTime>
+      <publishTime>09/28/2015 21:34:43</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
       <publishTime>08/12/2015 00:47:23</publishTime>
@@ -337,7 +343,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/12/2015 00:47:23</publishTime>
     </File>
     <File Include="Views/Shared/_RubricLayout.cshtml">
-      <publishTime>09/02/2015 23:54:46</publishTime>
+      <publishTime>09/28/2015 21:28:37</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>08/12/2015 00:47:22</publishTime>
@@ -346,7 +352,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/12/2015 00:47:22</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>09/13/2015 17:23:54</publishTime>
+      <publishTime>09/29/2015 21:21:19</publishTime>
     </File>
   </ItemGroup>
 </Project>

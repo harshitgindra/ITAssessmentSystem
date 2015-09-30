@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="assessmentModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="assessmentModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ADMIN_LOGIN">
           <Key>
             <PropertyRef Name="ID" />
@@ -18,18 +18,25 @@
             <PropertyRef Name="DATA_ROWID" />
           </Key>
           <Property Name="DATA_ROWID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RANDOM_STRING" Type="nvarchar" MaxLength="100" />
           <Property Name="RUBRIC_ROWID" Type="int" />
-          <Property Name="OUTCOMES" Type="nvarchar" MaxLength="4" />
-          <Property Name="DEPARTMENT_CD" Type="nvarchar" MaxLength="10" />
-          <Property Name="INSTRUCTOR_EMAILID" Type="nvarchar" MaxLength="25" />
           <Property Name="SEMESTER" Type="nvarchar" MaxLength="15" />
           <Property Name="COURSE" Type="nvarchar" MaxLength="10" />
-          <Property Name="PERFORMANCE_INDICATOR" Type="nvarchar" MaxLength="2000" />
-          <Property Name="TOPIC" Type="nvarchar" MaxLength="2000" />
           <Property Name="POOR" Type="int" />
           <Property Name="DEVELOPING" Type="int" />
           <Property Name="DEVELOPED" Type="int" />
           <Property Name="EXEMPLARY" Type="int" />
+          <Property Name="YEAR" Type="int" />
+        </EntityType>
+        <EntityType Name="ASSESSMENT_LINK">
+          <Key>
+            <PropertyRef Name="RANDOM_STRING" />
+          </Key>
+          <Property Name="RANDOM_STRING" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="OUTCOMES" Type="nvarchar" MaxLength="4" />
+          <Property Name="DEPARTMENT_CD" Type="nvarchar" MaxLength="10" />
+          <Property Name="INSTRUCTOR_EMAILID" Type="nvarchar" MaxLength="25" />
+          <Property Name="LINK_STATUS" Type="bit" />
         </EntityType>
         <EntityType Name="DEPARTMENTS">
           <Key>
@@ -60,31 +67,43 @@
           <Property Name="INSTRUCTOR_NAME" Type="nvarchar" MaxLength="50" />
           <Property Name="INSTRUCTOR_EMAILID" Type="nvarchar" MaxLength="25" Nullable="false" />
         </EntityType>
-        <Association Name="FK__ASSESSMEN__DEPAR__21B6055D">
+        <Association Name="FK__ASSESSMEN__DEPAR__5EBF139D">
           <End Role="DEPARTMENTS" Type="Self.DEPARTMENTS" Multiplicity="0..1" />
-          <End Role="ASSESSMENT_DATA" Type="Self.ASSESSMENT_DATA" Multiplicity="*" />
+          <End Role="ASSESSMENT_LINK" Type="Self.ASSESSMENT_LINK" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DEPARTMENTS">
               <PropertyRef Name="DEPARTMENT_CD" />
             </Principal>
-            <Dependent Role="ASSESSMENT_DATA">
+            <Dependent Role="ASSESSMENT_LINK">
               <PropertyRef Name="DEPARTMENT_CD" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ASSESSMEN__INSTR__22AA2996">
+        <Association Name="FK__ASSESSMEN__INSTR__5FB337D6">
           <End Role="USER_INFO" Type="Self.USER_INFO" Multiplicity="0..1" />
-          <End Role="ASSESSMENT_DATA" Type="Self.ASSESSMENT_DATA" Multiplicity="*" />
+          <End Role="ASSESSMENT_LINK" Type="Self.ASSESSMENT_LINK" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="USER_INFO">
               <PropertyRef Name="INSTRUCTOR_EMAILID" />
             </Principal>
-            <Dependent Role="ASSESSMENT_DATA">
+            <Dependent Role="ASSESSMENT_LINK">
               <PropertyRef Name="INSTRUCTOR_EMAILID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ASSESSMEN__RUBRI__20C1E124">
+        <Association Name="FK__ASSESSMEN__RANDO__656C112C">
+          <End Role="ASSESSMENT_LINK" Type="Self.ASSESSMENT_LINK" Multiplicity="0..1" />
+          <End Role="ASSESSMENT_DATA" Type="Self.ASSESSMENT_DATA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ASSESSMENT_LINK">
+              <PropertyRef Name="RANDOM_STRING" />
+            </Principal>
+            <Dependent Role="ASSESSMENT_DATA">
+              <PropertyRef Name="RANDOM_STRING" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ASSESSMEN__RUBRI__6477ECF3">
           <End Role="RUBRICS_DATA" Type="Self.RUBRICS_DATA" Multiplicity="0..1" />
           <End Role="ASSESSMENT_DATA" Type="Self.ASSESSMENT_DATA" Multiplicity="*" />
           <ReferentialConstraint>
@@ -108,7 +127,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="spASSESSMENT_DELETE_OLD_RECORDS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="random_string" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="spASSESSMENT_GETSEARCHRESULTS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="param" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="spASSESSMENT_RECORDS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="param" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="spASSESSMENT_VERIFYINSTRUCTOR" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -132,6 +157,21 @@
         <Function Name="spINSTRUCTORGETALLRECORDS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="spINSTRUCTORGETDETAILS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="InstructorEmailID" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="spLink_DELETE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="randomString" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="spLink_Details" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spLINK_INSERT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="random_string" Type="nvarchar" Mode="In" />
+          <Parameter Name="outcomes" Type="nvarchar" Mode="In" />
+          <Parameter Name="department_CD" Type="nvarchar" Mode="In" />
+          <Parameter Name="instructor_email" Type="nvarchar" Mode="In" />
+          <Parameter Name="link_status" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="spLINK_UPDATESTATUS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="random_string" Type="nvarchar" Mode="In" />
+          <Parameter Name="status" Type="bit" Mode="In" />
         </Function>
         <Function Name="spLOGIN" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="adminUsername" Type="nvarchar" Mode="In" />
@@ -164,18 +204,23 @@
         <EntityContainer Name="assessmentModelStoreContainer">
           <EntitySet Name="ADMIN_LOGIN" EntityType="Self.ADMIN_LOGIN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ASSESSMENT_DATA" EntityType="Self.ASSESSMENT_DATA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ASSESSMENT_LINK" EntityType="Self.ASSESSMENT_LINK" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DEPARTMENTS" EntityType="Self.DEPARTMENTS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RUBRICS_DATA" EntityType="Self.RUBRICS_DATA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="USER_INFO" EntityType="Self.USER_INFO" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__ASSESSMEN__DEPAR__21B6055D" Association="Self.FK__ASSESSMEN__DEPAR__21B6055D">
+          <AssociationSet Name="FK__ASSESSMEN__DEPAR__5EBF139D" Association="Self.FK__ASSESSMEN__DEPAR__5EBF139D">
             <End Role="DEPARTMENTS" EntitySet="DEPARTMENTS" />
-            <End Role="ASSESSMENT_DATA" EntitySet="ASSESSMENT_DATA" />
+            <End Role="ASSESSMENT_LINK" EntitySet="ASSESSMENT_LINK" />
           </AssociationSet>
-          <AssociationSet Name="FK__ASSESSMEN__INSTR__22AA2996" Association="Self.FK__ASSESSMEN__INSTR__22AA2996">
+          <AssociationSet Name="FK__ASSESSMEN__INSTR__5FB337D6" Association="Self.FK__ASSESSMEN__INSTR__5FB337D6">
             <End Role="USER_INFO" EntitySet="USER_INFO" />
+            <End Role="ASSESSMENT_LINK" EntitySet="ASSESSMENT_LINK" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ASSESSMEN__RANDO__656C112C" Association="Self.FK__ASSESSMEN__RANDO__656C112C">
+            <End Role="ASSESSMENT_LINK" EntitySet="ASSESSMENT_LINK" />
             <End Role="ASSESSMENT_DATA" EntitySet="ASSESSMENT_DATA" />
           </AssociationSet>
-          <AssociationSet Name="FK__ASSESSMEN__RUBRI__20C1E124" Association="Self.FK__ASSESSMEN__RUBRI__20C1E124">
+          <AssociationSet Name="FK__ASSESSMEN__RUBRI__6477ECF3" Association="Self.FK__ASSESSMEN__RUBRI__6477ECF3">
             <End Role="RUBRICS_DATA" EntitySet="RUBRICS_DATA" />
             <End Role="ASSESSMENT_DATA" EntitySet="ASSESSMENT_DATA" />
           </AssociationSet>
@@ -188,35 +233,22 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="assessmentModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="ASSESSMENT_DATA">
+        <EntityType Name="ADMIN_LOGIN">
           <Key>
-            <PropertyRef Name="DATA_ROWID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="DATA_ROWID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RUBRIC_ROWID" Type="Int32" />
-          <Property Name="OUTCOMES" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
-          <Property Name="DEPARTMENT_CD" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="INSTRUCTOR_EMAILID" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="SEMESTER" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="COURSE" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="PERFORMANCE_INDICATOR" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="TOPIC" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="POOR" Type="Int32" />
-          <Property Name="DEVELOPING" Type="Int32" />
-          <Property Name="DEVELOPED" Type="Int32" />
-          <Property Name="EXEMPLARY" Type="Int32" />
-          <NavigationProperty Name="DEPARTMENT" Relationship="Self.FK__ASSESSMEN__DEPAR__3BFFE745" FromRole="ASSESSMENT_DATA" ToRole="DEPARTMENTS" />
-          <NavigationProperty Name="USER_INFO" Relationship="Self.FK__ASSESSMEN__INSTR__3CF40B7E" FromRole="ASSESSMENT_DATA" ToRole="USER_INFO" />
-          <NavigationProperty Name="RUBRICS_DATA" Relationship="Self.FK__ASSESSMEN__RUBRI__3B0BC30C" FromRole="ASSESSMENT_DATA" ToRole="RUBRICS_DATA" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ADMIN_USERNAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ADMIN_PASSWORD" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="DEPARTMENT">
           <Key>
             <PropertyRef Name="DEPARTMENT_CD" />
           </Key>
           <Property Name="DEPARTMENT_CD" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="ASSESSMENT_DATA" Relationship="Self.FK__ASSESSMEN__DEPAR__3BFFE745" FromRole="DEPARTMENTS" ToRole="ASSESSMENT_DATA" />
-          <NavigationProperty Name="RUBRICS_DATA" Relationship="Self.FK__RUBRICS_D__DEPAR__382F5661" FromRole="DEPARTMENTS" ToRole="RUBRICS_DATA" />
           <Property Name="DEPARTMENT_DESC" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="RUBRICS_DATA" Relationship="Self.FK__RUBRICS_D__DEPAR__1BFD2C07" FromRole="DEPARTMENTS" ToRole="RUBRICS_DATA" />
+          <NavigationProperty Name="ASSESSMENT_LINK" Relationship="assessmentModel.FK__ASSESSMEN__DEPAR__5EBF139D" FromRole="DEPARTMENT" ToRole="ASSESSMENT_LINK" />
         </EntityType>
         <EntityType Name="RUBRICS_DATA">
           <Key>
@@ -231,9 +263,9 @@
           <Property Name="DEVELOPING" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
           <Property Name="DEVELOPED" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
           <Property Name="EXEMPLARY" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ASSESSMENT_DATA" Relationship="Self.FK__ASSESSMEN__RUBRI__3B0BC30C" FromRole="RUBRICS_DATA" ToRole="ASSESSMENT_DATA" />
-          <NavigationProperty Name="DEPARTMENT" Relationship="Self.FK__RUBRICS_D__DEPAR__382F5661" FromRole="RUBRICS_DATA" ToRole="DEPARTMENTS" />
           <Property Name="EXPECTATION_LEVEL" Type="Int32" />
+          <NavigationProperty Name="DEPARTMENT" Relationship="Self.FK__RUBRICS_D__DEPAR__1BFD2C07" FromRole="RUBRICS_DATA" ToRole="DEPARTMENTS" />
+          <NavigationProperty Name="ASSESSMENT_DATA" Relationship="assessmentModel.FK__ASSESSMEN__RUBRI__6477ECF3" FromRole="RUBRICS_DATA" ToRole="ASSESSMENT_DATA" />
         </EntityType>
         <EntityType Name="USER_INFO">
           <Key>
@@ -241,45 +273,9 @@
           </Key>
           <Property Name="INSTRUCTOR_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="INSTRUCTOR_EMAILID" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="ASSESSMENT_DATA" Relationship="Self.FK__ASSESSMEN__INSTR__3CF40B7E" FromRole="USER_INFO" ToRole="ASSESSMENT_DATA" />
+          <NavigationProperty Name="ASSESSMENT_LINK" Relationship="assessmentModel.FK__ASSESSMEN__INSTR__5FB337D6" FromRole="USER_INFO" ToRole="ASSESSMENT_LINK" />
         </EntityType>
-        <Association Name="FK__ASSESSMEN__DEPAR__3BFFE745">
-          <End Role="DEPARTMENTS" Type="Self.DEPARTMENT" Multiplicity="0..1" />
-          <End Role="ASSESSMENT_DATA" Type="Self.ASSESSMENT_DATA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DEPARTMENTS">
-              <PropertyRef Name="DEPARTMENT_CD" />
-            </Principal>
-            <Dependent Role="ASSESSMENT_DATA">
-              <PropertyRef Name="DEPARTMENT_CD" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__ASSESSMEN__INSTR__3CF40B7E">
-          <End Role="USER_INFO" Type="Self.USER_INFO" Multiplicity="0..1" />
-          <End Role="ASSESSMENT_DATA" Type="Self.ASSESSMENT_DATA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="USER_INFO">
-              <PropertyRef Name="INSTRUCTOR_EMAILID" />
-            </Principal>
-            <Dependent Role="ASSESSMENT_DATA">
-              <PropertyRef Name="INSTRUCTOR_EMAILID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__ASSESSMEN__RUBRI__3B0BC30C">
-          <End Role="RUBRICS_DATA" Type="Self.RUBRICS_DATA" Multiplicity="0..1" />
-          <End Role="ASSESSMENT_DATA" Type="Self.ASSESSMENT_DATA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RUBRICS_DATA">
-              <PropertyRef Name="RUBRIC_ROWID" />
-            </Principal>
-            <Dependent Role="ASSESSMENT_DATA">
-              <PropertyRef Name="RUBRIC_ROWID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__RUBRICS_D__DEPAR__382F5661">
+        <Association Name="FK__RUBRICS_D__DEPAR__1BFD2C07">
           <End Role="DEPARTMENTS" Type="Self.DEPARTMENT" Multiplicity="1" />
           <End Role="RUBRICS_DATA" Type="Self.RUBRICS_DATA" Multiplicity="*" />
           <ReferentialConstraint>
@@ -291,27 +287,25 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="assessmentEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="ASSESSMENT_DATA" EntityType="Self.ASSESSMENT_DATA" />
+        <EntityContainer Name="AssessmentEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ADMIN_LOGIN" EntityType="Self.ADMIN_LOGIN" />
           <EntitySet Name="DEPARTMENTS" EntityType="Self.DEPARTMENT" />
           <EntitySet Name="RUBRICS_DATA" EntityType="Self.RUBRICS_DATA" />
           <EntitySet Name="USER_INFO" EntityType="Self.USER_INFO" />
-          <AssociationSet Name="FK__ASSESSMEN__DEPAR__3BFFE745" Association="Self.FK__ASSESSMEN__DEPAR__3BFFE745">
-            <End Role="DEPARTMENTS" EntitySet="DEPARTMENTS" />
-            <End Role="ASSESSMENT_DATA" EntitySet="ASSESSMENT_DATA" />
-          </AssociationSet>
-          <AssociationSet Name="FK__ASSESSMEN__INSTR__3CF40B7E" Association="Self.FK__ASSESSMEN__INSTR__3CF40B7E">
-            <End Role="USER_INFO" EntitySet="USER_INFO" />
-            <End Role="ASSESSMENT_DATA" EntitySet="ASSESSMENT_DATA" />
-          </AssociationSet>
-          <AssociationSet Name="FK__ASSESSMEN__RUBRI__3B0BC30C" Association="Self.FK__ASSESSMEN__RUBRI__3B0BC30C">
-            <End Role="RUBRICS_DATA" EntitySet="RUBRICS_DATA" />
-            <End Role="ASSESSMENT_DATA" EntitySet="ASSESSMENT_DATA" />
-          </AssociationSet>
-          <AssociationSet Name="FK__RUBRICS_D__DEPAR__382F5661" Association="Self.FK__RUBRICS_D__DEPAR__382F5661">
+          <AssociationSet Name="FK__RUBRICS_D__DEPAR__1BFD2C07" Association="Self.FK__RUBRICS_D__DEPAR__1BFD2C07">
             <End Role="DEPARTMENTS" EntitySet="DEPARTMENTS" />
             <End Role="RUBRICS_DATA" EntitySet="RUBRICS_DATA" />
           </AssociationSet>
+          <FunctionImport Name="spASSESSMENT_GETSEARCHRESULTS">
+          <Parameter Name="param" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spASSESSMENT_VERIFYINSTRUCTOR" ReturnType="Collection(Int32)">
+          <Parameter Name="Instructor_EmailID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spASSESSMENT_VERIFYOUTCOME_DEPT" ReturnType="Collection(Int32)">
+            <Parameter Name="Outcome" Mode="In" Type="String" />
+            <Parameter Name="Department_cd" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="spInstructorAddNew">
             <Parameter Name="InstructorName" Mode="In" Type="String" />
             <Parameter Name="InstructorEmailID" Mode="In" Type="String" />
@@ -327,7 +321,20 @@
           <FunctionImport Name="spINSTRUCTORGETDETAILS" ReturnType="Collection(assessmentModel.spINSTRUCTORGETDETAILS_Result)">
           <Parameter Name="InstructorEmailID" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="spDEPARTMENTS_GETALL" ReturnType="Collection(assessmentModel.spDEPARTMENTS_GETALL_Result)" />
+          <FunctionImport Name="spLINK_INSERT">
+            <Parameter Name="random_string" Mode="In" Type="String" />
+            <Parameter Name="outcomes" Mode="In" Type="String" />
+            <Parameter Name="department_CD" Mode="In" Type="String" />
+            <Parameter Name="instructor_email" Mode="In" Type="String" />
+            <Parameter Name="link_status" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="spLOGIN" ReturnType="Collection(assessmentModel.spLOGIN_Result)">
+            <Parameter Name="adminUsername" Mode="In" Type="String" />
+            <Parameter Name="adminPassword" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spRUBRIC_DELETE_RUBRICROW">
+          <Parameter Name="RUBID" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="spRUBRICGETPERFORMANCEINDICATORS" ReturnType="Collection(assessmentModel.spRUBRICGETPERFORMANCEINDICATORS_Result)">
           <Parameter Name="DEPARTMENT" Mode="In" Type="String" />
           </FunctionImport>
@@ -337,16 +344,6 @@
           </FunctionImport>
           <FunctionImport Name="spRUBRICSGETRECORD_RUBID" ReturnType="Collection(assessmentModel.spRUBRICSGETRECORD_RUBID_Result)">
           <Parameter Name="RUB_ROWID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="spASSESSMENT_VERIFYINSTRUCTOR" ReturnType="Collection(Int32)">
-          <Parameter Name="Instructor_EmailID" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="spASSESSMENT_VERIFYOUTCOME_DEPT" ReturnType="Collection(Int32)">
-            <Parameter Name="Outcome" Mode="In" Type="String" />
-            <Parameter Name="Department_cd" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="spASSESSMENT_GETSEARCHRESULTS" ReturnType="Collection(assessmentModel.spASSESSMENT_GETSEARCHRESULTS_Result)">
-          <Parameter Name="param" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spUPDATERUBRICDATA">
             <Parameter Name="RUBRIC_ROWID" Mode="In" Type="Int32" />
@@ -359,26 +356,51 @@
             <Parameter Name="EXEMPLARY" Mode="In" Type="String" />
             <Parameter Name="EXPECTED_LEVEL" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="spRUBRIC_DELETE_RUBRICROW">
-          <Parameter Name="RUBID" Mode="In" Type="Int32" />
+          <EntitySet Name="ASSESSMENT_DATA" EntityType="assessmentModel.ASSESSMENT_DATA" />
+          <EntitySet Name="ASSESSMENT_LINK" EntityType="assessmentModel.ASSESSMENT_LINK" />
+          <AssociationSet Name="FK__ASSESSMEN__RANDO__656C112C" Association="assessmentModel.FK__ASSESSMEN__RANDO__656C112C">
+            <End Role="ASSESSMENT_LINK" EntitySet="ASSESSMENT_LINK" />
+            <End Role="ASSESSMENT_DATA" EntitySet="ASSESSMENT_DATA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ASSESSMEN__RUBRI__6477ECF3" Association="assessmentModel.FK__ASSESSMEN__RUBRI__6477ECF3">
+            <End Role="RUBRICS_DATA" EntitySet="RUBRICS_DATA" />
+            <End Role="ASSESSMENT_DATA" EntitySet="ASSESSMENT_DATA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ASSESSMEN__DEPAR__5EBF139D" Association="assessmentModel.FK__ASSESSMEN__DEPAR__5EBF139D">
+            <End Role="DEPARTMENT" EntitySet="DEPARTMENTS" />
+            <End Role="ASSESSMENT_LINK" EntitySet="ASSESSMENT_LINK" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ASSESSMEN__INSTR__5FB337D6" Association="assessmentModel.FK__ASSESSMEN__INSTR__5FB337D6">
+            <End Role="USER_INFO" EntitySet="USER_INFO" />
+            <End Role="ASSESSMENT_LINK" EntitySet="ASSESSMENT_LINK" />
+          </AssociationSet>
+          <FunctionImport Name="spASSESSMENT_DELETE_OLD_RECORDS">
+          <Parameter Name="random_string" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="ADMIN_LOGIN" EntityType="assessmentModel.ADMIN_LOGIN" />
-          <FunctionImport Name="spLOGIN" ReturnType="Collection(assessmentModel.spLOGIN_Result)">
-            <Parameter Name="adminUsername" Mode="In" Type="String" />
-            <Parameter Name="adminPassword" Mode="In" Type="String" />
+          <FunctionImport Name="spLINK_UPDATESTATUS">
+            <Parameter Name="random_string" Mode="In" Type="String" />
+            <Parameter Name="status" Mode="In" Type="Boolean" />
           </FunctionImport>
+          <FunctionImport Name="spASSESSMENT_RECORDS" ReturnType="Collection(assessmentModel.spASSESSMENT_RECORDS_Result)">
+          <Parameter Name="param" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spLink_DELETE">
+            <Parameter Name="randomString" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spLink_Details" ReturnType="Collection(assessmentModel.spLink_Details_Result)" />
         </EntityContainer>
         <ComplexType Name="spINSTRUCTORGETALLRECORDS_Result">
-          <Property Type="String" Name="INSTRUCTOR_NAME" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="INSTRUCTOR_NAME" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="INSTRUCTOR_EMAILID" Nullable="false" MaxLength="25" />
         </ComplexType>
         <ComplexType Name="spINSTRUCTORGETDETAILS_Result">
-          <Property Type="String" Name="INSTRUCTOR_NAME" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="INSTRUCTOR_NAME" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="INSTRUCTOR_EMAILID" Nullable="false" MaxLength="25" />
         </ComplexType>
-        <ComplexType Name="spDEPARTMENTS_GETALL_Result">
-          <Property Type="String" Name="DEPARTMENT_CD" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="department_desc" Nullable="true" MaxLength="100" />
+        <ComplexType Name="spLOGIN_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="ADMIN_USERNAME" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ADMIN_PASSWORD" Nullable="true" MaxLength="100" />
         </ComplexType>
         <ComplexType Name="spRUBRICGETPERFORMANCEINDICATORS_Result">
           <Property Type="String" Name="outcomes" Nullable="false" MaxLength="4" />
@@ -394,6 +416,7 @@
           <Property Type="String" Name="DEVELOPING" Nullable="true" MaxLength="2000" />
           <Property Type="String" Name="DEVELOPED" Nullable="true" MaxLength="2000" />
           <Property Type="String" Name="EXEMPLARY" Nullable="true" MaxLength="2000" />
+          <Property Type="Int32" Name="EXPECTATION_LEVEL" Nullable="true" />
         </ComplexType>
         <ComplexType Name="spRUBRICSGETRECORD_RUBID_Result">
           <Property Type="Int32" Name="RUBRIC_ROWID" Nullable="false" />
@@ -405,73 +428,137 @@
           <Property Type="String" Name="DEVELOPING" Nullable="true" MaxLength="2000" />
           <Property Type="String" Name="DEVELOPED" Nullable="true" MaxLength="2000" />
           <Property Type="String" Name="EXEMPLARY" Nullable="true" MaxLength="2000" />
+          <Property Type="Int32" Name="EXPECTATION_LEVEL" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="spASSESSMENT_GETSEARCHRESULTS_Result">
+        <EntityType Name="ASSESSMENT_DATA">
+          <Key>
+            <PropertyRef Name="DATA_ROWID" />
+          </Key>
+          <Property Name="DATA_ROWID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RANDOM_STRING" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RUBRIC_ROWID" Type="Int32" />
+          <Property Name="SEMESTER" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="COURSE" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="POOR" Type="Int32" />
+          <Property Name="DEVELOPING" Type="Int32" />
+          <Property Name="DEVELOPED" Type="Int32" />
+          <Property Name="EXEMPLARY" Type="Int32" />
+          <NavigationProperty Name="ASSESSMENT_LINK" Relationship="assessmentModel.FK__ASSESSMEN__RANDO__656C112C" FromRole="ASSESSMENT_DATA" ToRole="ASSESSMENT_LINK" />
+          <NavigationProperty Name="RUBRICS_DATA" Relationship="assessmentModel.FK__ASSESSMEN__RUBRI__6477ECF3" FromRole="ASSESSMENT_DATA" ToRole="RUBRICS_DATA" />
+          <Property Name="YEAR" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ASSESSMENT_LINK">
+          <Key>
+            <PropertyRef Name="RANDOM_STRING" />
+          </Key>
+          <Property Name="RANDOM_STRING" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="OUTCOMES" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="DEPARTMENT_CD" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="INSTRUCTOR_EMAILID" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="LINK_STATUS" Type="Boolean" />
+          <NavigationProperty Name="ASSESSMENT_DATA" Relationship="assessmentModel.FK__ASSESSMEN__RANDO__656C112C" FromRole="ASSESSMENT_LINK" ToRole="ASSESSMENT_DATA" />
+          <NavigationProperty Name="DEPARTMENT" Relationship="assessmentModel.FK__ASSESSMEN__DEPAR__5EBF139D" FromRole="ASSESSMENT_LINK" ToRole="DEPARTMENT" />
+          <NavigationProperty Name="USER_INFO" Relationship="assessmentModel.FK__ASSESSMEN__INSTR__5FB337D6" FromRole="ASSESSMENT_LINK" ToRole="USER_INFO" />
+        </EntityType>
+        <Association Name="FK__ASSESSMEN__RANDO__656C112C">
+          <End Type="assessmentModel.ASSESSMENT_LINK" Role="ASSESSMENT_LINK" Multiplicity="0..1" />
+          <End Type="assessmentModel.ASSESSMENT_DATA" Role="ASSESSMENT_DATA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ASSESSMENT_LINK">
+              <PropertyRef Name="RANDOM_STRING" />
+            </Principal>
+            <Dependent Role="ASSESSMENT_DATA">
+              <PropertyRef Name="RANDOM_STRING" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ASSESSMEN__RUBRI__6477ECF3">
+          <End Type="assessmentModel.RUBRICS_DATA" Role="RUBRICS_DATA" Multiplicity="0..1" />
+          <End Type="assessmentModel.ASSESSMENT_DATA" Role="ASSESSMENT_DATA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RUBRICS_DATA">
+              <PropertyRef Name="RUBRIC_ROWID" />
+            </Principal>
+            <Dependent Role="ASSESSMENT_DATA">
+              <PropertyRef Name="RUBRIC_ROWID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ASSESSMEN__DEPAR__5EBF139D">
+          <End Type="assessmentModel.DEPARTMENT" Role="DEPARTMENT" Multiplicity="0..1" />
+          <End Type="assessmentModel.ASSESSMENT_LINK" Role="ASSESSMENT_LINK" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DEPARTMENT">
+              <PropertyRef Name="DEPARTMENT_CD" />
+            </Principal>
+            <Dependent Role="ASSESSMENT_LINK">
+              <PropertyRef Name="DEPARTMENT_CD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ASSESSMEN__INSTR__5FB337D6">
+          <End Type="assessmentModel.USER_INFO" Role="USER_INFO" Multiplicity="0..1" />
+          <End Type="assessmentModel.ASSESSMENT_LINK" Role="ASSESSMENT_LINK" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USER_INFO">
+              <PropertyRef Name="INSTRUCTOR_EMAILID" />
+            </Principal>
+            <Dependent Role="ASSESSMENT_LINK">
+              <PropertyRef Name="INSTRUCTOR_EMAILID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="spASSESSMENT_RECORDS_Result">
           <Property Type="Int32" Name="DATA_ROWID" Nullable="false" />
           <Property Type="String" Name="OUTCOMES" Nullable="true" MaxLength="4" />
           <Property Type="String" Name="DEPARTMENT_CD" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="DEPARTMENT_DESC" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="INSTRUCTOR_EMAILID" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="INSTRUCTOR_NAME" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="SEMESTER" Nullable="true" MaxLength="15" />
+          <Property Type="Int32" Name="YEAR" Nullable="true" />
           <Property Type="String" Name="COURSE" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="PERFORMANCE_INDICATOR" Nullable="true" MaxLength="2000" />
-          <Property Type="String" Name="TOPIC" Nullable="true" MaxLength="2000" />
           <Property Type="Int32" Name="POOR" Nullable="true" />
           <Property Type="Int32" Name="DEVELOPING" Nullable="true" />
           <Property Type="Int32" Name="DEVELOPED" Nullable="true" />
           <Property Type="Int32" Name="EXEMPLARY" Nullable="true" />
-          <Property Type="String" Name="INSTRUCTOR_NAME" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="department_desc" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="EXPECTATION_LEVEL" Nullable="true" />
+          <Property Type="String" Name="PERFORMANCE_INDICATOR" Nullable="false" MaxLength="2000" />
+          <Property Type="String" Name="TOPIC" Nullable="false" MaxLength="2000" />
         </ComplexType>
-        <EntityType Name="ADMIN_LOGIN">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ADMIN_USERNAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ADMIN_PASSWORD" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <ComplexType Name="spLOGIN_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="ADMIN_USERNAME" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="ADMIN_PASSWORD" Nullable="true" MaxLength="100" />
+        <ComplexType Name="spLink_Details_Result">
+          <Property Type="String" Name="OUTCOMES" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="RANDOM_STRING" Nullable="false" MaxLength="100" />
+          <Property Type="Boolean" Name="LINK_STATUS" Nullable="true" />
+          <Property Type="String" Name="DEPARTMENT_DESC" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="INSTRUCTOR_NAME" Nullable="true" MaxLength="50" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="assessmentModelStoreContainer" CdmEntityContainer="assessmentEntities">
-          <EntitySetMapping Name="ASSESSMENT_DATA">
-            <EntityTypeMapping TypeName="assessmentModel.ASSESSMENT_DATA">
-              <MappingFragment StoreEntitySet="ASSESSMENT_DATA">
-                <ScalarProperty Name="DATA_ROWID" ColumnName="DATA_ROWID" />
-                <ScalarProperty Name="RUBRIC_ROWID" ColumnName="RUBRIC_ROWID" />
-                <ScalarProperty Name="OUTCOMES" ColumnName="OUTCOMES" />
-                <ScalarProperty Name="DEPARTMENT_CD" ColumnName="DEPARTMENT_CD" />
-                <ScalarProperty Name="INSTRUCTOR_EMAILID" ColumnName="INSTRUCTOR_EMAILID" />
-                <ScalarProperty Name="SEMESTER" ColumnName="SEMESTER" />
-                <ScalarProperty Name="COURSE" ColumnName="COURSE" />
-                <ScalarProperty Name="PERFORMANCE_INDICATOR" ColumnName="PERFORMANCE_INDICATOR" />
-                <ScalarProperty Name="TOPIC" ColumnName="TOPIC" />
-                <ScalarProperty Name="POOR" ColumnName="POOR" />
-                <ScalarProperty Name="DEVELOPING" ColumnName="DEVELOPING" />
-                <ScalarProperty Name="DEVELOPED" ColumnName="DEVELOPED" />
-                <ScalarProperty Name="EXEMPLARY" ColumnName="EXEMPLARY" />
+        <EntityContainerMapping StorageEntityContainer="assessmentModelStoreContainer" CdmEntityContainer="AssessmentEntities">
+          <EntitySetMapping Name="ADMIN_LOGIN">
+            <EntityTypeMapping TypeName="assessmentModel.ADMIN_LOGIN">
+              <MappingFragment StoreEntitySet="ADMIN_LOGIN">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ADMIN_USERNAME" ColumnName="ADMIN_USERNAME" />
+                <ScalarProperty Name="ADMIN_PASSWORD" ColumnName="ADMIN_PASSWORD" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DEPARTMENTS">
             <EntityTypeMapping TypeName="assessmentModel.DEPARTMENT">
               <MappingFragment StoreEntitySet="DEPARTMENTS">
-                <ScalarProperty Name="DEPARTMENT_DESC" ColumnName="DEPARTMENT_DESC" />
                 <ScalarProperty Name="DEPARTMENT_CD" ColumnName="DEPARTMENT_CD" />
+                <ScalarProperty Name="DEPARTMENT_DESC" ColumnName="DEPARTMENT_DESC" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RUBRICS_DATA">
             <EntityTypeMapping TypeName="assessmentModel.RUBRICS_DATA">
               <MappingFragment StoreEntitySet="RUBRICS_DATA">
-                <ScalarProperty Name="EXPECTATION_LEVEL" ColumnName="EXPECTATION_LEVEL" />
                 <ScalarProperty Name="RUBRIC_ROWID" ColumnName="RUBRIC_ROWID" />
                 <ScalarProperty Name="OUTCOMES" ColumnName="OUTCOMES" />
                 <ScalarProperty Name="DEPARTMENT_CD" ColumnName="DEPARTMENT_CD" />
@@ -481,6 +568,7 @@
                 <ScalarProperty Name="DEVELOPING" ColumnName="DEVELOPING" />
                 <ScalarProperty Name="DEVELOPED" ColumnName="DEVELOPED" />
                 <ScalarProperty Name="EXEMPLARY" ColumnName="EXEMPLARY" />
+                <ScalarProperty Name="EXPECTATION_LEVEL" ColumnName="EXPECTATION_LEVEL" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -492,6 +580,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spASSESSMENT_GETSEARCHRESULTS" FunctionName="assessmentModel.Store.spASSESSMENT_GETSEARCHRESULTS" />
+          <FunctionImportMapping FunctionImportName="spASSESSMENT_VERIFYINSTRUCTOR" FunctionName="assessmentModel.Store.spASSESSMENT_VERIFYINSTRUCTOR" />
+          <FunctionImportMapping FunctionImportName="spASSESSMENT_VERIFYOUTCOME_DEPT" FunctionName="assessmentModel.Store.spASSESSMENT_VERIFYOUTCOME_DEPT" />
           <FunctionImportMapping FunctionImportName="spInstructorAddNew" FunctionName="assessmentModel.Store.spInstructorAddNew" />
           <FunctionImportMapping FunctionImportName="spINSTRUCTORDELETE" FunctionName="assessmentModel.Store.spINSTRUCTORDELETE" />
           <FunctionImportMapping FunctionImportName="spINSTRUCTOREDIT" FunctionName="assessmentModel.Store.spINSTRUCTOREDIT" />
@@ -511,6 +602,17 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spLINK_INSERT" FunctionName="assessmentModel.Store.spLINK_INSERT" />
+          <FunctionImportMapping FunctionImportName="spLOGIN" FunctionName="assessmentModel.Store.spLOGIN">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="assessmentModel.spLOGIN_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ADMIN_USERNAME" ColumnName="ADMIN_USERNAME" />
+                <ScalarProperty Name="ADMIN_PASSWORD" ColumnName="ADMIN_PASSWORD" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spRUBRIC_DELETE_RUBRICROW" FunctionName="assessmentModel.Store.spRUBRIC_DELETE_RUBRICROW" />
           <FunctionImportMapping FunctionImportName="spRUBRICGETPERFORMANCEINDICATORS" FunctionName="assessmentModel.Store.spRUBRICGETPERFORMANCEINDICATORS">
             <ResultMapping>
               <ComplexTypeMapping TypeName="assessmentModel.spRUBRICGETPERFORMANCEINDICATORS_Result">
@@ -531,6 +633,7 @@
                 <ScalarProperty Name="DEVELOPING" ColumnName="DEVELOPING" />
                 <ScalarProperty Name="DEVELOPED" ColumnName="DEVELOPED" />
                 <ScalarProperty Name="EXEMPLARY" ColumnName="EXEMPLARY" />
+                <ScalarProperty Name="EXPECTATION_LEVEL" ColumnName="EXPECTATION_LEVEL" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -546,48 +649,71 @@
                 <ScalarProperty Name="DEVELOPING" ColumnName="DEVELOPING" />
                 <ScalarProperty Name="DEVELOPED" ColumnName="DEVELOPED" />
                 <ScalarProperty Name="EXEMPLARY" ColumnName="EXEMPLARY" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spASSESSMENT_VERIFYINSTRUCTOR" FunctionName="assessmentModel.Store.spASSESSMENT_VERIFYINSTRUCTOR" />
-          <FunctionImportMapping FunctionImportName="spASSESSMENT_VERIFYOUTCOME_DEPT" FunctionName="assessmentModel.Store.spASSESSMENT_VERIFYOUTCOME_DEPT" />
-          <FunctionImportMapping FunctionImportName="spASSESSMENT_GETSEARCHRESULTS" FunctionName="assessmentModel.Store.spASSESSMENT_GETSEARCHRESULTS">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="assessmentModel.spASSESSMENT_GETSEARCHRESULTS_Result">
-                <ScalarProperty Name="DATA_ROWID" ColumnName="DATA_ROWID" />
-                <ScalarProperty Name="OUTCOMES" ColumnName="OUTCOMES" />
-                <ScalarProperty Name="DEPARTMENT_CD" ColumnName="DEPARTMENT_CD" />
-                <ScalarProperty Name="INSTRUCTOR_EMAILID" ColumnName="INSTRUCTOR_EMAILID" />
-                <ScalarProperty Name="SEMESTER" ColumnName="SEMESTER" />
-                <ScalarProperty Name="COURSE" ColumnName="COURSE" />
-                <ScalarProperty Name="PERFORMANCE_INDICATOR" ColumnName="PERFORMANCE_INDICATOR" />
-                <ScalarProperty Name="TOPIC" ColumnName="TOPIC" />
-                <ScalarProperty Name="POOR" ColumnName="POOR" />
-                <ScalarProperty Name="DEVELOPING" ColumnName="DEVELOPING" />
-                <ScalarProperty Name="DEVELOPED" ColumnName="DEVELOPED" />
-                <ScalarProperty Name="EXEMPLARY" ColumnName="EXEMPLARY" />
-                <ScalarProperty Name="INSTRUCTOR_NAME" ColumnName="INSTRUCTOR_NAME" />
-                <ScalarProperty Name="department_desc" ColumnName="department_desc" />
+                <ScalarProperty Name="EXPECTATION_LEVEL" ColumnName="EXPECTATION_LEVEL" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spUPDATERUBRICDATA" FunctionName="assessmentModel.Store.spUPDATERUBRICDATA" />
-          <FunctionImportMapping FunctionImportName="spRUBRIC_DELETE_RUBRICROW" FunctionName="assessmentModel.Store.spRUBRIC_DELETE_RUBRICROW" />
-          <EntitySetMapping Name="ADMIN_LOGIN">
-            <EntityTypeMapping TypeName="assessmentModel.ADMIN_LOGIN">
-              <MappingFragment StoreEntitySet="ADMIN_LOGIN">
-                <ScalarProperty Name="ADMIN_PASSWORD" ColumnName="ADMIN_PASSWORD" />
-                <ScalarProperty Name="ADMIN_USERNAME" ColumnName="ADMIN_USERNAME" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
+          <EntitySetMapping Name="ASSESSMENT_DATA">
+            <EntityTypeMapping TypeName="assessmentModel.ASSESSMENT_DATA">
+              <MappingFragment StoreEntitySet="ASSESSMENT_DATA">
+                <ScalarProperty Name="YEAR" ColumnName="YEAR" />
+                <ScalarProperty Name="EXEMPLARY" ColumnName="EXEMPLARY" />
+                <ScalarProperty Name="DEVELOPED" ColumnName="DEVELOPED" />
+                <ScalarProperty Name="DEVELOPING" ColumnName="DEVELOPING" />
+                <ScalarProperty Name="POOR" ColumnName="POOR" />
+                <ScalarProperty Name="COURSE" ColumnName="COURSE" />
+                <ScalarProperty Name="SEMESTER" ColumnName="SEMESTER" />
+                <ScalarProperty Name="RUBRIC_ROWID" ColumnName="RUBRIC_ROWID" />
+                <ScalarProperty Name="RANDOM_STRING" ColumnName="RANDOM_STRING" />
+                <ScalarProperty Name="DATA_ROWID" ColumnName="DATA_ROWID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="spLOGIN" FunctionName="assessmentModel.Store.spLOGIN">
+          <EntitySetMapping Name="ASSESSMENT_LINK">
+            <EntityTypeMapping TypeName="assessmentModel.ASSESSMENT_LINK">
+              <MappingFragment StoreEntitySet="ASSESSMENT_LINK">
+                <ScalarProperty Name="LINK_STATUS" ColumnName="LINK_STATUS" />
+                <ScalarProperty Name="INSTRUCTOR_EMAILID" ColumnName="INSTRUCTOR_EMAILID" />
+                <ScalarProperty Name="DEPARTMENT_CD" ColumnName="DEPARTMENT_CD" />
+                <ScalarProperty Name="OUTCOMES" ColumnName="OUTCOMES" />
+                <ScalarProperty Name="RANDOM_STRING" ColumnName="RANDOM_STRING" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spASSESSMENT_DELETE_OLD_RECORDS" FunctionName="assessmentModel.Store.spASSESSMENT_DELETE_OLD_RECORDS" />
+          <FunctionImportMapping FunctionImportName="spLINK_UPDATESTATUS" FunctionName="assessmentModel.Store.spLINK_UPDATESTATUS" />
+          <FunctionImportMapping FunctionImportName="spASSESSMENT_RECORDS" FunctionName="assessmentModel.Store.spASSESSMENT_RECORDS">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="assessmentModel.spLOGIN_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="ADMIN_USERNAME" ColumnName="ADMIN_USERNAME" />
-                <ScalarProperty Name="ADMIN_PASSWORD" ColumnName="ADMIN_PASSWORD" />
+              <ComplexTypeMapping TypeName="assessmentModel.spASSESSMENT_RECORDS_Result">
+                <ScalarProperty Name="DATA_ROWID" ColumnName="DATA_ROWID" />
+                <ScalarProperty Name="OUTCOMES" ColumnName="OUTCOMES" />
+                <ScalarProperty Name="DEPARTMENT_CD" ColumnName="DEPARTMENT_CD" />
+                <ScalarProperty Name="DEPARTMENT_DESC" ColumnName="DEPARTMENT_DESC" />
+                <ScalarProperty Name="INSTRUCTOR_EMAILID" ColumnName="INSTRUCTOR_EMAILID" />
+                <ScalarProperty Name="INSTRUCTOR_NAME" ColumnName="INSTRUCTOR_NAME" />
+                <ScalarProperty Name="SEMESTER" ColumnName="SEMESTER" />
+                <ScalarProperty Name="YEAR" ColumnName="YEAR" />
+                <ScalarProperty Name="COURSE" ColumnName="COURSE" />
+                <ScalarProperty Name="POOR" ColumnName="POOR" />
+                <ScalarProperty Name="DEVELOPING" ColumnName="DEVELOPING" />
+                <ScalarProperty Name="DEVELOPED" ColumnName="DEVELOPED" />
+                <ScalarProperty Name="EXEMPLARY" ColumnName="EXEMPLARY" />
+                <ScalarProperty Name="EXPECTATION_LEVEL" ColumnName="EXPECTATION_LEVEL" />
+                <ScalarProperty Name="PERFORMANCE_INDICATOR" ColumnName="PERFORMANCE_INDICATOR" />
+                <ScalarProperty Name="TOPIC" ColumnName="TOPIC" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spLink_DELETE" FunctionName="assessmentModel.Store.spLink_DELETE" />
+          <FunctionImportMapping FunctionImportName="spLink_Details" FunctionName="assessmentModel.Store.spLink_Details">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="assessmentModel.spLink_Details_Result">
+                <ScalarProperty Name="OUTCOMES" ColumnName="OUTCOMES" />
+                <ScalarProperty Name="RANDOM_STRING" ColumnName="RANDOM_STRING" />
+                <ScalarProperty Name="LINK_STATUS" ColumnName="LINK_STATUS" />
+                <ScalarProperty Name="DEPARTMENT_DESC" ColumnName="DEPARTMENT_DESC" />
+                <ScalarProperty Name="INSTRUCTOR_NAME" ColumnName="INSTRUCTOR_NAME" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

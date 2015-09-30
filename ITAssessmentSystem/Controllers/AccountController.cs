@@ -47,7 +47,7 @@ namespace ITAssessmentSystem.Controllers
             if (ModelState.IsValid)
             {
 
-                using (var context = new assessmentEntities())
+                using (var context = new AssessmentEntities())
                 {
                     var userExist = context.spLOGIN(model.UserName, model.Password).ToList();
                     if (userExist.Count == 1)

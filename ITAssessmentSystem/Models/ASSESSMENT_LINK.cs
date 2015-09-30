@@ -12,18 +12,21 @@ namespace ITAssessmentSystem.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class DEPARTMENT
+    public partial class ASSESSMENT_LINK
     {
-        public DEPARTMENT()
+        public ASSESSMENT_LINK()
         {
-            this.RUBRICS_DATA = new HashSet<RUBRICS_DATA>();
-            this.ASSESSMENT_LINK = new HashSet<ASSESSMENT_LINK>();
+            this.ASSESSMENT_DATA = new HashSet<ASSESSMENT_DATA>();
         }
     
+        public string RANDOM_STRING { get; set; }
+        public string OUTCOMES { get; set; }
         public string DEPARTMENT_CD { get; set; }
-        public string DEPARTMENT_DESC { get; set; }
+        public string INSTRUCTOR_EMAILID { get; set; }
+        public Nullable<bool> LINK_STATUS { get; set; }
     
-        public virtual ICollection<RUBRICS_DATA> RUBRICS_DATA { get; set; }
-        public virtual ICollection<ASSESSMENT_LINK> ASSESSMENT_LINK { get; set; }
+        public virtual ICollection<ASSESSMENT_DATA> ASSESSMENT_DATA { get; set; }
+        public virtual DEPARTMENT DEPARTMENT { get; set; }
+        public virtual USER_INFO USER_INFO { get; set; }
     }
 }

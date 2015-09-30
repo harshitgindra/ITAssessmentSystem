@@ -1,37 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="assessmentModelStoreContainer" CdmEntityContainer="assessmentEntities">
-    <EntitySetMapping Name="ASSESSMENT_DATA">
-      <EntityTypeMapping TypeName="assessmentModel.ASSESSMENT_DATA">
-        <MappingFragment StoreEntitySet="ASSESSMENT_DATA">
-          <ScalarProperty Name="DATA_ROWID" ColumnName="DATA_ROWID" />
-          <ScalarProperty Name="RUBRIC_ROWID" ColumnName="RUBRIC_ROWID" />
-          <ScalarProperty Name="OUTCOMES" ColumnName="OUTCOMES" />
-          <ScalarProperty Name="DEPARTMENT_CD" ColumnName="DEPARTMENT_CD" />
-          <ScalarProperty Name="INSTRUCTOR_EMAILID" ColumnName="INSTRUCTOR_EMAILID" />
-          <ScalarProperty Name="SEMESTER" ColumnName="SEMESTER" />
-          <ScalarProperty Name="COURSE" ColumnName="COURSE" />
-          <ScalarProperty Name="PERFORMANCE_INDICATOR" ColumnName="PERFORMANCE_INDICATOR" />
-          <ScalarProperty Name="TOPIC" ColumnName="TOPIC" />
-          <ScalarProperty Name="POOR" ColumnName="POOR" />
-          <ScalarProperty Name="DEVELOPING" ColumnName="DEVELOPING" />
-          <ScalarProperty Name="DEVELOPED" ColumnName="DEVELOPED" />
-          <ScalarProperty Name="EXEMPLARY" ColumnName="EXEMPLARY" />
+  <EntityContainerMapping StorageEntityContainer="assessmentModelStoreContainer" CdmEntityContainer="AssessmentEntities">
+    <EntitySetMapping Name="ADMIN_LOGIN">
+      <EntityTypeMapping TypeName="assessmentModel.ADMIN_LOGIN">
+        <MappingFragment StoreEntitySet="ADMIN_LOGIN">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="ADMIN_USERNAME" ColumnName="ADMIN_USERNAME" />
+          <ScalarProperty Name="ADMIN_PASSWORD" ColumnName="ADMIN_PASSWORD" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="DEPARTMENTS">
       <EntityTypeMapping TypeName="assessmentModel.DEPARTMENT">
         <MappingFragment StoreEntitySet="DEPARTMENTS">
-          <ScalarProperty Name="DEPARTMENT_DESC" ColumnName="DEPARTMENT_DESC" />
           <ScalarProperty Name="DEPARTMENT_CD" ColumnName="DEPARTMENT_CD" />
+          <ScalarProperty Name="DEPARTMENT_DESC" ColumnName="DEPARTMENT_DESC" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="RUBRICS_DATA">
       <EntityTypeMapping TypeName="assessmentModel.RUBRICS_DATA">
         <MappingFragment StoreEntitySet="RUBRICS_DATA">
-          <ScalarProperty Name="EXPECTATION_LEVEL" ColumnName="EXPECTATION_LEVEL" />
           <ScalarProperty Name="RUBRIC_ROWID" ColumnName="RUBRIC_ROWID" />
           <ScalarProperty Name="OUTCOMES" ColumnName="OUTCOMES" />
           <ScalarProperty Name="DEPARTMENT_CD" ColumnName="DEPARTMENT_CD" />
@@ -41,6 +30,7 @@
           <ScalarProperty Name="DEVELOPING" ColumnName="DEVELOPING" />
           <ScalarProperty Name="DEVELOPED" ColumnName="DEVELOPED" />
           <ScalarProperty Name="EXEMPLARY" ColumnName="EXEMPLARY" />
+          <ScalarProperty Name="EXPECTATION_LEVEL" ColumnName="EXPECTATION_LEVEL" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -52,6 +42,9 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="spASSESSMENT_GETSEARCHRESULTS" FunctionName="assessmentModel.Store.spASSESSMENT_GETSEARCHRESULTS" />
+    <FunctionImportMapping FunctionImportName="spASSESSMENT_VERIFYINSTRUCTOR" FunctionName="assessmentModel.Store.spASSESSMENT_VERIFYINSTRUCTOR" />
+    <FunctionImportMapping FunctionImportName="spASSESSMENT_VERIFYOUTCOME_DEPT" FunctionName="assessmentModel.Store.spASSESSMENT_VERIFYOUTCOME_DEPT" />
     <FunctionImportMapping FunctionImportName="spInstructorAddNew" FunctionName="assessmentModel.Store.spInstructorAddNew" />
     <FunctionImportMapping FunctionImportName="spINSTRUCTORDELETE" FunctionName="assessmentModel.Store.spINSTRUCTORDELETE" />
     <FunctionImportMapping FunctionImportName="spINSTRUCTOREDIT" FunctionName="assessmentModel.Store.spINSTRUCTOREDIT" />
@@ -71,6 +64,17 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="spLINK_INSERT" FunctionName="assessmentModel.Store.spLINK_INSERT" />
+    <FunctionImportMapping FunctionImportName="spLOGIN" FunctionName="assessmentModel.Store.spLOGIN">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="assessmentModel.spLOGIN_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="ADMIN_USERNAME" ColumnName="ADMIN_USERNAME" />
+          <ScalarProperty Name="ADMIN_PASSWORD" ColumnName="ADMIN_PASSWORD" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="spRUBRIC_DELETE_RUBRICROW" FunctionName="assessmentModel.Store.spRUBRIC_DELETE_RUBRICROW" />
     <FunctionImportMapping FunctionImportName="spRUBRICGETPERFORMANCEINDICATORS" FunctionName="assessmentModel.Store.spRUBRICGETPERFORMANCEINDICATORS">
       <ResultMapping>
         <ComplexTypeMapping TypeName="assessmentModel.spRUBRICGETPERFORMANCEINDICATORS_Result">
@@ -91,6 +95,7 @@
           <ScalarProperty Name="DEVELOPING" ColumnName="DEVELOPING" />
           <ScalarProperty Name="DEVELOPED" ColumnName="DEVELOPED" />
           <ScalarProperty Name="EXEMPLARY" ColumnName="EXEMPLARY" />
+          <ScalarProperty Name="EXPECTATION_LEVEL" ColumnName="EXPECTATION_LEVEL" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -106,32 +111,61 @@
           <ScalarProperty Name="DEVELOPING" ColumnName="DEVELOPING" />
           <ScalarProperty Name="DEVELOPED" ColumnName="DEVELOPED" />
           <ScalarProperty Name="EXEMPLARY" ColumnName="EXEMPLARY" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="spASSESSMENT_VERIFYINSTRUCTOR" FunctionName="assessmentModel.Store.spASSESSMENT_VERIFYINSTRUCTOR" />
-    <FunctionImportMapping FunctionImportName="spASSESSMENT_VERIFYOUTCOME_DEPT" FunctionName="assessmentModel.Store.spASSESSMENT_VERIFYOUTCOME_DEPT" />
-    <FunctionImportMapping FunctionImportName="spASSESSMENT_GETSEARCHRESULTS" FunctionName="assessmentModel.Store.spASSESSMENT_GETSEARCHRESULTS">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="assessmentModel.spASSESSMENT_GETSEARCHRESULTS_Result">
-          <ScalarProperty Name="DATA_ROWID" ColumnName="DATA_ROWID" />
-          <ScalarProperty Name="OUTCOMES" ColumnName="OUTCOMES" />
-          <ScalarProperty Name="DEPARTMENT_CD" ColumnName="DEPARTMENT_CD" />
-          <ScalarProperty Name="INSTRUCTOR_EMAILID" ColumnName="INSTRUCTOR_EMAILID" />
-          <ScalarProperty Name="SEMESTER" ColumnName="SEMESTER" />
-          <ScalarProperty Name="COURSE" ColumnName="COURSE" />
-          <ScalarProperty Name="PERFORMANCE_INDICATOR" ColumnName="PERFORMANCE_INDICATOR" />
-          <ScalarProperty Name="TOPIC" ColumnName="TOPIC" />
-          <ScalarProperty Name="POOR" ColumnName="POOR" />
-          <ScalarProperty Name="DEVELOPING" ColumnName="DEVELOPING" />
-          <ScalarProperty Name="DEVELOPED" ColumnName="DEVELOPED" />
-          <ScalarProperty Name="EXEMPLARY" ColumnName="EXEMPLARY" />
-          <ScalarProperty Name="INSTRUCTOR_NAME" ColumnName="INSTRUCTOR_NAME" />
-          <ScalarProperty Name="department_desc" ColumnName="department_desc" />
+          <ScalarProperty Name="EXPECTATION_LEVEL" ColumnName="EXPECTATION_LEVEL" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="spUPDATERUBRICDATA" FunctionName="assessmentModel.Store.spUPDATERUBRICDATA" />
-    <FunctionImportMapping FunctionImportName="spRUBRIC_DELETE_RUBRICROW" FunctionName="assessmentModel.Store.spRUBRIC_DELETE_RUBRICROW" />
+    <EntitySetMapping Name="ASSESSMENT_DATA">
+      <EntityTypeMapping TypeName="assessmentModel.ASSESSMENT_DATA">
+        <MappingFragment StoreEntitySet="ASSESSMENT_DATA">
+          <ScalarProperty Name="YEAR" ColumnName="YEAR" />
+          <ScalarProperty Name="EXEMPLARY" ColumnName="EXEMPLARY" />
+          <ScalarProperty Name="DEVELOPED" ColumnName="DEVELOPED" />
+          <ScalarProperty Name="DEVELOPING" ColumnName="DEVELOPING" />
+          <ScalarProperty Name="POOR" ColumnName="POOR" />
+          <ScalarProperty Name="COURSE" ColumnName="COURSE" />
+          <ScalarProperty Name="SEMESTER" ColumnName="SEMESTER" />
+          <ScalarProperty Name="RUBRIC_ROWID" ColumnName="RUBRIC_ROWID" />
+          <ScalarProperty Name="RANDOM_STRING" ColumnName="RANDOM_STRING" />
+          <ScalarProperty Name="DATA_ROWID" ColumnName="DATA_ROWID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ASSESSMENT_LINK">
+      <EntityTypeMapping TypeName="assessmentModel.ASSESSMENT_LINK">
+        <MappingFragment StoreEntitySet="ASSESSMENT_LINK">
+          <ScalarProperty Name="LINK_STATUS" ColumnName="LINK_STATUS" />
+          <ScalarProperty Name="INSTRUCTOR_EMAILID" ColumnName="INSTRUCTOR_EMAILID" />
+          <ScalarProperty Name="DEPARTMENT_CD" ColumnName="DEPARTMENT_CD" />
+          <ScalarProperty Name="OUTCOMES" ColumnName="OUTCOMES" />
+          <ScalarProperty Name="RANDOM_STRING" ColumnName="RANDOM_STRING" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="spASSESSMENT_DELETE_OLD_RECORDS" FunctionName="assessmentModel.Store.spASSESSMENT_DELETE_OLD_RECORDS" />
+    <FunctionImportMapping FunctionImportName="spLINK_UPDATESTATUS" FunctionName="assessmentModel.Store.spLINK_UPDATESTATUS" />
+    <FunctionImportMapping FunctionImportName="spASSESSMENT_RECORDS" FunctionName="assessmentModel.Store.spASSESSMENT_RECORDS">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="assessmentModel.spASSESSMENT_RECORDS_Result">
+          <ScalarProperty Name="DATA_ROWID" ColumnName="DATA_ROWID" />
+          <ScalarProperty Name="OUTCOMES" ColumnName="OUTCOMES" />
+          <ScalarProperty Name="DEPARTMENT_CD" ColumnName="DEPARTMENT_CD" />
+          <ScalarProperty Name="DEPARTMENT_DESC" ColumnName="DEPARTMENT_DESC" />
+          <ScalarProperty Name="INSTRUCTOR_EMAILID" ColumnName="INSTRUCTOR_EMAILID" />
+          <ScalarProperty Name="INSTRUCTOR_NAME" ColumnName="INSTRUCTOR_NAME" />
+          <ScalarProperty Name="SEMESTER" ColumnName="SEMESTER" />
+          <ScalarProperty Name="YEAR" ColumnName="YEAR" />
+          <ScalarProperty Name="COURSE" ColumnName="COURSE" />
+          <ScalarProperty Name="POOR" ColumnName="POOR" />
+          <ScalarProperty Name="DEVELOPING" ColumnName="DEVELOPING" />
+          <ScalarProperty Name="DEVELOPED" ColumnName="DEVELOPED" />
+          <ScalarProperty Name="EXEMPLARY" ColumnName="EXEMPLARY" />
+          <ScalarProperty Name="EXPECTATION_LEVEL" ColumnName="EXPECTATION_LEVEL" />
+          <ScalarProperty Name="PERFORMANCE_INDICATOR" ColumnName="PERFORMANCE_INDICATOR" />
+          <ScalarProperty Name="TOPIC" ColumnName="TOPIC" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

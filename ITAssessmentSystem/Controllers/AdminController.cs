@@ -35,7 +35,7 @@ namespace ITAssessmentSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (var context = new assessmentEntities())
+                using (var context = new AssessmentEntities())
                 {
                     var AdminRecord = context.spLOGIN(changePassword.UserName, changePassword.ExistingPassword).SingleOrDefault();
                     if (AdminRecord != null)

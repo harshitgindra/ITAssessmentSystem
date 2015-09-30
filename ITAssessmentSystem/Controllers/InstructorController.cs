@@ -21,7 +21,7 @@ namespace ITAssessmentSystem.Controllers
         [HttpPost]
         public ActionResult Insert(USER_INFO userinfo)
         {
-            using (var context = new assessmentEntities())
+            using (var context = new AssessmentEntities())
             {
                 try
                 {
@@ -39,7 +39,7 @@ namespace ITAssessmentSystem.Controllers
 
         public ActionResult AllInstructors()
         {
-            using (var context = new assessmentEntities())
+            using (var context = new AssessmentEntities())
             {
                 try
                 {
@@ -59,7 +59,7 @@ namespace ITAssessmentSystem.Controllers
 
         public ActionResult Edit(string email)
         {
-            using (var context = new assessmentEntities())
+            using (var context = new AssessmentEntities())
             {
                 try
                 {
@@ -80,7 +80,7 @@ namespace ITAssessmentSystem.Controllers
         [ActionName("EditRecord")]
         public ActionResult Edit_Save(USER_INFO userinfo)
         {
-            using (var context = new assessmentEntities())
+            using (var context = new AssessmentEntities())
             {
                 try
                 {
@@ -100,7 +100,7 @@ namespace ITAssessmentSystem.Controllers
         [ActionName("DeleteRecord")]
         public ActionResult Delete(string email)
         {
-            using (var context = new assessmentEntities())
+            using (var context = new AssessmentEntities())
             {
                 try
                 {

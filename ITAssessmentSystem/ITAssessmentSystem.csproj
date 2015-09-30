@@ -192,6 +192,7 @@
     <Compile Include="Controllers\AssessmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InstructorController.cs" />
+    <Compile Include="Controllers\LinkController.cs" />
     <Compile Include="Controllers\ResultsController.cs" />
     <Compile Include="Controllers\RubricController.cs" />
     <Compile Include="Global.asax.cs">
@@ -219,6 +220,9 @@
     <Compile Include="Models\ASSESSMENT_DATA.cs">
       <DependentUpon>Assessment.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ASSESSMENT_LINK.cs">
+      <DependentUpon>Assessment.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AuthorizeUser.cs" />
     <Compile Include="Models\ChangePassword.cs" />
     <Compile Include="Models\DEPARTMENT.cs">
@@ -232,16 +236,17 @@
       <DependentUpon>Assessment.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SendMail.cs" />
-    <Compile Include="Models\spASSESSMENT_GETSEARCHRESULTS_Result.cs">
-      <DependentUpon>Assessment.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\spDEPARTMENTS_GETALL_Result.cs">
+    <Compile Include="Models\spASSESSMENT_GETSEARCHRESULTS.cs" />
+    <Compile Include="Models\spASSESSMENT_RECORDS_Result.cs">
       <DependentUpon>Assessment.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\spINSTRUCTORGETALLRECORDS_Result.cs">
       <DependentUpon>Assessment.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\spINSTRUCTORGETDETAILS_Result.cs">
+      <DependentUpon>Assessment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\spLink_Details_Result.cs">
       <DependentUpon>Assessment.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\spLOGIN_Result.cs">
@@ -373,6 +378,7 @@
     <Content Include="Views\Shared\_DefaultLayout.cshtml" />
     <Content Include="Views\Shared\_RubricLayout.cshtml" />
     <Content Include="Views\Admin\ChangePassword.cshtml" />
+    <Content Include="Views\Link\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
